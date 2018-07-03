@@ -1,0 +1,7 @@
+to use it:
+
+clone git clone <URL>
+
+1. Add the node in /catkin_ws/src
+2. Build all with catkin_make
+3. use it using:  rosrun trajectory_generation trajectory_publisher <path to your file with coordinates>
