@@ -1,0 +1,39 @@
+ubuntu 14.04
+ros indigo
+
+$catkin_make
+
+$rosdep install --from-path src --ignore-src --rosdistro=indigo
+
+
+BOSS!
+ Converting a deprecated source[/home/indigo-test-bench/test_ws/src/pioneer_gazebo_ros/pioneer_gazebo/worlds/gabi_finish].
+Warning [Converter.cc:59]   Version[1.6] to Version[1.4]
+  Please use the gzsdf tool to update your SDF files.
+    $ gzsdf convert [sdf_file]
+Error [Converter.cc:127] Unable to convert from SDF version 1.6 to 1.4
+		fix1: tried to change the version manually in the xml file.not working.have to redo this step :(
+			 ERROR:Model modification is currently disabled. Look for this feature in Gazebo 2.0
+					Error [Server.cc:285] Could not open file[scout_service.launch]
+					gzserver: /usr/include/boost/thread/pthread/recursive_mutex.hpp:101: boost::recursive_mutex::~recursive_mutex(): Assertion `!pthread_mutex_destroy(&m)' failed	
+		ok,keep the spawn scout_service.world
+		rearrange the robots pose.
+			-Failed to load plugin libgazebo_ros_control.so: libgazebo_ros_control.so ====> sudo apt-get install ros-indigo-gazebo-ros-control
+			-[map_server.launch] is neither a launch file in package [nav_bundle] nor is [nav_bundle] a launch file name
+				The traceback for the exception was written to the log file
+				[single_navigation.launch] is neither a launch file in package [nav_bundle] nor is [nav_bundle] a launch file name
+				=====> git clone https://github.com/JenJenChung/nav_bundle.git & catkin_make
+					-Could not find a package configuration file provided by "gmapping" with any ====> rosdep install --from-path src --ignore-src --rosdistro=indigo
+			-ERROR: cannot launch node of type [map_server/map_server]: map_server  =======> sudo apt-get install ros-indigo-map-server
+			- ResourceNotFound: pioneer_2dnav ====> git clone https://github.com/JenJenChung/pioneer_2dnav.git & catkin_make
+			-ERROR: cannot launch node of type [amcl/amcl]: amcl  =======> sudo apt-get install ros-indigo-amcl
+			-ERROR: cannot launch node of type [simple_navigation_goals/map_navigation_client]: simple_navigation_goals =====> git clone https://github.com/JenJenChung/simple_navigation_goals.git & catkin_make
+		-done,so far.robots spawning.
+		--create a map.done
+		--started /run_pioneer_gazebo.save the map,replace the filename in the run script.done.
+		--copy the move to position package.
+			--test if i can use a send goal without calling the whole nav package. nah,broh.if i delete the hokuyo laser i do not have a tf from the robot position to the map topic.
+
+
+
+
