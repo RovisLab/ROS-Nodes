@@ -7,8 +7,6 @@ Mapping tool for virtual environment.
 	-ROS Indigo ROS Indigo:http://wiki.ros.org/indigo/Installation/Ubuntu	
 
 	Usage:
-
-
 1.	A.    Mapping with hokuyo laser.  --done--
   $ ./run_pioneer_hokuyo_gazebo
 	Note:
