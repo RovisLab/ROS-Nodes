@@ -7,10 +7,16 @@ Mapping tool for virtual environment.
 	-ROS Indigo ROS Indigo:http://wiki.ros.org/indigo/Installation/Ubuntu	
 
 	Usage:
-1.	$ ./run_pioneer_gazebo
+
+
+1.	A.    Mapping with hokuyo laser.  --done--
+  $ ./run_pioneer_hokuyo_gazebo
 	Note:
 		if you cannot run the script, run:
 	$ chmod +x run_pioneer_gazebo and then the command from 1.
+    
+    B.    Mapping with kinect camera. --in progress--
+  $ ./run_pioneer_kinect_gazebo
 
 	This will start the following:
 		-roscore (no need to run it in another terminal)
