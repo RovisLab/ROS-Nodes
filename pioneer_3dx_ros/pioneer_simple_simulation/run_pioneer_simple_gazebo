@@ -1,0 +1,19 @@
+#!/bin/bash
+ 
+my_pid=$$
+echo "My process ID is $my_pid"
+
+echo "Launching roscore..."
+roscore &
+pid=$!
+sleep 5s
+
+echo "Launching Gazebo..."
+roslaunch pioneer_gazebo simple_map_simple_pioneer.launch &
+pid="$pid $!"
+
+sleep 5s
+
+trap "echo Killing all processes.; kill -2 TERM $pid; exit" SIGINT SIGTERM
+
+sleep 24h
