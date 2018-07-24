@@ -1,5 +1,5 @@
 <launch>
-  <arg name="rviz_name" default="frontier_map"/>
+  <arg name="rviz_name" default="big_maze_pioneer_kinect"/>
   <param name="robot_description"
     command="$(find xacro)/xacro.py '$(find pioneer_description)/urdf/pioneer3dx_kinect.xacro'" />
 

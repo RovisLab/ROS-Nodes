@@ -33,6 +33,13 @@ Mapping tool for virtual environment.
 3.	After you're done,if you want to save the map,run the following in terminal,into wanted location(where the map will be saved):
 		$ rosrun map_server map_saver -f <your_map_name>
 
+ACTUAL STATE FOR B:
+laser vision is zero.
+map not showing.all of this may be because some topics must be remapped.
+when trying to use "2DNAV goal" it shows the following error in terminal:
+<<[ERROR] [1532431869.243573231, 1472.646000000]: Robot semantic description not found. Did you forget to define or remap '/robot_description_semantic'?>>
+
+
 
 
 
