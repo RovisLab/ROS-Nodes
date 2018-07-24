@@ -1,0 +1,32 @@
+#!/bin/bash
+ 
+my_pid=$$
+echo "My process ID is $my_pid"
+
+echo "Launching roscore..."
+roscore &
+pid=$!
+sleep 5s
+
+echo "Launching Gazebo..."
+roslaunch turtlebot_gazebo turtlebot_world.launch &
+pid="$pid $!"
+
+sleep 5s
+echo "Launching gmapping..."
+roslaunch turtlebot_gazebo gmapping_demo.launch &
+pid="$pid $!"
+
+sleep 5s
+echo "Launching RViz..."
+roslaunch turtlebot_rviz_launchers view_navigation.launch &
+pid="$pid $!"
+sleep 5s
+
+echo "Launching teleop..."
+roslaunch turtlebot_teleop keyboard_teleop.launch
+sleep 5s
+
+trap "echo Killing all processes.; kill -2 TERM $pid; exit" SIGINT SIGTERM
+
+sleep 24h

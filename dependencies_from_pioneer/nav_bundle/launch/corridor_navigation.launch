@@ -1,0 +1,12 @@
+<launch>
+  <!-- AMCL node -->
+  <include file="$(find nav_bundle)/launch/amcl_corridor.launch"/>
+  
+  <!-- Include move base launch file -->
+  <!-- Use with Pioneer Gazebo simulation and Pioneer3dx robot platform -->
+  <include file="$(find pioneer_2dnav)/move_base.launch"/>
+  
+  <!-- Move base clients for waypoint navigation -->
+  <node pkg="simple_navigation_goals" type="base_link_navigation_client" name="base_link_goal_client" output="screen"/>
+  <node pkg="simple_navigation_goals" type="map_navigation_client" name="map_goal_client" output="screen"/>
+</launch>

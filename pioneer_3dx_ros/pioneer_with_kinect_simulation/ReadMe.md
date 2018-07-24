@@ -8,14 +8,14 @@
 	
   Usage:
 1.  Run the script into the command line:
-  $ ./run_pioneer_kinect_sim
+  $ ./run_pioneer_kinect_gazebo
 	Note:
 		if you cannot run the script, run:
-	$ chmod +x run_pioneer_kinect_sim and then the command from 1.
+	$ chmod +x run_pioneer_kinect_gazebo and then the command from 1.
 
   What does it does:
 -runs gazebo with "closed maze" world and pioneer with kinect camera.
--runs rviz.so far empty.
+-runs rviz.so far empty.nah
 
   TODO: make a roslaunch to visualize interest topics from the simulation:
           -robot model

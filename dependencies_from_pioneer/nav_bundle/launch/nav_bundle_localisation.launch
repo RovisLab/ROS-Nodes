@@ -1,0 +1,19 @@
+<launch>
+  <arg name="x" default="0"/>
+  <arg name="y" default="0"/>
+  <arg name="yaw" default="0"/>
+  
+  <!-- AMCL node -->
+  <param name="amcl/initial_pose_x" value="$(arg x)" />
+  <param name="amcl/initial_pose_y" value="$(arg y)" />
+  <param name="amcl/initial_pose_a" value="$(arg yaw)" />
+  <include file="$(find nav_bundle)/launch/amcl_no_namespace.launch"/>
+  
+  <!-- Include move base launch file -->
+  <!-- Use with Pioneer Gazebo simulation and Pioneer3dx robot platform -->
+  <include file="$(find link_blocking_layer)/move_base_global.launch"/>
+  
+  <!-- Move base clients for waypoint navigation -->
+  <node pkg="simple_navigation_goals" type="base_link_navigation_client" name="base_link_goal_client" output="screen"/>
+  <node pkg="simple_navigation_goals" type="map_navigation_client" name="map_goal_client" output="screen"/>
+</launch>

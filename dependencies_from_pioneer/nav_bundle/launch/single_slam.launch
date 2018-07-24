@@ -1,0 +1,22 @@
+<launch>
+  <arg name="robot_name" default="/"/>
+  
+  <!-- Make sure initial pose matches $(find pioneer_description)/launch/pioneers.launch arg init_pose -->
+  <group ns="$(arg robot_name)">
+    <param name="tf_prefix" value="$(arg robot_name)"/>
+    <node pkg="gmapping" type="slam_gmapping" name="gmapping">
+      <remap from="scan" to="base_scan"/>
+      <param name="odom_frame" value="$(arg robot_name)/odom"/>
+      <param name="base_frame" value="$(arg robot_name)/base_link"/>
+      <param name="xmin" value="-30"/>
+      <param name="ymin" value="-30"/>
+      <param name="xmax" value="30"/>
+      <param name="ymax" value="30"/>
+<!--      <remap from="map" to="/map"/>-->
+    </node>
+    
+    <include file="$(find stagebot_2dnav)/move_base.launch"/>
+    <node pkg="simple_navigation_goals" type="map_navigation_client" name="map_goal_client" output="screen"/>
+<!--    <include file="$(find pioneer_ros)/launch/pioneer_controller_spin_recover.launch"/>-->
+  </group>
+</launch>
