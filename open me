@@ -1,0 +1,2 @@
+1.  $ roslaunch freenect_launch freenect.launch
+2.  $ rosrun pointcloud_to_laserscan pointcloud_to_laserscan_node cloud_in:=/camera/depth_registered/pointss
