@@ -12,6 +12,11 @@ sleep 10s
 roslaunch pioneer_gazebo big_maze_pioneer_kinect_no_nodlet.launch &
 pid="$pid $!"
 
+echo "Loading fake laser..."
+sleep 10s
+roslaunch pointcloud_to_laserscan sample_node.launch &
+pid="$pid $!"
+
 echo "Loading initialisation parameters...
 sleep 10s
 rosrun rviz rviz &
