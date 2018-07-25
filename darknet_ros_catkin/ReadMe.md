@@ -1,10 +1,12 @@
-Download or clone from git into your workspace:
+1.  Download or clone the darknet package into your ws:
+ 
+  $ git clone https://github.com/pjreddie/darknet.git  catkin_make
 
-$ git clone https://github.com/leggedrobotics/darknet_ros.git
+2.  Open darknet_ros package and copy and replace the "CMakeLists.txt" from this folder into there.
 
-To maximize performance, make sure to build in Release mode. 
+3.  Download or clone from git into your workspace:
 
-$ catkin_make -DCMAKE_BUILD_TYPE=Release
+$ git clone https://github.com/leggedrobotics/darknet_ros.git & catkin_make -DCMAKE_BUILD_TYPE=Release
 
 	Download weights
 
@@ -39,14 +41,15 @@ Then in the launch file you have to point to your new config file in the line:
 
 <rosparam command="load" ns="darknet_ros" file="$(find darknet_ros)/config/your_config_file.yaml"/>
 	
-Open darknet_ros package and copy and replace the cmakelists from this folder into there.
+
 
 	How to run it:
+1.  make sure you have the kinect data aquisition.freenect_launcher or openni_launch package
 
-$ roslaunch darknet_ros yolo_v3.launch 
-running with all classes
+2. 
+a.  running with all classes.
+  $ roslaunch darknet_ros yolo_v3.launch 
 
-or
+b.running with fewer classes (improving the FPS)
+  $ roslaunch darknet_ros darknet_ros_gdb.launch 
 
-$ roslaunch darknet_ros darknet_ros.launch 
-running with fewer classes (improving the FPS)
