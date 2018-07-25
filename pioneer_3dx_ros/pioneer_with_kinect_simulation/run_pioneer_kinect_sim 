@@ -1,7 +1,4 @@
 #!/bin/bash
-
-PATH=$(echo $PATH | sed 's|/home/aadi-workstation/anaconda3/bin:||g')
-export PATH=$PATH
  
 my_pid=$$
 echo "My process ID is $my_pid"

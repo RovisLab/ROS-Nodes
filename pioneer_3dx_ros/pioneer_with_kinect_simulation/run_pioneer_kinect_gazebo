@@ -1,7 +1,4 @@
 #!/bin/bash
-
-PATH=$(echo $PATH | sed 's|/home/aadi-workstation/anaconda3/bin:||g')
-export PATH=$PATH
  
 my_pid=$$
 echo "My process ID is $my_pid"
@@ -12,7 +9,7 @@ pid=$!
 
 echo "Launching Gazebo..."
 sleep 10s
-roslaunch pioneer_gazebo big_maze_pioneer_kinect.launch &
+roslaunch pioneer_gazebo big_maze_pioneer_kinect_no_nodlet.launch &
 pid="$pid $!"
 
 echo "Loading initialisation parameters...
