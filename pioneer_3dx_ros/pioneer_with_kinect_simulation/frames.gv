@@ -1,0 +1,10 @@
+digraph G {
+"odom" -> "base_link"[label="Broadcaster: /gazebo\nAverage rate: 100.490 Hz\nMost recent transform: 1515.015 ( 0.008 sec old)\nBuffer length: 2.040 sec\n"];
+"map" -> "odom"[label="Broadcaster: /slam_gmapping\nAverage rate: 20.531 Hz\nMost recent transform: 1515.031 ( -0.008 sec old)\nBuffer length: 1.997 sec\n"];
+"base_link" -> "right_wheel"[label="Broadcaster: /gazebo\nAverage rate: 100.490 Hz\nMost recent transform: 1515.015 ( 0.008 sec old)\nBuffer length: 2.040 sec\n"];
+"base_link" -> "left_wheel"[label="Broadcaster: /gazebo\nAverage rate: 100.490 Hz\nMost recent transform: 1515.015 ( 0.008 sec old)\nBuffer length: 2.040 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1515.023"[ shape=plaintext ] ;
+ }->"map";
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="3d_sensor" value="kinect"/>  <!-- r200, kinect, asus_xtion_pro -->
+  <arg name="custom_gmapping_launch_file" default="$(find nav_bundle)/launch/includes/gmapping/$(arg 3d_sensor)_gmapping.launch.xml"/>
+  <include file="$(arg custom_gmapping_launch_file)"/>
+
+  <!-- Include move base launch file -->
+  <!-- Use with Pioneer Gazebo simulation and Pioneer3dx robot platform -->
+  <include file="$(find pioneer_2dnav)/move_base.launch"/>
+  
+  <!-- Recovery from stall -->
+  <!--  <node pkg="pioneer_ros" type="move_base_recover" name="recovery_cmd_vel" output="screen"/>-->
+  
+  <!-- Move base clients for waypoint navigation -->
+  <node pkg="simple_navigation_goals" type="base_link_navigation_client" name="base_link_goal_client" output="screen"/>
+  <node pkg="simple_navigation_goals" type="map_navigation_client" name="map_goal_client" output="screen"/>
+</launch>
