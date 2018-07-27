@@ -11,5 +11,5 @@
 
   <!--gazebo model spawner-->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-	args="-x 2 -y 4 -z 0 -Y 0 -urdf -model pioneer -param robot_description"/>
+	args="-x 2 -y 4 -z 0 -Y 1.07 -urdf -model pioneer -param robot_description"/>
 </launch>

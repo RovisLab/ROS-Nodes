@@ -12,4 +12,7 @@ NOTE:maybe i can change it so we don't have to use step 3.
 Usage:
 1. $./run_turtlebot_kinect_simulation.
 
-#### not tested yet! ###
+  What is it:
+- a kobuki robot base with a kinect camera and a stand for it.
+- it reproduces the occupancy grid of a simulated world.
+- it can only be teleoperated.

@@ -1,4 +1,6 @@
-Mapping tool for virtual environment.
+#mapping tool for simulation with kinect
+
+#make kinect do slam try nr. 3
 
 	Operating system:
 	-Ubuntu 14.04
@@ -7,15 +9,12 @@ Mapping tool for virtual environment.
 	-ROS Indigo ROS Indigo:http://wiki.ros.org/indigo/Installation/Ubuntu	
 
 	Usage:
-1.	A.    Mapping with hokuyo laser.  --done--
-  $ ./run_pioneer_hokuyo_gazebo
+1.  Mapping with hokuyo laser.  --done--
+      $ ./run_pioneer_kinect_gazebo
 	Note:
 		if you cannot run the script, run:
-	$ chmod +x run_pioneer_gazebo and then the command from 1.
+	$ chmod +x run_pioneer_kinect_gazebo and then the command from 1.
     
-    B.    Mapping with kinect camera. --in progress--
-  $ ./run_pioneer_kinect_gazebo
-
 	This will start the following:
 		-roscore (no need to run it in another terminal)
 		-gazebo that contains one Pioneer3-dx equiped with hokuyo laser and a world already created.
@@ -28,23 +27,8 @@ Mapping tool for virtual environment.
 			-global and local planned path
 			- Goal and Planned path
 
-2.	To move the robot in the environment use "2DNav Goal" in order to scan all the map.
-
-3.	After you're done,if you want to save the map,run the following in terminal,into wanted location(where the map will be saved):
-		$ rosrun map_server map_saver -f <your_map_name>
-
-ACTUAL STATE FOR B:
+  <ACTUAL STATE>:
 laser vision is zero.
 map not showing.all of this may be because some topics must be remapped.
 when trying to use "2DNAV goal" it shows the following error in terminal:
 <<[ERROR] [1532431869.243573231, 1472.646000000]: Robot semantic description not found. Did you forget to define or remap '/robot_description_semantic'?>>
-
-
-
-
-
-
-
-
-
-

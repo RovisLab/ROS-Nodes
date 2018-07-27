@@ -17,10 +17,10 @@ sleep 10s
 roslaunch pointcloud_to_laserscan sample_node.launch &
 pid="$pid $!"
 
-echo "Loading initialisation parameters...
+echo "Loading initialisation parameters..."
 sleep 10s
-rosrun rviz rviz &
-pid="$pid $!""
+roslaunch pioneer_description pioneer_with_kinect_gazebo.launch &
+pid="$pid $!"
 
 trap "echo Killing all processes.; kill -2 TERM $pid; exit" SIGINT SIGTERM
 

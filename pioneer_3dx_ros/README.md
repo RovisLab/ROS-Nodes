@@ -10,7 +10,7 @@ Prequisites:
 	-gazebo plugins:
 		-control: 
 		$ sudo apt-get install ros-indigo-gazebo-ros-control
-	-map-server package:		
+	-map-server package":
 		$ sudo apt-get install ros-indigo-map-server
 	-pioneer2d-nav package:
 		$ git clone https://github.com/JenJenChung/pioneer_2dnav.git & catkin_make
@@ -25,5 +25,5 @@ Prequisites:
 	
 
 Project status:
-	mapping tools available!
+	mapping tools with hokuyo laser available!
 
