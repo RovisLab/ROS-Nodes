@@ -10,4 +10,4 @@ transform_tolerance : 0.5
 #- {name: agent_layer, type: 'simple_layer_namespace::AgentLayer'}
 
 observation_sources: laser_scan_sensor
-laser_scan_sensor: {sensor_frame: laser, data_type: LaserScan, topic: base_scan, marking: true, clearing: true, expected_update_rate: 0.4}
+laser_scan_sensor: {sensor_frame: laser, data_type: LaserScan, topic: scan, marking: true, clearing: true, expected_update_rate: 1}
