@@ -59,6 +59,10 @@ Frame right_hub exists with parent right_wheel.
 
 		so the center_hubcap has the "center_wheel" as parent,but center_center wheel is an orhphane :'( ! =>fixed. the i had to add fake joint controller for the continuous joint of the caster wheel.
 
+    next problem:
+[ WARN] [1533738772.302324739, 1527.954000000]: The scan observation buffer has not been updated for 35.70 seconds, and it should be updated every 1.00 seconds.
+[ WARN] [1533738772.312861045, 1527.962000000]: [/move_base]:Sensor data is out of date, we're not going to allow commanding of the base for safety
+ that's what is happening when i try to add the move_base package that gives us the chance to send te robot to some coordinates via the "2D Nav Goal". It might happen because the sensor messages have a low frequency regarding to the camera we use for the "scan" topic. TRY TELEOP?
     
  
 
