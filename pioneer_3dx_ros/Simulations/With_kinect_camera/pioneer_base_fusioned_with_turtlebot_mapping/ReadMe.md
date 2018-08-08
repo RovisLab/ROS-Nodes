@@ -34,6 +34,30 @@ I took the description files for kinect camera and fusioned it with the pioneer 
   
   <HINT>:in robot model "swivel and caster wheel appear as not being joined with the whole robot(RViz=frame is not seen; Gazebo= caster wheel has no color?..TODO:see the materials for that, I guess)
 
+	BRO! using 
+		$ rosrun tf tf_echo map swivel 
+	Shows this error
+Failure at 1880.180000000
+Exception thrown:"swivel" passed to lookupTransform argument source_frame does not exist. 
+The current list of frames is:
+Frame base_link exists with parent odom.
+Frame odom exists with parent map.
+Frame right_wheel exists with parent base_link.
+Frame left_wheel exists with parent base_link.
+Frame back_sonar exists with parent base_link.
+Frame front_sonar exists with parent base_link.
+Frame top_plate exists with parent base_link.
+Frame camera_depth_frame exists with parent camera_rgb_frame.
+Frame camera_rgb_frame exists with parent base_link.
+Frame camera_depth_optical_frame exists with parent camera_depth_frame.
+Frame camera_link exists with parent camera_rgb_frame.
+Frame camera_rgb_optical_frame exists with parent camera_rgb_frame.
+Frame center_hubcap exists with parent center_wheel.
+Frame chassis exists with parent base_link.
+Frame left_hub exists with parent left_wheel.
+Frame right_hub exists with parent right_wheel.
+
+		so the center_hubcap has the "center_wheel" as parent,but center_center wheel is an orhphane :'( ! =>fixed. the i had to add fake joint controller for the continuous joint of the caster wheel.
 
     
  

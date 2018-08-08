@@ -69,7 +69,6 @@
 			<origin xyz="0 0 0" rpy="0 0 0"/>
 			<geometry>
 				<mesh filename="package://pioneer_description/meshes/p3dx_meshes/top.stl"/>
-				<!--box size="0.44 0.38 0.005"/-->
 			</geometry>
 		</collision>
 	</link>
@@ -78,9 +77,6 @@
 	<joint name="base_swivel_joint" type="continuous">
 		<origin xyz="-0.185 0 0.055" rpy="0 0 0"/>
 		<axis xyz="0 0 1"/>
-		<!--<anchor xyz="0 0 0"/>
-  	<limit effort="100" velocity="100" k_velocity="0" />
-  	<joint_properties damping="0.0" friction="0.0" />-->
 		<parent link="base_link"/>
 		<child link="swivel"/>
 	</joint>
@@ -108,6 +104,13 @@
 	</link>
 
 <!-- Center Wheel + Hubcap -->
+	<joint name="swivel_hubcap_joint" type="continuous">
+		<origin xyz="-0.026 0 -0.016" rpy="0 0 0"/>
+		<axis xyz="0 1 0"/>
+	  <parent link="swivel"/>
+		<child link="center_wheel"/>
+	</joint>
+
 	<link name="center_hubcap">
 		<inertial>
 			<mass value="0.01"/>	
@@ -130,14 +133,10 @@
 	  </collision>
 	</link>
 
-	<joint name="swivel_hubcap_joint" type="continuous">
-		<origin xyz="-0.026 0 -0.016" rpy="0 0 0"/>
-		<axis xyz="0 1 0"/>
-		<!--<anchor xyz="0 0 0"/>
-    <limit effort="1000" velocity="1000" k_velocity="0" />
-    <joint_properties damping="0.0" friction="0.0" />-->
-	  <parent link="swivel"/>
-		<child link="center_wheel"/>
+	<joint name="center_wheel_joint" type="fixed">
+		<origin xyz="-0.0035 0 -0.001" rpy="0 0 0"/>
+		<parent link="center_wheel"/>
+		<child link="center_hubcap"/>
 	</joint>
 
 	<link name="center_wheel">
@@ -158,24 +157,17 @@
 		  <origin xyz="0 0 0" rpy="0 0 0"/>
 		  <geometry>
 		    <mesh filename="package://pioneer_description/meshes/p3dx_meshes/center_wheel.stl"/>
-			  <!--<cylinder radius="0.0375" length="0.03"/>-->
+
 		  </geometry>
 	  </collision>
 	</link>
 
-	<joint name="center_wheel_joint" type="fixed">
-		<origin xyz="-0.0035 0 -0.001" rpy="0 0 0"/>
-		<parent link="center_wheel"/>
-		<child link="center_hubcap"/>
-	</joint>
-	
+
 	<!-- Left Wheel -->
 	<joint name="base_left_wheel_joint" type="continuous">
 		<origin xyz="0 0.155 0.093" rpy="0 0 0"/>
 		<axis xyz="0 1 0"/>
-		<!--<anchor xyz="0 0 0"/>
-  	<limit effort="1000" velocity="1000" k_velocity="0" />
-  	<joint_properties damping="0.0" friction="0.0" />-->
+
 		<parent link="base_link"/>
 		<child link="left_wheel"/>
 	</joint>
