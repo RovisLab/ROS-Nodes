@@ -29,3 +29,5 @@
 
 3.	After you're done,if you want to save the map,run the following in terminal,into wanted location(where the map will be saved):
 		$ rosrun map_server map_saver -f <your_map_name>
+
+YEAH, this works excelent.

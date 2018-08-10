@@ -1,0 +1,11 @@
+nigga.
+what we want?
+a program that makes the map.
+in simulation:  - with hokuyo(using 2dnavgoal)
+                - with kinect camera(that 2dnavgoal does not work, i try with teleop.but i need to have a subscriber to the cmd_vel. how?..)
+
+a program that makes the robots go to a certain point knowing the base.it does not work tho, if we do not have some sensors active that collect real-time data,in order to create continuously the path to the final goal.
+
+
+
+

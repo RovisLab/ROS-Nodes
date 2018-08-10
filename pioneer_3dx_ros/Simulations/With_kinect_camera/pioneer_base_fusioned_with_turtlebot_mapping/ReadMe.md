@@ -63,6 +63,22 @@ Frame right_hub exists with parent right_wheel.
 [ WARN] [1533738772.302324739, 1527.954000000]: The scan observation buffer has not been updated for 35.70 seconds, and it should be updated every 1.00 seconds.
 [ WARN] [1533738772.312861045, 1527.962000000]: [/move_base]:Sensor data is out of date, we're not going to allow commanding of the base for safety
  that's what is happening when i try to add the move_base package that gives us the chance to send te robot to some coordinates via the "2D Nav Goal". It might happen because the sensor messages have a low frequency regarding to the camera we use for the "scan" topic. TRY TELEOP?
+      =>FIXED : the params from the costmap were not correct.
+
+      the cmd_vel topic is send by the move_base node, but we have no subscriber:
+gatu270124@ER01556P:~$ rostopic info /cmd_vel 
+Type: geometry_msgs/Twist
+
+Publishers: 
+ * /move_base (http://ER01556P:34075/)
+
+Subscribers: None             => look into the turtlebot example to see the connection.or in the pioneer_with_hokuyo mapping example .
+    =>partialy fixed: /pioner/cmd_vel was the right topic. i can start this roslaunch in another terminal only, because it does not allow me to run it from the runfile.
+
+I added path planned for the 2dnavgoal.it sets the goal and the global and local path,but the robot does not move. i have to connect the move_base package to the cmd_vel of the robot.SOL?look at the mapping with hokuyo, or autonomous driving with turtlebot.
+
+
+
     
  
 
