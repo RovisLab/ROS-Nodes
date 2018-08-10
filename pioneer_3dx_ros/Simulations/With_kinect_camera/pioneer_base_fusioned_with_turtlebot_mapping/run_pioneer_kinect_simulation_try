@@ -24,6 +24,11 @@ roslaunch pioneer_gazebo gmapping_demo_kinect.launch &
 pid="$pid $!"
 sleep 10s
 
+echo "Launching controller..."
+roslaunch pioneer_ros pioneer_controller_spin_recover.launch &
+pid="$pid $!"
+sleep 5s
+
 echo "Launching RViz..."
 roslaunch pioneer_description pioneer_kinect_sim.launch &
 pid="$pid $!"

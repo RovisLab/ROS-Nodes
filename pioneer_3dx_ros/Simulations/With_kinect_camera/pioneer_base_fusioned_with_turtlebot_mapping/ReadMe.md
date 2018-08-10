@@ -76,9 +76,11 @@ Subscribers: None             => look into the turtlebot example to see the conn
     =>partialy fixed: /pioner/cmd_vel was the right topic. i can start this roslaunch in another terminal only, because it does not allow me to run it from the runfile.
 
 I added path planned for the 2dnavgoal.it sets the goal and the global and local path,but the robot does not move. i have to connect the move_base package to the cmd_vel of the robot.SOL?look at the mapping with hokuyo, or autonomous driving with turtlebot.
+    ->fixed: took a launchfile from mybot_ws package from git that has a launchfile called mybot_teleop.i remapped the cmd_vel topic to our robot.For 2dnav goal i added the pioneer_ros launchfile that sends commands for the pioneer to go to the specified path . still cannot use the teleop in the same script,tho :(
 
 
 
+the mapping is pretty slow, but the proof of concept is created.for navigation_only simulation script we'll use the map created with the hokuyo laser.
     
  
 
