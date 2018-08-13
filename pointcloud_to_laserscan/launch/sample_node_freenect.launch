@@ -3,6 +3,7 @@
 <launch>
 
     <arg name="camera" default="camera" />
+    <arg name="robot_name" default="pioneer"/>
 
     <!-- start sensor-->
     <include file="$(find freenect_launch)/launch/freenect.launch">
@@ -37,5 +38,8 @@
         </rosparam>
 
     </node>
+    
+      <!-- Run the transform that defines the position of the laser -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="scan_tf" args="0.14 0 0.3 0 0 0 $(arg robot_name)/base_link camera_link"/>
 
 </launch>
