@@ -9,4 +9,10 @@
 - RosAriaDrive :
       $ git clone https://github.com/DamianBaranski/RosAriaDrive.git && catkin_make
 
+- Something to test:
+      $ git clone https://github.com/JenJenChung/pioneer_test.git && catkin_make
+- p2os?:
+ https://github.com/dawonn/ros-p2os
 
+-for laser driver?:
+ git clone https://github.com/clearpathrobotics/laser_drivers.git  or this: https://github.com/clearpathrobotics/LMS1xx.git
