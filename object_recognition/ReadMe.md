@@ -58,12 +58,12 @@ Deleting an object
 Object recognition using tabletop
 Finding planes
 
-	$rosrun object_recognition_core detection -c `rospack find object_recognition_tabletop` 	conf/detection.table.ros.ork
+	$rosrun object_recognition_core detection -c `rospack find object_recognition_tabletop` conf/detection.table.ros.ork
 
 Then go to RViz graphical window, and add the OrkTable display. Now you should see some planes detected by ORK_Tabletop if your camera is pointing to some plane surfaces.
 Finding objects
 
-	$rosrun object_recognition_core detection -c  `rospack find object_recognition_tabletop` 	conf/detection.object.ros.ork
+	$rosrun object_recognition_core detection -c  `rospack find object_recognition_tabletop` conf/detection.object.ros.ork
 
 Go back to RViz , and add the OrkObject display. Now if you have a coke can placed on one of the detected planes, ork_tabletop should see it and your beautiful RViz interface should be displaying it
 
