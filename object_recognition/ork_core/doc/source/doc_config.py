@@ -6,7 +6,7 @@ git_lastmod=''
 github_url=''
 
 breathe_default_project = 'object_recognition_core'
-breathe_projects = dict(object_recognition_core='/home/cata/catkin_ws/build/src/ork_core/doc/../api/xml')
+breathe_projects = dict(object_recognition_core='/home/cata/git_repo/build/ROS-Nodes/object_recognition/ork_core/doc/../api/xml')
 
 # for release
 ork_module_url_root = 'http://wg-perception.github.com/'

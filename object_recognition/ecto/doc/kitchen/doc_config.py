@@ -1,15 +1,15 @@
-version='0.6.12'
-commithash='796827650a704fb37503f6077a3a3011acda3bb7'
-gittag_short='0.6.12'
-gittag_long='0.6.12-12-g7968276'
-git_lastmod='Mon, 14 May 2018 08:55:18 -0400'
+version=''
+commithash='76c7c0e8d36ed72a33bd68395f2049f256f56960'
+gittag_short=''
+gittag_long='76c7c0e-dirty'
+git_lastmod='Wed, 22 Aug 2018 10:41:03 +0300'
 github_url='https://github.com/plasmodic/ecto'
 
 breathe_default_project = 'ecto'
-breathe_projects = dict(ecto='/home/cata/catkin_ws/build/src/ecto/doc/../api/xml')
+breathe_projects = dict(ecto='/home/cata/git_repo/build/ROS-Nodes/object_recognition/ecto/doc/../api/xml')
 
 # for debug: this is only if you build everything locally
-#ecto_module_url_root = '/home/cata/catkin_ws/build/src/ecto/doc/../../doc/html/'
+#ecto_module_url_root = '/home/cata/git_repo/build/ROS-Nodes/object_recognition/ecto/doc/../../doc/html/'
 # for release
 ecto_module_url_root = 'http://plasmodic.github.com/'
 
