@@ -9,9 +9,9 @@ The YOLO packages have been tested under ROS Kinetic and Ubuntu 16.04 with Xbox 
 	x_world = (x_screen - c_x) * z_world / f_x;
 	y_world = (y_screen - c_y) * z_world / f_y;
 	
-The z_world coordinate is the depth provided by kinect camera, and c_x,c_y,f_x,f_y is the parameters provided by kinect when you calibrate it. If you don't want to calibrate the camera you could use the following parameters [from this link](https://github.com/OpenKinect/libfreenect/blob/master/examples/glpclview.c)
-In this case,x_screen and y_screen is the middle point of the detected object in the bounding box.
+The z_world coordinate is the depth provided by kinect camera, and c_x, c_y, f_x, f_y are the parameters provided by kinect when you calibrate it. If you don't want to calibrate the camera you could use the following parameters [from this link](https://github.com/OpenKinect/libfreenect/blob/master/examples/glpclview.c).
 
+In this case,x_screen and y_screen is the middle point of the detected object in the bounding box.
 You could get x_screen and y_screen with:
 
 	x_screen=((xmax-xmin)/2)+xmin;
