@@ -23,3 +23,6 @@ https://www.sick.com/ag/en/sopas-engineering-tool-2018/p/p367244.
 https://www.sick.com/media/docs/1/31/331/Operating_instructions_Laser_Measurement_Sensors_of_the_LMS1xx_Product_Family_en_IM0031331.PDF
 look at this.
 the kinect camera is not conected to the main tree.look in this package for the tf2_ros launchfile from lms100
+
+https://github.com/MerAARIZOU/pioneer_test
+
