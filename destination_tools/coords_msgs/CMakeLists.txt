@@ -12,11 +12,14 @@ add_message_files(DIRECTORY msg
 	FILES
 	Coords.msg)
 
-generate_messages(DEPENDENCIES std_msgs)
+generate_messages(
+  DEPENDENCIES std_msgs
+)
 
 catkin_package(
-  DEPENDS message_runtime std_msgs
+  CATKIN_DEPENDS message_runtime std_msgs
 )
+
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
