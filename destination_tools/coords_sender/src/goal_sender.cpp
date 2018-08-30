@@ -1,6 +1,6 @@
 #include <ros/ros.h>
 #include <coords_msgs/Coords.h>
-#include < <<tip_mesaj,gen cel de sus>>>
+//#include < <<tip_mesaj,gen cel de sus>>>
 
 void nume_functie(const <<nume_tip de mesaj>>& msg)
 {
@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
     ros::init(argc, argv, "goal_sender");
     ros::NodeHandle nh;
 
-    ros::Subscriber sub = nh.subscribe("numele topicului",10,<<numele_functiei>>);
+    //ros::Subscriber sub = nh.subscribe("numele topicului",10,numele);
     ros::Publisher pub = nh.advertise<coords_msgs::Coords>("coord_topic", 10,true);
 
     ros::spin();

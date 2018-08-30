@@ -3,7 +3,7 @@
     <param name="poz_x" value="-2" />
     <param name="poz_y" value="0" />
     <param name="poz_theta" value="90" />
-    <node pkg="multi_nav" type="send_goal" respawn="false" name="send_goal" output="screen" args="1"/>
+    <node pkg="coords_sender" type="goal_sender_simple" respawn="false" name="goal_sender_simple" output="screen" args="1"/>
 
 </launch>
 

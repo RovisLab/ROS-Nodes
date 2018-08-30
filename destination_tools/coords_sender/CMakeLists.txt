@@ -27,12 +27,9 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+add_executable(goal_sender_simple src/goal_sender_simple.cpp)
 
-add_executable(goal_sender src/goal_sender.cpp)
-
-
-target_link_libraries(goal_sender
+target_link_libraries(goal_sender_simple
   ${catkin_LIBRARIES}
 )
-
 

@@ -13,7 +13,7 @@
 
 #define PI 3.14159265358979
 
-//typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
+typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
 using namespace std;
 
@@ -24,8 +24,9 @@ float poz_x, poz_y, poz_theta;
 
 void poseCallback(const coords_msgs::Coords& msg)
 {
+    ROS_INFO("robot topic string is: %s",move_base_str.c_str());
     //tell the action client that we want to spin a thread by default
-    actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> ac(move_base_str,true) ;
+    actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> ac("move_base",true) ;
 
     while(!ac.waitForServer(ros::Duration(10.0))){
         ROS_INFO("Waiting for the move_base action server to come up");
@@ -73,7 +74,7 @@ int main(int argc, char** argv) {
 
 	char *robot_id = argv[1];
 
-	ros::init(argc, argv, "send_goals");
+        ros::init(argc, argv, "send_goal");
 	ros::NodeHandle nh;
 
         if (!nh.getParam("poz_x", poz_x))
@@ -84,10 +85,10 @@ int main(int argc, char** argv) {
             poz_theta = 0;
 
         // Create the string "pioneer_X/move_base_simple/goal"
-        move_base_str = "/pioneer";
-        move_base_str += robot_id;
-        move_base_str += "/move_base_simple/goal";
-        ROS_INFO("robot topic string is: %s",move_base_str.c_str());
+        //move_base_str = "/pioneer";
+        //move_base_str += robot_id;
+        move_base_str = "/move_base_simple/goal";
+
 
         ros::Subscriber sub = nh.subscribe("coord_topic",10,poseCallback);
         ros::spin();
