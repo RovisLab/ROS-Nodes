@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   coords_msgs
+  darknet_ros_msgs
 
 )
 

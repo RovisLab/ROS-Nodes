@@ -737,17 +737,12 @@ namespace darknet_ros
       int Ind=0;
       float GrayValue=0;
       float Value=0;
-      cv::Mat Img; 
-      cv::Mat Binaria1;
-      cv::Mat Binaria2;
-
-      cv::cvtColor(camImageCopy_, Img, cv::COLOR_BGR2HSV);
 
 	  for(int i=xmin; i<=xmax; i++)
          for(int j=ymin; j<=ymax; j++)
-         {
+        {
             Value=(float)DepthImageCopy_.at<float>(j,i);
-            GrayValue+=Value; //we add the gray level of the i pixel
+          GrayValue+=Value;
             Ind++;
          }
 
@@ -756,16 +751,17 @@ namespace darknet_ros
 	  Invalid= true;
 	  if (GrayValue!=0)
       {
-         Invalid= false;
-
-         Z=GrayValue;                        //mm
-         X=((U-339.5f)*Z)/594.21f;           //X=((U-Cx)*Z)/fx
-         Y=((V-242.7f)*Z)/591.04f;           //Y=((V-Cy)*Z)/fy
-	//parameters found on https://github.com/OpenKinect/libfreenect/blob/master/examples/glpclview.c
+        Invalid= false;
+         Z=GrayValue;                         //mm
+         X=((U-339.5)*Z)/594.21 ;           //X=((U-Cx)*Z)/fx
+         Y=((V-242.7)*Z)/591.04;           //Y=((V-Cy)*Z)/fy
+	//parameters found on https://github.com/OpenKinect/libfreenect/blob/master/examples/glpclview.c 
+    //https://vision.in.tum.de/data/datasets/rgbd-dataset/file_formats#intrinsic_camera_calibration_of_the_kinect
 
 
          //ROS_INFO("X %f, Y %f, Z %f ,Invalido %d", X, Y, Z, Invalid);
-      }
+     
    }
+ }
 }
 

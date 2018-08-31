@@ -1,35 +1,28 @@
 #include <ros/ros.h>
 #include <coords_msgs/Coords.h>
 #include <darknet_ros_msgs/BoundingBoxes.h>
+#include <stdio.h>
 
+ros::Publisher pub;
 
-using namespace std;
-
-ros::NodeHandle nh;
-
-string st1;
-coords_msgs::Coords coordonate;
-void CoordsCallback(const darknet_ros_msgs::BoundingBoxes& msg)
+void CoordsCallback(const darknet_ros_msgs::BoundingBox& msg)
 {
+    String st1;
     st1="person";
-    darknet_ros_msgs::BoundingBox inauntru;
-     for (int i=0; i <int(msg.bounding_boxes.size()); i++) {
-        if (st1.compare(msg.bounding_boxes[i].Class) == 0)
-        {
-            coordonate.goal_x = msg.bounding_boxes[i].X;
-            coordonate.goal_y = msg.bounding_boxes[i].Z;//or z
-            ROS_INFO("Se transmit coordonatele %f, %f",coordonate.goal_x,coordonate.goal_y);
-            pub.publish(coordonate);
-        }
-     }
-
     //verifici datele din mesaj.
+    if (st1.compare(msg.Class) == 0)
+    {
+
+    }
 
     //datele de verificat sunt: label-ul mesajului(denumirea obiectului detectat). string clasa
     //                          probabilitatea
     //de trimis catre topicul nostru, x si z din mesajul acesta.
-
-
+    coords_msgs::Coords coordonate;
+    coordonate.goal_x = msg.X;
+    coordonate.goal_y = msg.Z;//or z
+    ROS_INFO("se transmit coordonatele %f, %f",coordonate.goal_x,coordonate.goal_y);
+    pub.publish(coordonate);
     //also.ar fi fain sa nu verifice de fiecare data daca se detecteaza obiectul, ci doar cand dorim noi.
     //chestia asta o putem face din main. Sau pur si simplu daca s-a trimis un mesaj, sa nu mai urmeze si altele.cauta info despre ros::spin, pt asta.
 
@@ -40,6 +33,7 @@ void CoordsCallback(const darknet_ros_msgs::BoundingBoxes& msg)
 int main(int argc, char **argv) {
 
     ros::init(argc, argv, "goal_sender");
+    ros::NodeHandle nh;
 
     ros::Subscriber sub = nh.subscribe("/darknet_ros/bounding_boxes",10,CoordsCallback);
     ros::Publisher pub = nh.advertise<coords_msgs::Coords>("coord_topic", 10,true);
