@@ -24,9 +24,13 @@ include_directories(
 
 
 add_executable(send_goal src/send_goal.cpp)
+add_executable(send_multiple_goal src/send_multiple_goal.cpp)
 
 
 target_link_libraries(send_goal
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(send_multiple_goal
   ${catkin_LIBRARIES}
 )
 

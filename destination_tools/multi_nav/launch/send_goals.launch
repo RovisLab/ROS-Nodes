@@ -4,7 +4,7 @@
     <param name="goal_x" value="-2" />
     <param name="goal_y" value="0" />
     <param name="goal_theta" value="90" />
-    <node pkg="multi_nav" type="send_goal" respawn="false" name="send_goal" output="screen" args="1"/>
+    <node pkg="multi_nav" type="send_multiple_goal" respawn="false" name="send_multiple_goal" output="screen" args="1"/>
   </group>
   <!-- END ROBOT 0 -->
 
@@ -13,7 +13,7 @@
     <param name="goal_x" value="0" />
     <param name="goal_y" value="-2" />
     <param name="goal_theta" value="0" />
-    <node pkg="multi_nav" type="send_goal" respawn="false" name="send_goal" output="screen" args="2"/>
+    <node pkg="multi_nav" type="send_multiple_goal" respawn="false" name="send_multiple_goal" output="screen" args="2"/>
   </group>
   <!-- END ROBOT 1 -->
 
@@ -22,7 +22,7 @@
     <param name="goal_x" value="2" />
     <param name="goal_y" value="0" />
     <param name="goal_theta" value="-90" />
-    <node pkg="multi_nav" type="send_goal" respawn="false" name="send_goal" output="screen" args="3"/>
+    <node pkg="multi_nav" type="send_multiple_goal" respawn="false" name="send_multiple_goal" output="screen" args="3"/>
   </group>
   <!-- END ROBOT 1 -->
 </launch>
