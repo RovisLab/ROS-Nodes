@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="rviz_name" default="laser_and_ptcl2_vis"/>
+
+  <!-- start sensor-->
+  <include file="$(find freenect_launch)/launch/freenect.launch">
+    <arg name="camera" default="camera"/>
+  </include>
+
+	<!-- Convert depth image to laser scan -->
+	<node name="laserscan_kinect" pkg="laserscan_kinect" type="laserscan_kinect" > 
+	  	<remap from="image" to="/camera/depth/image_raw"/>
+	  	<remap from="camera_info" to="/camera/depth/camera_info"/>
+      <rosparam command="load" file="$(find laserscan_kinect)/config/params.yaml" />
+	</node>
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="scan_tf" args="0.14 0 0.3 0 0 0 base_link camera_link"/>
+
+  <!-- Show in Rviz   -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find laserscan_kinect)/rviz/$(arg rviz_name).rviz"/>
+</launch>
+
+

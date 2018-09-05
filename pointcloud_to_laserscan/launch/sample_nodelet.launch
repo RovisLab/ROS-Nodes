@@ -5,7 +5,7 @@
     <arg name="camera" default="camera" />
 
     <!-- start sensor-->
-    <include file="$(find openni2_launch)/launch/openni2.launch">
+    <include file="$(find freenect_launch)/launch/freenect.launch">
         <arg name="camera" default="$(arg camera)"/>
     </include>
 
@@ -33,7 +33,7 @@
             # 0 : Detect number of cores
             # 1 : Single threaded
             # 2->inf : Parallelism level
-            concurrency_level: 1
+            concurrency_level: 0
         </rosparam>
 
     </node>

@@ -14,3 +14,7 @@ Usage:
 How does it work:
   -it runs the data aquisition from the real kinect and transform the depth points topic into a fake laser_scan topic.
 
+
+UPDATE:
+  - This package is used only for the simulation. if you want to obtain laserscan from kinect use the "laserscan_kinect" package.
+
