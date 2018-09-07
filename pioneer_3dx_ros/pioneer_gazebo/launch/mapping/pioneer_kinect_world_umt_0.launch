@@ -20,13 +20,21 @@
     <arg name="headless" value="$(arg headless)"/>
   </include>
 
-  <!-- Load the URDF into the ROS Parameter Server -->
-  <include file="$(find pioneer_gazebo)/launch/includes/$(arg base).launch.xml">
-    <arg name="base" value="$(arg base)"/>
-    <arg name="3d_sensor" value="$(arg 3d_sensor)"/>
-  </include>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find pioneer_description)/urdf/pioneer_kinect.urdf.xacro'"/>
 
-  <!-- ros_control pioneer launch file 
+  <!--gazebo model spawner-->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+	args="-x 2 -y 4 -z 0 -Y 1.07 -urdf -model pioneer -param robot_description"/>
+
+  <!-- good to see the robot in rviz -->
+   <!-- send fake joint values-->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="use_gui" value="false"/>
+  </node>
+  <!-- Combine joint values  -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+
+  <!-- ros_control pioneer launch file I Do Not Use It.
   <include file="$(find pioneer_control)/launch/pioneer_control.launch" />
 -->
 </launch>

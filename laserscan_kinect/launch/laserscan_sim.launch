@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+	<!-- Convert depth image to laser scan -->
+	<node name="laserscan_kinect" pkg="laserscan_kinect" type="laserscan_kinect" > 
+	  	<remap from="image" to="/camera/depth/image_raw"/>
+	  	<remap from="camera_info" to="/camera/depth/camera_info"/>
+      <rosparam command="load" file="$(find laserscan_kinect)/config/params.yaml" />
+	</node>
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="scan_tf" args="0.14 0 0.27 0 0 0 base_link camera_link"/>
+
+</launch>
+
+

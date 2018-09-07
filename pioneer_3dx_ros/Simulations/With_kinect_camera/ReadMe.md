@@ -33,7 +33,7 @@ Next step,what we want is autonomous driving.My ideea is too look at these steps
 		that "amcl_demo" is our interest node.(it somehow connects the 2d nav goal button from rivz with the moving of the base.)
 		
 			I tried to use "move_base" package from pioneer simulation,but i had errors and warnins :(.
-			
-			Good luck, mates!
+          UPDATE.it works now. see the readmes of each runfile
+
 
             

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="pioneer3dx" >
+    
+  <!-- Import Rviz colors -->
+  <xacro:include filename="$(find pioneer_description)/urdf/robot_base/materials.xacro" />
+  
+  <!-- Import robot -->
+  <xacro:include filename="$(find pioneer_description)/urdf/robot_base/pioneer3dx_body.xacro"/>
+  <xacro:pioneer3dx_body name="chassis" parent="base_link" meshes="package://pioneer_description/urdf/robot_base/meshes/p3dx_meshes"/>
+
+<!--   <xacro:include filename="$(find aramis_description)/robots/camera/camera.xacro"/>
+  <xacro:cam name="front_camera" parent="chassis" xyz="0 0 0.5" rpy="0 0 0" /> -->
+  
+</robot>
