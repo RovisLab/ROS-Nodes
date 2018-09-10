@@ -14,7 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES navigation_multi
-#  CATKIN_DEPENDS actionlib move_base_msgs roscpp rospy tf
+  CATKIN_DEPENDS actionlib move_base_msgs roscpp rospy tf
 #  DEPENDS system_lib
 )
 
@@ -26,6 +26,9 @@ include_directories(
 add_executable(send_goal src/send_goal.cpp)
 add_executable(send_multiple_goal src/send_multiple_goal.cpp)
 
+## Generate the msg before the node.
+add_dependencies(send_goal coords_msgs_generate_messages_cpp)
+add_dependencies(send_multiple_goal coords_msgs_generate_messages_cpp)
 
 target_link_libraries(send_goal
   ${catkin_LIBRARIES}

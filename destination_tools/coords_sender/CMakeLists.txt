@@ -19,7 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES coords_sender
-#  CATKIN_DEPENDS coords_msgs std_msgs
+  CATKIN_DEPENDS coords_msgs
 #  DEPENDS system_lib
 )
 
@@ -28,7 +28,11 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+
 add_executable(goal_sender_simple src/goal_sender_simple.cpp)
+
+## Generate the msg before the node.
+add_dependencies(goal_sender_simple coords_msgs_generate_messages_cpp)
 
 target_link_libraries(goal_sender_simple
   ${catkin_LIBRARIES}
