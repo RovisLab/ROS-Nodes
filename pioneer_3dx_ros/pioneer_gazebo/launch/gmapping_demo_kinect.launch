@@ -6,7 +6,7 @@
 
   <!-- Include move base launch file -->
   <!-- Use with Pioneer Gazebo simulation and Pioneer3dx robot platform -->
-  <include file="$(find pioneer_2dnav)/move_base_kinect.launch"/>
+  <include file="$(find pioneer_2dnav)/launch/move_base_kinect.launch"/>
   
   <!-- Recovery from stall -->
   <!--  <node pkg="pioneer_ros" type="move_base_recover" name="recovery_cmd_vel" output="screen"/>-->
