@@ -5,8 +5,8 @@
 
 using namespace std;
 
-ros::NodeHandle nh;
 
+ros::Publisher pub;
 string st1;
 coords_msgs::Coords coordonate;
 void CoordsCallback(const darknet_ros_msgs::BoundingBoxes& msg)
@@ -40,15 +40,11 @@ void CoordsCallback(const darknet_ros_msgs::BoundingBoxes& msg)
 int main(int argc, char **argv) {
 
     ros::init(argc, argv, "goal_sender");
-
+    ros::NodeHandle nh;
     ros::Subscriber sub = nh.subscribe("/darknet_ros/bounding_boxes",10,CoordsCallback);
-    ros::Publisher pub = nh.advertise<coords_msgs::Coords>("coord_topic", 10,true);
+    pub = nh.advertise<coords_msgs::Coords>("coord_topic", 10,true);
 
     ros::spin();
 
     return 0;
 }
-
-
-
-
