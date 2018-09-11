@@ -9,25 +9,29 @@ pid=$!
 sleep 5s
 
 echo "Launching Gazebo..."
-roslaunch pioneer_gazebo big_maze_pioneer_kinect.launch &
+roslaunch pioneer_gazebo pioneer_kinect_world_umt_0.launch &
 pid="$pid $!"
+sleep 15s
 
-sleep 5s
-
-echo "Launching navigation stack..."
-roslaunch pioneer_nav nav_bundle.launch &
+echo "Launching poincloud to laserscan..."
+roslaunch laserscan_kinect laserscan_sim.launch &
 pid="$pid $!"
+sleep 10s
 
-sleep 3s
+echo "Launching gmapping..."
+roslaunch pioneer_nav gmapping_demo_kinect.launch &
+pid="$pid $!"
+sleep 10s
 
 echo "Launching controller..."
 roslaunch pioneer_ros pioneer_controller_spin_recover.launch &
 pid="$pid $!"
+sleep 5s
 
-echo "Launching Rviz..."
-roslaunch pioneer_description pioneer_kinect_rviz_vis.launch &
+echo "Launching RViz..."
+roslaunch pioneer_description pioneer_kinect_sim.launch &
 pid="$pid $!"
-
+sleep 5s
 
 trap "echo Killing all processes.; kill -2 TERM $pid; exit" SIGINT SIGTERM
 

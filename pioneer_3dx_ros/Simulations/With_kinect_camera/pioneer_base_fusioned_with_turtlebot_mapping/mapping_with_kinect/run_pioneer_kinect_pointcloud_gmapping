@@ -9,13 +9,13 @@ pid=$!
 sleep 5s
 
 echo "Launching Gazebo..."
-roslaunch amr_robots_launchfiles rosaria+rviz.launch &
+roslaunch pioneer_gazebo pioneer_kinect_world1.launch &
 pid="$pid $!"
 echo "so far so goooooooooood!"
 sleep 15s
 
 echo "Launching poincloud to laserscan..."
-roslaunch pointcloud_to_laserscan sample_node_freenect.launch &
+roslaunch pointcloud_to_laserscan sample_node.launch &
 pid="$pid $!"
 sleep 10s
 

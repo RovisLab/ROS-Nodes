@@ -15,7 +15,7 @@ pid="$pid $!"
 sleep 5s
 
 echo "Launching navigation stack..."
-roslaunch nav_bundle nav_bundle.launch &
+roslaunch pioneer_nav nav_bundle.launch &
 pid="$pid $!"
 
 sleep 3s
