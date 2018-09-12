@@ -39,3 +39,5 @@ https://github.com/felixendres/rgbdslam_v2
 http://wiki.ros.org/rgbdslam
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4299068/
 
+
+http://wiki.ros.org/p2os/Tutorials/Getting%20Started%20with%20p2os
