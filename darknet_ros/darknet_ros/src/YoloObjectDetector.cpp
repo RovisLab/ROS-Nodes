@@ -752,7 +752,7 @@ namespace darknet_ros
 	  if (GrayValue!=0)
       {
         Invalid= false;
-         Z=GrayValue;                         //mm
+         Z=GrayValue*0.001;                         //meters
          X=((U-339.5)*Z)/594.21 ;           //X=((U-Cx)*Z)/fx
          Y=((V-242.7)*Z)/591.04;           //Y=((V-Cy)*Z)/fy
 	//parameters found on https://github.com/OpenKinect/libfreenect/blob/master/examples/glpclview.c 
