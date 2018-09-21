@@ -6,5 +6,5 @@
     <arg name="tf_name" value="$(arg robot_name)"/>
   </include>
   <!-- Assert fixed transform between map and odom (perfect localisation) -->
-  <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 1 /map $(arg robot_name)/odom 100" output="screen"/>
+ <!--> <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 1 /map $(arg robot_name)/odom 100" output="screen"/> <-->
 </launch>
