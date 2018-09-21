@@ -12,7 +12,7 @@ pid=$!
 
 echo "Launching Gazebo..."
 sleep 10s
-roslaunch pioneer_gazebo multi_pioneer_world.launch &
+roslaunch pioneer_gazebo multi_pioneer_hokuyo_world.launch &
 pid="$pid $!"
 
 echo "Loading initialisation parameters..."
@@ -43,7 +43,7 @@ do
 done
 
 echo "Launching rviz..."
-roslaunch pioneer_description multi_pioneer_rviz.launch rviz_config:=multi_pioneer &
+roslaunch pioneer_description multi_pioneer_hokuyo.launch rviz_config:=multi_pioneer &
 pid="$pid $!"
 
 trap "echo Killing all processes.; kill -2 TERM $pid; exit" SIGINT SIGTERM

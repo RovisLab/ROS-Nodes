@@ -7,7 +7,7 @@
 
   <xacro:include filename="$(find pioneer_description)/urdf/pioneer3dx_wheel.xacro"/>
   <xacro:include filename="$(find pioneer_description)/urdf/materials.xacro" />
-  <xacro:include filename="$(find pioneer_description)/urdf/pioneer.gazebo" />
+  <xacro:include filename="$(find pioneer_description)/urdf/gazebo_plugins/pioneer.gazebo" />
 
 <!-- Base link to interface with gmapping and move_base -->
 	<link name="base_link"/>

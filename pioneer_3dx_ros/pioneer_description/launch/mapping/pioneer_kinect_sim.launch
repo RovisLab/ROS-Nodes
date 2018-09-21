@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="rviz_name" default="kinect_sim"/>
+  <!-- Show in Rviz   -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pioneer_description)/launch/mapping/$(arg rviz_name).rviz"/>
+
+</launch>

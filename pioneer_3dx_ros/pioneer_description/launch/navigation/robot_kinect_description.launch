@@ -5,5 +5,5 @@
   <param name="robot_description"
 	 command="$(find xacro)/xacro.py '$(find pioneer_description)/urdf/pioneer_kinect.urdf.xacro'" />
   
-  <rosparam file="$(find pioneer_description)/launch/$(arg pose_file).yaml" command="load"/>
+  <rosparam file="$(find pioneer_description)/launch/navigation/$(arg pose_file).yaml" command="load"/>
 </launch>

@@ -9,7 +9,7 @@ pid=$!
 sleep 5s
 
 echo "Launching Gazebo..."
-roslaunch pioneer_gazebo pioneer_kinect_world_umt_0.launch &
+roslaunch pioneer_gazebo pioneer_kinect_laserscan_world.launch &
 pid="$pid $!"
 sleep 15s
 

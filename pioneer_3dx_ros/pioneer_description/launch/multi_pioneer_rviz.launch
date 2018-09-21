@@ -1,5 +1,0 @@
-<launch>
-  <arg name="rviz_config" default="multi_pioneer"/>
-  <!-- Show in Rviz   -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pioneer_description)/launch/$(arg rviz_config).rviz"/>
-</launch>

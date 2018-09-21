@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <launch>
   <arg name="rviz_name" default="irl"/>
   
@@ -7,6 +8,6 @@
     command="$(find xacro)/xacro.py '$(find pioneer_description)/urdf/pioneer_kinect.urdf.xacro'" />
 
   <!-- Show in Rviz   -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pioneer_description)/launch/$(arg rviz_name).rviz"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pioneer_description)/launch/mapping/$(arg rviz_name).rviz"/>
 
 </launch>
