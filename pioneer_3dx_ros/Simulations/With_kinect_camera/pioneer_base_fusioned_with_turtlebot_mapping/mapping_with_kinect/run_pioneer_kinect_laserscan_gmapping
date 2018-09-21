@@ -13,7 +13,7 @@ roslaunch pioneer_gazebo pioneer_kinect_laserscan_world.launch &
 pid="$pid $!"
 sleep 15s
 
-echo "Launching poincloud to laserscan..."
+echo "Launching laserscan_kinect..."
 roslaunch laserscan_kinect laserscan_sim.launch &
 pid="$pid $!"
 sleep 10s
