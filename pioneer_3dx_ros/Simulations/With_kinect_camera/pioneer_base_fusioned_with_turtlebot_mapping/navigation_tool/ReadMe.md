@@ -6,3 +6,6 @@ This section describes how to setup and configure the navigation stack on a robo
 
 
 SEE the "ss-thesiss" screenshot folder of the actual state of the tool.
+tried to move from one pioneer to generic pioneer the gazebo urdf launch.went bad because the camera video is zero, ptcl too.revert.
+tried to use the remap in launchfile of urdf spawner and generic pioneer.also tried with tf change frame,or something different.idk.revert.
+

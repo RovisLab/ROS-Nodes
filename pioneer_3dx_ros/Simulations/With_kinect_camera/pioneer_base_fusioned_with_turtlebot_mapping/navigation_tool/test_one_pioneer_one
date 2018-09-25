@@ -1,0 +1,39 @@
+#!/bin/bash
+ 
+my_pid=$$
+echo "My process ID is $my_pid"
+
+echo "Launching roscore..."
+roscore &
+pid=$!
+sleep 5s
+
+echo "Launching Gazebo..."
+roslaunch pioneer_gazebo pioneer_kinect_laserscan_world_choosable.launch world_name:=maze &
+pid="$pid $!"
+sleep 15s
+
+echo "Loading initialisation parameters..."
+roslaunch pioneer_description robot_kinect_description.launch pose_file:=pioneer_pose
+sleep 10s
+echo "Launching Pioneers in Gazebo stack..."
+sleep 5s
+for i in `seq 1 1`;
+do
+  roslaunch pioneer_description generic_pioneer.launch name:=pioneer$i pose:="-x $(rosparam get /pioneer$i/x) -y $(rosparam get /pioneer$i/y) -Y $(rosparam get /pioneer$i/a)" &
+  pid="$pid $!"
+  sleep 10s
+done
+
+echo "Launching laserscan_kinect..."
+for i in `seq 1 1`;
+do
+  roslaunch laserscan_kinect laserscan_multi_sim.launch name:=pioneer$i &
+  pid="$pid $!"
+  sleep 10s
+done
+
+trap "echo Killing all processes.; kill -2 TERM $pid; exit" SIGINT SIGTERM
+
+sleep 24h
+
