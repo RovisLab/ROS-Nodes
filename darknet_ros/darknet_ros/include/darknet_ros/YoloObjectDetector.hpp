@@ -5,10 +5,6 @@
  *      Author: Marko Bjelonic
  *   Institute: ETH Zurich, Robotic Systems Lab
  *
- *
- *  Modified on: May 20, 2018
- *      Authors: Alejandro Díaz, Adrian Romero and Gonzalo Nuño
- *    Institute: UPM, Universidad Politécnica de Madrid
  */
 
 #pragma once
@@ -18,7 +14,7 @@
    #include <string>
    #include <vector>
    #include <iostream>
-   #include <pthread.h>   
+   #include <pthread.h>
    #include <thread>
    #include <chrono>
    #include <stdio.h>     //For depth inclussion
@@ -28,7 +24,7 @@
    #include <std_msgs/Header.h>
    #include <std_msgs/Int8.h>
    #include <std_msgs/String.h>                         //For depth inclussion
-   #include <actionlib/server/simple_action_server.h>   
+   #include <actionlib/server/simple_action_server.h>
    #include <sensor_msgs/image_encodings.h>
    #include <sensor_msgs/Image.h>
    #include <geometry_msgs/Point.h>
@@ -42,8 +38,9 @@
    // OpenCv
    #include <opencv2/imgproc/imgproc.hpp>
    #include <opencv2/highgui/highgui.hpp>
-   #include <opencv2/objdetect/objdetect.hpp>   
+   #include <opencv2/objdetect/objdetect.hpp>
    #include <cv_bridge/cv_bridge.h>
+   #include <opencv2/core/core.hpp>
    #include <opencv2/core/utility.hpp>          //For depth inclussion
 
    // darknet_ros_msgs
@@ -59,7 +56,7 @@
 
 #endif
 
-extern "C" 
+extern "C"
 {
    #include "network.h"
    #include "detection_layer.h"
@@ -89,7 +86,7 @@ namespace darknet_ros
    class YoloObjectDetector
    {
       public:
-      
+
       // Constructor.
       explicit YoloObjectDetector(ros::NodeHandle nh);
 
@@ -97,7 +94,7 @@ namespace darknet_ros
       ~YoloObjectDetector();
 
       private:
-  
+
       // Reads and verifies the ROS parameters - @return true if successful.
       bool readParameters();
 
@@ -155,7 +152,10 @@ namespace darknet_ros
       float X;
       float Y;
       float Z;
-      
+
+      //Show coordinates
+      void ShowCoordinates();
+
       // Detected objects.
       std::vector<std::vector<RosBox_> > rosBoxes_;
       std::vector<int> rosBoxCounter_;
@@ -197,7 +197,7 @@ namespace darknet_ros
       float *avg_;
       int demoTotal_ = 0;
       double demoTime_;
-    
+
       RosBox_ *roiBoxes_;
       bool viewImage_;
       bool enableConsoleOutput_;
@@ -243,7 +243,7 @@ namespace darknet_ros
       IplImage* getIplImage();
 
       bool getImageStatus(void);
-    
+
       bool isNodeRunning(void);
 
       void *publishInThread();

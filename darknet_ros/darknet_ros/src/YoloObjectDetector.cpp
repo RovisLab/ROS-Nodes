@@ -16,6 +16,7 @@
 
 // Check for xServer
 #include <X11/Xlib.h>
+#include <opencv/cv.h>
 
 #ifdef DARKNET_FILE_PATH
 std::string darknetFilePath_ = DARKNET_FILE_PATH;
@@ -23,7 +24,7 @@ std::string darknetFilePath_ = DARKNET_FILE_PATH;
 #error Path of darknet repository is not defined in CMakeLists.txt.
 #endif
 
-namespace darknet_ros 
+namespace darknet_ros
 {
    char *cfg;
    char *weights;
@@ -201,7 +202,7 @@ namespace darknet_ros
       {
          cam_image = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
          cam_depth = cv_bridge::toCvCopy(msgdepth, sensor_msgs::image_encodings::TYPE_32FC1);
-		 //cam_depth = cv_bridge::toCvCopy(msgdepth, sensor_msgs::image_encodings::MONO8);
+                 //cam_depth = cv_bridge::toCvCopy(msgdepth, sensor_msgs::image_encodings::MONO8);
 
          imageHeader_ = msg->header;
       }
@@ -211,7 +212,7 @@ namespace darknet_ros
          ROS_ERROR("cv_bridge exception: %s", e.what());
          return;
       }
-    
+
 
       if (cam_image)
       {
@@ -248,7 +249,7 @@ namespace darknet_ros
       {
          cam_image = cv_bridge::toCvCopy(imageAction, sensor_msgs::image_encodings::BGR8);
       }
-      
+
       catch (cv_bridge::Exception& e)
       {
          ROS_ERROR("cv_bridge exception: %s", e.what());
@@ -372,8 +373,8 @@ namespace darknet_ros
       float nms = .4;
 
       layer l = net_->layers[net_->n - 1];
-      float *X = buffLetter_[(buffIndex_ + 2) % 3].data;
-      float *prediction = network_predict(net_, X);
+      float *P = buffLetter_[(buffIndex_ + 2) % 3].data;
+      float *prediction = network_predict(net_, P);
 
       rememberNetwork(net_);
       detection *dets = 0;
@@ -387,10 +388,14 @@ namespace darknet_ros
          printf("\033[2J");
          printf("\033[1;1H");
          printf("\nFPS:%.1f\n",fps_);
-         printf("Objects:\n\n");
+         printf("Objects:\n");
+         image display = buff_[(buffIndex_+2) % 3];
+         draw_detections(display, dets, nboxes, demoThresh_, demoNames_, demoAlphabet_, demoClasses_);
+         printf("Coordinates: \n");
+
       }
-      image display = buff_[(buffIndex_+2) % 3];
-      draw_detections(display, dets, nboxes, demoThresh_, demoNames_, demoAlphabet_, demoClasses_);
+     // image display = buff_[(buffIndex_+2) % 3];
+     // draw_detections(display, dets, nboxes, demoThresh_, demoNames_, demoAlphabet_, demoClasses_);
 
       // Extract the bounding boxes and send them to ROS
       int i, j;
@@ -436,9 +441,10 @@ namespace darknet_ros
          }
       }
 
+
       // Create array to store found bounding boxes
       // If no object detected, make sure that ROS knows that num = 0
-      if (count == 0) 
+      if (count == 0)
       {
          roiBoxes_[0].num = 0;
       }
@@ -446,6 +452,8 @@ namespace darknet_ros
       {
          roiBoxes_[0].num = count;
       }
+
+   //   YoloObjectDetector::ShowCoordinates();
 
       free_detections(dets, nboxes);
       demoIndex_ = (demoIndex_ + 1) % demoFrame_;
@@ -682,7 +690,7 @@ namespace darknet_ros
                   int ymax = (rosBoxes_[i][j].y + rosBoxes_[i][j].h / 2) * frameHeight_;
 
                   YoloObjectDetector::Coordinates(i, xmin, ymin, xmax, ymax);
-
+                  YoloObjectDetector::ShowCoordinates();
                   boundingBox.Class = classLabels_[i];
                   boundingBox.probability = rosBoxes_[i][j].prob;
                   boundingBox.xmin = xmin;
@@ -694,6 +702,7 @@ namespace darknet_ros
                   boundingBox.Z = Z;
                   boundingBox.Invalid = Invalid;
                   boundingBoxesResults_.bounding_boxes.push_back(boundingBox);
+
                }
             }
          }
@@ -703,7 +712,7 @@ namespace darknet_ros
          boundingBoxesResults_.image_header = imageHeader_;
          boundingBoxesPublisher_.publish(boundingBoxesResults_);
       }
-      
+
       else
       {
          std_msgs::Int8 msg;
@@ -738,7 +747,7 @@ namespace darknet_ros
       float GrayValue=0;
       float Value=0;
 
-	  for(int i=xmin; i<=xmax; i++)
+          for(int i=xmin; i<=xmax; i++)
          for(int j=ymin; j<=ymax; j++)
         {
             Value=(float)DepthImageCopy_.at<float>(j,i);
@@ -746,22 +755,49 @@ namespace darknet_ros
             Ind++;
          }
 
-	  GrayValue=GrayValue/Ind;
+          GrayValue=GrayValue/Ind;
 
-	  Invalid= true;
-	  if (GrayValue!=0)
+          Invalid= true;
+          if (GrayValue!=0)
       {
         Invalid= false;
          Z=GrayValue*0.001;                         //meters
          X=((U-339.5)*Z)/594.21 ;           //X=((U-Cx)*Z)/fx
          Y=((V-242.7)*Z)/591.04;           //Y=((V-Cy)*Z)/fy
-	//parameters found on https://github.com/OpenKinect/libfreenect/blob/master/examples/glpclview.c 
+
+
+        //parameters found on https://github.com/OpenKinect/libfreenect/blob/master/examples/glpclview.c
     //https://vision.in.tum.de/data/datasets/rgbd-dataset/file_formats#intrinsic_camera_calibration_of_the_kinect
+         // found by Tiberiu Cocias
 
 
-         //ROS_INFO("X %f, Y %f, Z %f ,Invalido %d", X, Y, Z, Invalid);
-     
+         //ROS_INFO("X %f, Y %f, Z %f ,Invalid %d", X, Y, Z, Invalid);
+
    }
  }
+
+   void YoloObjectDetector::ShowCoordinates()
+   {
+     /*  for (int i = 0; i < numClasses_; i++)
+       {
+          if (rosBoxCounter_[i] > 0)
+          {
+
+             for (int j = 0; j < rosBoxCounter_[i]; j++)
+             {
+                 int xmin = (rosBoxes_[i][j].x - rosBoxes_[i][j].w / 2) * frameWidth_;
+                 int ymin = (rosBoxes_[i][j].y - rosBoxes_[i][j].h / 2) * frameHeight_;
+                 int xmax = (rosBoxes_[i][j].x + rosBoxes_[i][j].w / 2) * frameWidth_;
+                 int ymax = (rosBoxes_[i][j].y + rosBoxes_[i][j].h / 2) * frameHeight_;
+
+                YoloObjectDetector::Coordinates(i, xmin, ymin, xmax, ymax);
+
+             }
+          }
+       }*/
+       printf("X= %f\n",X);
+       printf("Y= %f\n",Y);
+       printf("Z= %f\n",Z);
+   }
 }
 
