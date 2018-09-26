@@ -16,7 +16,7 @@
     <gazebo>
         <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
             <rosDebugLevel>Debug</rosDebugLevel>
-            <robotNamespace>/</robotNamespace>
+            <robotNamespace></robotNamespace>
             <publishWheelTF>false</publishWheelTF>
             <publishWheelJointState>true</publishWheelJointState>
             <alwaysOn>true</alwaysOn>

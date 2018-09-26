@@ -18,4 +18,20 @@
 
   <!-- The odometry estimator, throttling, fake laser etc. go here -->
   <!-- All the stuff as from usual robot launch file -->  
+
+	 <!-- Convert depth image to laser scan -->
+    <!--><node name="laserscan_kinect" pkg="laserscan_kinect" type="laserscan_kinect" > 
+      <remap from="image" to="/$(arg robot_name)/camera/depth/image_raw"/>
+      <remap from="camera_info" to="/$(arg robot_name)/camera/depth/camera_info"/>
+      <rosparam command="load" file="$(find laserscan_kinect)/config/params.yaml" />
+      <rosparam param="output_frame_id" subst_value="True">$(arg robot_name)/camera_depth_frame</rosparam>
+    </node><-->
+<!-->
+  <node pkg="tf" type="tf_remap" name="tf_remapper" output="screen">
+    <rosparam param="mappings">
+    [{old: camera_depth_frame, new: $(arg robot_name)/camera_depth_frame}]
+  </rosparam>
+</node> <-->
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="scan_tf" args="0.14 0 0.27 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/camera_link"/>
 </launch>
