@@ -35,5 +35,7 @@ Next step,what we want is autonomous driving.My ideea is too look at these steps
 			I tried to use "move_base" package from pioneer simulation,but i had errors and warnins :(.
           UPDATE.it works now. see the readmes of each runfile
 
+  Imma keep that for later resource files.
+
 
             

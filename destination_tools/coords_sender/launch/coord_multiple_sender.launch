@@ -1,0 +1,27 @@
+<launch>
+  <!-- BEGIN PIONEER 1 -->
+  <group ns="pioneer1">
+    <param name="poz_x" value="-2" />
+    <param name="poz_y" value="0" />
+    <param name="poz_theta" value="90" />
+    <node pkg="coords_sender" type="goal_sender_simple" respawn="false" name="goal_sender_simple" output="screen"/>
+  </group>
+  <!-- BEGIN PIONEER 1 -->
+  <group ns="pioneer2">
+    <param name="poz_x" value="-2" />
+    <param name="poz_y" value="10" />
+    <param name="poz_theta" value="60" />
+    <node pkg="coords_sender" type="goal_sender_simple" respawn="false" name="goal_sender_simple" output="screen"/>
+  </group>
+  <!-- BEGIN PIONEER 1 -->
+  <group ns="pioneer3">
+    <param name="poz_x" value="-7" />
+    <param name="poz_y" value="5" />
+    <param name="poz_theta" value="45" />
+    <node pkg="coords_sender" type="goal_sender_simple" respawn="false" name="goal_sender_simple" output="screen"/>
+  </group>
+  <!-- END ROBOT 0 -->
+</launch>
+
+  
+
