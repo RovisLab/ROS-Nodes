@@ -27,7 +27,7 @@
             <wheelTorque>20</wheelTorque>
             <wheelAcceleration>1.8</wheelAcceleration>
             <commandTopic>cmd_vel</commandTopic>
-            <odometryTopic>pose</odometryTopic>
+            <odometryTopic>odom</odometryTopic>
             <odometryFrame>odom</odometryFrame>
             <publishOdomTF>true</publishOdomTF>
             <odometrySource>world</odometrySource>

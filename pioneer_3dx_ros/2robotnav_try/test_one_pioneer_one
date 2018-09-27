@@ -9,7 +9,7 @@ pid=$!
 sleep 5s
 
 echo "Launching Gazebo..."
-roslaunch pioneer_gazebo pioneer_kinect_laserscan_world_choosable.launch world_name:=maze &
+roslaunch pioneer_gazebo pioneer_kinect_laserscan_world_choosable.launch world_name:=scout_service &
 pid="$pid $!"
 sleep 15s
 
@@ -32,8 +32,25 @@ do
   sleep 5s
 done
 
-rosrun rviz rviz &
+echo "Launching map server..."
+
+roslaunch pioneer_nav map_server.launch map_name:=scout_gabi &
 pid="$pid $!"
+sleep 10s
+
+echo "Launching navigation stack..."
+sleep 5s
+for i in `seq 1 2`;
+do
+  roslaunch pioneer_nav single_navigation_kinect.launch robot_name:=pioneer$i x:="$(rosparam get /pioneer$i/x)" y:="$(rosparam get /pioneer$i/y)" yaw:="$(rosparam get /pioneer$i/a)" move_type:="kinect" &
+  pid="$pid $!"
+  sleep 10s
+done
+
+echo "Launching rviz..."
+roslaunch pioneer_description multi_pioneer_hokuyo.launch rviz_config:=multi_pioneer &
+pid="$pid $!"
+sleep 10s
 
 trap "echo Killing all processes.; kill -2 TERM $pid; exit" SIGINT SIGTERM
 

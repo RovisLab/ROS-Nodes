@@ -12,10 +12,10 @@
     <param name="amcl/initial_pose_x" value="$(arg x)" />
     <param name="amcl/initial_pose_y" value="$(arg y)" />
     <param name="amcl/initial_pose_a" value="$(arg yaw)" />
-    <include file="$(find pioneer_nav)/launch/localisation_launcher.launch">
+    <include file="$(find pioneer_nav)/launch/for_kinect/localisation_launcher_kinect.launch">
       <arg name="robot_name" value="$(arg robot_name)" />
     </include>
-    <include file="$(find pioneer_nav)/launch/move_base_$(arg move_type).launch">
+    <include file="$(find pioneer_nav)/launch/for_kinect/move_base_$(arg move_type).launch">
       <arg name="robot_name" value="$(arg robot_name)" /> 
     </include>
     <node pkg="simple_navigation_goals" type="map_navigation_client" name="map_goal_client" output="screen"/>

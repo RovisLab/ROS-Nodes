@@ -8,3 +8,7 @@
 	$ chmod +x run_pioneer_hokuyo_mappingg and then the command from 1.	
 
 
+
+bossule, fa un folder pentru kinect camera separat, legat de pioneer_nav.abia apoi verifica cu hokuyo daca mai mere si ala
+
+

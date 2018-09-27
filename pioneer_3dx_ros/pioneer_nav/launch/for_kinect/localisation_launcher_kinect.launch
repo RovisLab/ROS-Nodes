@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Run AMCL (noisy localisation)-->
+  <arg name="robot_name"/>
+  <include file="$(find pioneer_nav)/launch/for_kinect/amcl_pioneer_kinect.launch">
+    <arg name="tf_name" value="$(arg robot_name)"/>
+  </include>
+  <!-- Assert fixed transform between map and odom (perfect localisation) -->
+ <!--> <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args="0 0 0 0 0 0 1 /map $(arg robot_name)/odom 100" output="screen"/> <-->
+</launch>

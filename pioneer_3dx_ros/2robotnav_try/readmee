@@ -1,0 +1,5 @@
+so far:
+- am modificat un plugin legat de diffdrive al robotului aflat in pionner_description/urdf/robot_model/ *.plugin, parca. astfel incat invocand mai multe spawnari in gazebo al aceluiasi robot incarcat prin robot description, sa primim de la gazebo frame-urile de odom pentru fiecare robot in parte.
+- vezi runfile-ul de aici sa afli ce launchfile-uri pornesc.
+-am probleme la move_base launchfile, transmiterea parametrilor nu e buna. e de lucrat la asta.
+- cel mai bn te uiti in fiecare folder din "pioneer_3dx_ros" care contine denumirea de "pioneer_" pentru ca contine cate un pachet plin de launchfile-uri apelate.
