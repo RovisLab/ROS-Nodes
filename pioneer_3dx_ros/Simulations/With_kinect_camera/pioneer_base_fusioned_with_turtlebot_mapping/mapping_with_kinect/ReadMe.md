@@ -27,6 +27,8 @@
       - the map that is being created
 2.	To move the robot in the environment use "2DNav Goal" in order to scan all the map. or run the following command in terminal to control the robot directly:
   $ roslaunch pionneer_control pioneer_teleop.launch
+if you wanna use it with the destination tool use the folowing scripit:
+    $  ./run_destination_tool
 
 3.	After you're done, if you want to save the map, run the following in terminal, into wanted location(where the map will be saved):
 		$ rosrun map_server map_saver -f <your_map_name>
