@@ -19,4 +19,5 @@ Tip:if you want to source your workspace by default when opening a new terminal,
   $ echo "source ~/your_workspace/devel/setup.bash" >> ~/.bashrc
   $ source ~/.bashrc
 
+am modificat ceva, ba!
 
