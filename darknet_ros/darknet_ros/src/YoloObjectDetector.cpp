@@ -29,6 +29,7 @@ namespace darknet_ros
    char *weights;
    char *data;
    char **detectionNames;
+   char **detectionProbability; //for coord inclussion
 
    YoloObjectDetector::YoloObjectDetector(ros::NodeHandle nh)
        : nodeHandle_(nh),
@@ -79,7 +80,7 @@ namespace darknet_ros
          ROS_INFO("[YoloObjectDetector] Xserver is not running.");
          viewImage_ = false;
       }
-
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
       // Set vector sizes.
       nodeHandle_.param("yolo_model/detection_classes/names", classLabels_, std::vector<std::string>(0));
       numClasses_ = classLabels_.size();
@@ -88,7 +89,7 @@ namespace darknet_ros
 
       return true;
    }
-
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
    void YoloObjectDetector::init()
    {
       ROS_INFO("[YoloObjectDetector] init().");
@@ -372,8 +373,8 @@ namespace darknet_ros
       float nms = .4;
 
       layer l = net_->layers[net_->n - 1];
-      float *X = buffLetter_[(buffIndex_ + 2) % 3].data;
-      float *prediction = network_predict(net_, X);
+      float *P = buffLetter_[(buffIndex_ + 2) % 3].data;
+      float *prediction = network_predict(net_, P);
 
       rememberNetwork(net_);
       detection *dets = 0;
@@ -468,7 +469,8 @@ namespace darknet_ros
 
    void *YoloObjectDetector::displayInThread(void *ptr)
    {
-      show_image_cv(buff_[(buffIndex_ + 1)%3], "YOLO V3", ipl_);
+   //   show_image_cv(buff_[(buffIndex_ + 1)%3], "YOLO V3", ipl_);
+
       int c = cvWaitKey(waitKeyDelay_);
       if (c != -1) c = c%256;
       if (c == 27)
@@ -530,7 +532,7 @@ namespace darknet_ros
       set_batch_network(net_, 1);
    }
 
-   void YoloObjectDetector::yolo()
+  void YoloObjectDetector::yolo()
    {
       const auto wait_duration = std::chrono::milliseconds(2000);
       while (!getImageStatus())
@@ -572,7 +574,7 @@ namespace darknet_ros
       ipl_ = cvCreateImage(cvSize(buff_[0].w, buff_[0].h), IPL_DEPTH_8U, buff_[0].c);
 
       int count = 0;
-
+/*
       if (!demoPrefix_ && viewImage_)
       {
          cvNamedWindow("YOLO V3", CV_WINDOW_NORMAL);
@@ -586,14 +588,16 @@ namespace darknet_ros
             cvResizeWindow("YOLO V3", 640, 480);
          }
       }
-
+*/
       demoTime_ = what_time_is_it_now();
 
       while (!demoDone_)
       {
          buffIndex_ = (buffIndex_ + 1) % 3;
          fetch_thread = std::thread(&YoloObjectDetector::fetchInThread, this);
+
          detect_thread = std::thread(&YoloObjectDetector::detectInThread, this);
+
          if (!demoPrefix_)
          {
             fps_ = 1./(what_time_is_it_now() - demoTime_);
@@ -620,6 +624,7 @@ namespace darknet_ros
       }
    }
 
+
    IplImage* YoloObjectDetector::getIplImage()
    {
       boost::shared_lock<boost::shared_mutex> lock(mutexImageCallback_);
@@ -645,7 +650,7 @@ namespace darknet_ros
       cv::Mat cvImage = cv::cvarrToMat(ipl_);
       if (!publishDetectionImage(cv::Mat(cvImage)))
       {
-         ROS_DEBUG("Detection image has not been broadcasted.");
+        ROS_DEBUG("Detection image has not been broadcasted.");
       }
 
       // Publish bounding boxes and detection result.
@@ -683,6 +688,39 @@ namespace darknet_ros
 
                   YoloObjectDetector::Coordinates(i, xmin, ymin, xmax, ymax);
 
+                  cv::Mat image = cv::Mat::zeros( 300, 300, CV_8UC3 );
+                  cv::cvtColor(camImageCopy_, image, cv::COLOR_RGB2XYZ);
+
+                  char *showx = new char[1000];
+                  char *showy = new char[1000];
+                  char *showz = new char[1000];
+
+                  sprintf(showx,"X = %f",X);
+                  sprintf(showy,"Y = %f",Y);
+                  sprintf(showz,"Z = %f",Z);
+
+                  cv::Point pt1(xmin, ymin);
+                  cv::Point pt2(xmax, ymax);
+                  cv::Point pt3(xmin,ymin+20);
+                  cv::Point pt4(xmin,ymin);
+                  cv::Point pt5(xmin+120,ymin+30);
+
+                  //Fill the rectangle with color
+                  YoloObjectDetector::FillRectWithColor(image,i,xmin,ymin,xmax,ymax);
+
+                  //Show coordinates on image
+                  cv::putText(image,showx,cv::Point(10,30),cv::FONT_HERSHEY_TRIPLEX,1,cv::Scalar(0,0,0),1);
+                  cv::putText(image,showy,cv::Point(10,60),cv::FONT_HERSHEY_TRIPLEX,1,cv::Scalar(0,0,0),1);
+                  cv::putText(image,showz,cv::Point(10,90),cv::FONT_HERSHEY_TRIPLEX,1,cv::Scalar(0,0,0),1);
+
+                  //Show the bounding box with the class name
+                  cv::rectangle(image,pt1,pt2,cv::Scalar(255,0,255),2, 8, 0);
+                  cv::rectangle(image,pt4,pt5,cv::Scalar(255,0,255),2,8,0);
+
+                  cv::putText(image,classLabels_[i],pt3,cv::FONT_HERSHEY_TRIPLEX,1,cv::Scalar(0,0,0));
+
+                  cv::imshow("Show coordinates",image);
+
                   boundingBox.Class = classLabels_[i];
                   boundingBox.probability = rosBoxes_[i][j].prob;
                   boundingBox.xmin = xmin;
@@ -694,6 +732,7 @@ namespace darknet_ros
                   boundingBox.Z = Z;
                   boundingBox.Invalid = Invalid;
                   boundingBoxesResults_.bounding_boxes.push_back(boundingBox);
+
                }
             }
          }
@@ -732,36 +771,105 @@ namespace darknet_ros
 
    void YoloObjectDetector::Coordinates(int ObjID, int xmin, int ymin, int xmax, int ymax)
    {
-      int U = ((xmax-xmin)/2)+xmin;
-      int V = ((ymax-ymin)/2)+ymin;
+      int xcenter = (((xmax-xmin)/2)+xmin);
+      int ycenter = (((ymax-ymin)/2)+ymin);
       int Ind=0;
       float GrayValue=0;
-      float Value=0;
+     // float Value=0;
 
-	  for(int i=xmin; i<=xmax; i++)
+        /*  for(int i=xmin; i<=xmax; i++)
          for(int j=ymin; j<=ymax; j++)
         {
-            Value=(float)DepthImageCopy_.at<float>(j,i);
-          GrayValue+=Value;
-            Ind++;
+             Value=(float)DepthImageCopy_.at<float>(j,i);
+             GrayValue+=Value;
+             Ind++;
+
          }
 
-	  GrayValue=GrayValue/Ind;
-
+          GrayValue=GrayValue/Ind;
+     */
+      GrayValue=(float)DepthImageCopy_.at<float>(ycenter,xcenter);
 	  Invalid= true;
 	  if (GrayValue!=0)
       {
-        Invalid= false;
+         Invalid= false;
          Z=GrayValue*0.001;                         //meters
-         X=((U-339.5)*Z)/594.21 ;           //X=((U-Cx)*Z)/fx
-         Y=((V-242.7)*Z)/591.04;           //Y=((V-Cy)*Z)/fy
+         X=((xcenter-339.5)*Z)/594.21 ;           //X=((U-Cx)*Z)/fx
+         Y=((ycenter-242.7)*Z)/591.04;           //Y=((V-Cy)*Z)/fy
 	//parameters found on https://github.com/OpenKinect/libfreenect/blob/master/examples/glpclview.c 
     //https://vision.in.tum.de/data/datasets/rgbd-dataset/file_formats#intrinsic_camera_calibration_of_the_kinect
 
 
-         //ROS_INFO("X %f, Y %f, Z %f ,Invalido %d", X, Y, Z, Invalid);
+         //ROS_INFO("X %f, Y %f, Z %f ,Invalid %d", X, Y, Z, Invalid);
      
    }
  }
+  void YoloObjectDetector::FillRectWithColor(cv::Mat image,int ObjID, int xmin, int ymin, int xmax, int ymax)
+  {
+      cv::Point linept1(xmin,ymin+15);
+      cv::Point linept2(xmin+120,ymin+15);
+
+      cv::Point linept3(xmin,ymin+13);
+      cv::Point linept4(xmin+120,ymin+13);
+
+      cv::Point linept5(xmin,ymin+11);
+      cv::Point linept6(xmin+120,ymin+11);
+
+      cv::Point linept7(xmin,ymin+9);
+      cv::Point linept8(xmin+120,ymin+9);
+
+      cv::Point linept9(xmin,ymin+7);
+      cv::Point linept10(xmin+120,ymin+7);
+
+      cv::Point linept11(xmin,ymin+5);
+      cv::Point linept12(xmin+120,ymin+5);
+
+      cv::Point linept13(xmin,ymin+3);
+      cv::Point linept14(xmin+120,ymin+3);
+
+      cv::Point linept15(xmin,ymin+1);
+      cv::Point linept16(xmin+120,ymin+1);
+
+      cv::Point linept17(xmin,ymin+17);
+      cv::Point linept18(xmin+120,ymin+17);
+
+      cv::Point linept19(xmin,ymin+19);
+      cv::Point linept20(xmin+120,ymin+19);
+
+      cv::Point linept21(xmin,ymin+21);
+      cv::Point linept22(xmin+120,ymin+21);
+
+      cv::Point linept23(xmin,ymin+23);
+      cv::Point linept24(xmin+120,ymin+23);
+
+      cv::Point linept25(xmin,ymin+25);
+      cv::Point linept26(xmin+120,ymin+25);
+
+      cv::Point linept27(xmin,ymin+27);
+      cv::Point linept28(xmin+120,ymin+27);
+
+      cv::Point linept29(xmin,ymin+29);
+      cv::Point linept30(xmin+120,ymin+29);
+
+
+       cv::line(image,linept1,linept2,cv::Scalar(255,0,255),2,8,0);
+       cv::line(image,linept3,linept4,cv::Scalar(255,0,255),2,8,0);
+       cv::line(image,linept5,linept6,cv::Scalar(255,0,255),2,8,0);
+       cv::line(image,linept7,linept8,cv::Scalar(255,0,255),2,8,0);
+       cv::line(image,linept9,linept10,cv::Scalar(255,0,255),2,8,0);
+       cv::line(image,linept11,linept12,cv::Scalar(255,0,255),2,8,0);
+       cv::line(image,linept13,linept14,cv::Scalar(255,0,255),2,8,0);
+       cv::line(image,linept15,linept16,cv::Scalar(255,0,255),2,8,0);
+       cv::line(image,linept17,linept18,cv::Scalar(255,0,255),2,8,0);
+       cv::line(image,linept19,linept20,cv::Scalar(255,0,255),2,8,0);
+       cv::line(image,linept21,linept22,cv::Scalar(255,0,255),2,8,0);
+       cv::line(image,linept23,linept24,cv::Scalar(255,0,255),2,8,0);
+       cv::line(image,linept25,linept26,cv::Scalar(255,0,255),2,8,0);
+       cv::line(image,linept27,linept28,cv::Scalar(255,0,255),2,8,0);
+       cv::line(image,linept29,linept30,cv::Scalar(255,0,255),2,8,0);
+
+  }
+
 }
+
 

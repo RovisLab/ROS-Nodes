@@ -81,7 +81,7 @@ namespace darknet_ros
    // Bounding box of the detected object.
    typedef struct
    {
-      float x, y, w, h, prob;
+      float x, y, w, h, prob, X, Y, Z;
       int num, Class;
    }
    RosBox_;
@@ -155,6 +155,9 @@ namespace darknet_ros
       float X;
       float Y;
       float Z;
+
+      //Fill rectangle with color
+      void FillRectWithColor(cv::Mat image,int ObjID, int xmin, int ymin, int xmax, int ymax);
       
       // Detected objects.
       std::vector<std::vector<RosBox_> > rosBoxes_;
