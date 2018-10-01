@@ -719,7 +719,7 @@ namespace darknet_ros
 
                   cv::putText(image,classLabels_[i],pt3,cv::FONT_HERSHEY_TRIPLEX,1,cv::Scalar(0,0,0));
 
-                  cv::imshow("Show coordinates",image);
+                  cv::imshow("Yolo",image);
 
                   boundingBox.Class = classLabels_[i];
                   boundingBox.probability = rosBoxes_[i][j].prob;
