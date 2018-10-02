@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="name"/>
+
   <group ns="$(arg name)">
-    <param name="tf_prefix" value="$(arg name)" />
 	 <!-- Convert depth image to laser scan -->
     <node name="laserscan_kinect" pkg="laserscan_kinect" type="laserscan_kinect" > 
       <remap from="image" to="/$(arg name)/camera/depth/image_raw"/>
       <remap from="camera_info" to="/$(arg name)/camera/depth/camera_info"/>
       <rosparam command="load" file="$(find laserscan_kinect)/config/params.yaml" />
-      <rosparam param="output_frame_id" subst_value="True">$(arg name)/camera_depth_frame</rosparam>
+      <rosparam param="output_frame_id" subst_value="True">camera_depth_frame</rosparam>
     </node>
   <node pkg="tf2_ros" type="static_transform_publisher" name="scan_tf" args="0.14 0 0.27 0 0 0 $(arg name)/base_link $(arg name)/camera_link"/>
   </group>

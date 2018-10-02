@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="name"/>
+  <arg name="pose"/>
+  
+  <group ns="$(arg name)">
+    <param name="tf_prefix" value="$(arg name)" />
+    <include file="$(find robotnav_try)/launch/one_pioneer.launch" >
+      <arg name="robot_name"  value="$(arg name)" />
+      <arg name="init_pose" value="$(arg pose)"/>
+    </include>
+  </group>
+    <!--  MAP SERVER LAUNCH-->
+  <param name="/use_sim_time" value="true"/>
+
+  <!-- Run the map server -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find pioneer_gazebo)/map/maze.yaml" >
+    <param name="frame_id" value="/map" />
+  </node>
+</launch>

@@ -3,3 +3,6 @@ so far:
 - vezi runfile-ul de aici sa afli ce launchfile-uri pornesc.
 -am probleme la move_base launchfile, transmiterea parametrilor nu e buna. e de lucrat la asta.
 - cel mai bn te uiti in fiecare folder din "pioneer_3dx_ros" care contine denumirea de "pioneer_" pentru ca contine cate un pachet plin de launchfile-uri apelate.
+
+move base loca planner takes another arguments,like scan source? check the src files.
+pioneer_ros problem.it's not linked with anything.

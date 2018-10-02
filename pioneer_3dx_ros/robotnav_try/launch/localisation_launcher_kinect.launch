@@ -2,7 +2,7 @@
 <launch>
   <!-- Run AMCL (noisy localisation)-->
   <arg name="robot_name"/>
-  <include file="$(find pioneer_nav)/launch/for_kinect/amcl_pioneer_kinect.launch">
+  <include file="$(find robotnav_try)/launch/amcl_pioneer_kinect.launch">
     <arg name="tf_name" value="$(arg robot_name)"/>
   </include>
 </launch>

@@ -15,9 +15,8 @@
     <include file="$(find pioneer_nav)/launch/localisation_launcher.launch">
       <arg name="robot_name" value="$(arg robot_name)" />
     </include>
-    <include file="$(find pioneer_nav)/launch/move_base_$(arg move_type).launch">
-      <arg name="robot_name" value="$(arg robot_name)" /> 
-    </include>
+    <include file="$(find pioneer_nav)/launch/move_base_$(arg move_type).launch" />
+
     <node pkg="simple_navigation_goals" type="map_navigation_client" name="map_goal_client" output="screen"/>
     <include file="$(find pioneer_ros)/launch/pioneer_controller_spin_recover.launch"/>
   </group>

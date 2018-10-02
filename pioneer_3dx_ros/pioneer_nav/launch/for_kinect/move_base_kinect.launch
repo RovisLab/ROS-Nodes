@@ -1,25 +1,16 @@
 <?xml version="1.0"?>
 <launch>
  <arg name="robot_name"/>
-  <arg name="substitute" default="{sensor_frame: $(arg robot_name)/camera_depth_frame, data_type: LaserScan, topic: /$(arg robot_name)/scan, marking: true, clearing: true, expected_update_rate: 0.4}"/>
-  
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <rosparam file="$(find pioneer_nav)/config/costmap_common_params_kinect.yaml" command="load" ns="global_costmap" param="observation_source" subst_value="True"> 
-          $(arg substitute)
-    </rosparam>
+    <rosparam file="$(find pioneer_nav)/launch/for_kinect/config/$(arg robot_name)/costmap_common_params_kinect.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find pioneer_nav)/launch/for_kinect/config/$(arg robot_name)/costmap_common_params_kinect.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find pioneer_nav)/launch/for_kinect/config/$(arg robot_name)/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find pioneer_nav)/launch/for_kinect/config/$(arg robot_name)/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find pioneer_nav)/launch/for_kinect/config/base_local_planner_params.yaml" command="load" />
+    <!-- NOTE: Use move_base_global.launch for globally qualified map topic -->
     
-    <rosparam file="$(find pioneer_nav)/config/costmap_common_params_kinect.yaml" command="load" ns="local_costmap" param="observation_source" subst_value="True"> 
-          $(arg substitute)
-    </rosparam>
-    
-    <rosparam file="$(find pioneer_nav)/config/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find pioneer_nav)/config/global_costmap_params.yaml" command="load" param="robot_base_frame" subst_value="True"> 
-          $(arg robot_name)/base_link
-    </rosparam>
-    
-    <rosparam file="$(find pioneer_nav)/config/base_local_planner_params.yaml" command="load" param="global_frame" subst_value="True">
-          $(arg robot_name)/odom
-      </rosparam>
-    <rosparam param="robot_base_frame" subst_value="True">$(arg robot_name)/base_link</rosparam>
+  	<!-- START: Use with estop -->
+<!--	  <remap from="cmd_vel" to="cmd_vel_estop"/>-->
+    <!-- END: Use with estop -->
   </node>
 </launch>

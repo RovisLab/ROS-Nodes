@@ -20,6 +20,7 @@
         </camera>
         <plugin name="kinect_camera_controller" filename="libgazebo_ros_openni_kinect.so">
           <cameraName>camera</cameraName>
+          <robotNamespace></robotNamespace>
           <alwaysOn>true</alwaysOn>
           <updateRate>10</updateRate>
           <imageTopicName>rgb/image_raw</imageTopicName>
