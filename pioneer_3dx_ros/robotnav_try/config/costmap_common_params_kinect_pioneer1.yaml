@@ -11,4 +11,4 @@ transform_tolerance : 0.2
 
 
 observation_sources: scan
-scan: {sensor_frame: pioneer1/camera_depth_frame, data_type: LaserScan, topic: /scan, marking: true, clearing: true, expected_update_rate: 0.4}
+scan: {sensor_frame: pioneer1/camera_depth_frame, data_type: LaserScan, topic: /pioneer1/scan, marking: true, clearing: true, expected_update_rate: 0.4}
