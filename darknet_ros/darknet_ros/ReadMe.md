@@ -17,6 +17,12 @@ You could get x_screen and y_screen with:
 	x_screen=((xmax-xmin)/2)+xmin;
 	y_screen=((ymax-ymin)/2)+ymin;
 	
+## How to get better FPS:
+In yolo_network_config/cfg/yolov2-tiny.cfg change the following properties to lower numbers like:
+
+    width=288
+    height=288
+	
 ## How to run it:
 
 If you want to run fast but with not so good detection use:
