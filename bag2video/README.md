@@ -7,12 +7,12 @@ Convert images in a rosbag to a variable framerate video. Variable framerate is 
     usage: bag2video.py [-h] [--outfile OUTFILE] [--precision PRECISION] [--viz]
                         [--start START] [--end END] [--encoding {rgb8,bgr8,mono8}]
                         topic bagfile
-#Example of usage:
+# Example of usage:
 
-$python bag2video.py -o NameOfVideoAfterConversion.avi -p 50 -v /camera/rgb/image_raw Resources/2018-09-25-17-50-46.bag 
+    $python bag2video.py -o NameOfVideoAfterConversion.avi -p 50 -v /camera/rgb/image_raw Resources/2018-09-25-17-50-46.bag 
 
     
-    Extract and encode video from bag files.
+   Extract and encode video from bag files.
     
     positional arguments:
       topic
