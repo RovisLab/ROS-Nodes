@@ -249,7 +249,7 @@ namespace darknet_ros
     
       bool isNodeRunning(void);
 
-      void *publishInThread();
+      void *publishInThread(cv::Mat image);
    };
 }
 

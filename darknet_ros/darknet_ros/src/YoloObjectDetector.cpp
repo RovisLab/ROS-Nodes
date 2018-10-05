@@ -469,7 +469,7 @@ namespace darknet_ros
 
    void *YoloObjectDetector::displayInThread(void *ptr)
    {
-   //   show_image_cv(buff_[(buffIndex_ + 1)%3], "YOLO V3", ipl_);
+
 
       int c = cvWaitKey(waitKeyDelay_);
       if (c != -1) c = c%256;
@@ -496,7 +496,9 @@ namespace darknet_ros
          demoHier_ -= .02;
          if(demoHier_ <= .0) demoHier_ = .0;
       }
+
       return 0;
+
    }
 
    void *YoloObjectDetector::displayLoop(void *ptr)
@@ -574,28 +576,29 @@ namespace darknet_ros
       ipl_ = cvCreateImage(cvSize(buff_[0].w, buff_[0].h), IPL_DEPTH_8U, buff_[0].c);
 
       int count = 0;
-/*
-      if (!demoPrefix_ && viewImage_)
+
+   /*   if (!demoPrefix_ && viewImage_)
       {
          cvNamedWindow("YOLO V3", CV_WINDOW_NORMAL);
          if (fullScreen_)
-         {
-            cvSetWindowProperty("YOLO V3", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
+         {           
+           cvSetWindowProperty("YOLO V3", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
          }
+
          else
          {
             cvMoveWindow("YOLO V3", 0, 0);
             cvResizeWindow("YOLO V3", 640, 480);
          }
       }
-*/
+   */
+
       demoTime_ = what_time_is_it_now();
 
       while (!demoDone_)
       {
          buffIndex_ = (buffIndex_ + 1) % 3;
          fetch_thread = std::thread(&YoloObjectDetector::fetchInThread, this);
-
          detect_thread = std::thread(&YoloObjectDetector::detectInThread, this);
 
          if (!demoPrefix_)
@@ -604,9 +607,12 @@ namespace darknet_ros
             demoTime_ = what_time_is_it_now();
             if (viewImage_)
             {
-               displayInThread(0);
+               displayInThread(0);               
             }
-            publishInThread();
+            cv::Mat image;
+            cv::cvtColor(camImageCopy_, image, cv::COLOR_RGB2XYZ);
+            publishInThread(image);
+             cv::imshow("YOLO",image);
          }
          else
          {
@@ -644,7 +650,7 @@ namespace darknet_ros
       return isNodeRunning_;
    }
 
-   void *YoloObjectDetector::publishInThread()
+   void *YoloObjectDetector::publishInThread(cv::Mat image)
    {
       // Publish image.
       cv::Mat cvImage = cv::cvarrToMat(ipl_);
@@ -652,6 +658,7 @@ namespace darknet_ros
       {
         ROS_DEBUG("Detection image has not been broadcasted.");
       }
+
 
       // Publish bounding boxes and detection result.
       int num = roiBoxes_[0].num;
@@ -673,7 +680,7 @@ namespace darknet_ros
          msg.data = num;
          objectPublisher_.publish(msg);
 
-         for (int i = 0; i < numClasses_; i++)
+         for (int i = 0; i < numClasses_; i++)             
          {
             if (rosBoxCounter_[i] > 0)
             {
@@ -688,12 +695,9 @@ namespace darknet_ros
 
                   YoloObjectDetector::Coordinates(i, xmin, ymin, xmax, ymax);
 
-                  cv::Mat image = cv::Mat::zeros( 300, 300, CV_8UC3 );
-                  cv::cvtColor(camImageCopy_, image, cv::COLOR_RGB2XYZ);
-
-                  char *showx = new char[1000];
-                  char *showy = new char[1000];
-                  char *showz = new char[1000];
+                  char *showx = new char[255];
+                  char *showy = new char[255];
+                  char *showz = new char[255];
 
                   sprintf(showx,"X = %f",X);
                   sprintf(showy,"Y = %f",Y);
@@ -704,22 +708,32 @@ namespace darknet_ros
                   cv::Point pt3(xmin,ymin+20);
                   cv::Point pt4(xmin,ymin);
                   cv::Point pt5(xmin+120,ymin+30);
+                  //Starting points for coords on bounding boxes
+                  cv::Point pt6(xmin+5,ymin+50);
+                  cv::Point pt7(xmin+5,ymin+70);
+                  cv::Point pt8(xmin+5,ymin+90);
 
                   //Fill the rectangle with color
                   YoloObjectDetector::FillRectWithColor(image,i,xmin,ymin,xmax,ymax);
 
                   //Show coordinates on image
-                  cv::putText(image,showx,cv::Point(10,30),cv::FONT_HERSHEY_TRIPLEX,1,cv::Scalar(0,0,0),1);
-                  cv::putText(image,showy,cv::Point(10,60),cv::FONT_HERSHEY_TRIPLEX,1,cv::Scalar(0,0,0),1);
-                  cv::putText(image,showz,cv::Point(10,90),cv::FONT_HERSHEY_TRIPLEX,1,cv::Scalar(0,0,0),1);
+                   /*
+                  cv::putText(image,showx,cv::Point(10,30),cv::FONT_HERSHEY_TRIPLEX,0.5,cv::Scalar(0,0,0),1);
+                  cv::putText(image,showy,cv::Point(10,50),cv::FONT_HERSHEY_TRIPLEX,0.5,cv::Scalar(0,0,0),1);
+                  cv::putText(image,showz,cv::Point(10,70),cv::FONT_HERSHEY_TRIPLEX,0.5,cv::Scalar(0,0,0),1);
+                    */
+
+                   //Show coordinates on bounding box
+                  cv::putText(image,showx,pt6,cv::FONT_HERSHEY_TRIPLEX,0.5,cv::Scalar(0,0,0),1);
+                  cv::putText(image,showy,pt7,cv::FONT_HERSHEY_TRIPLEX,0.5,cv::Scalar(0,0,0),1);
+                  cv::putText(image,showz,pt8,cv::FONT_HERSHEY_TRIPLEX,0.5,cv::Scalar(0,0,0),1);
 
                   //Show the bounding box with the class name
                   cv::rectangle(image,pt1,pt2,cv::Scalar(255,0,255),2, 8, 0);
                   cv::rectangle(image,pt4,pt5,cv::Scalar(255,0,255),2,8,0);
-
                   cv::putText(image,classLabels_[i],pt3,cv::FONT_HERSHEY_TRIPLEX,1,cv::Scalar(0,0,0));
 
-                  cv::imshow("Yolo",image);
+
 
                   boundingBox.Class = classLabels_[i];
                   boundingBox.probability = rosBoxes_[i][j].prob;
