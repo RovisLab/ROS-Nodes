@@ -3,6 +3,9 @@
   <arg name="robot_name"/>
   <arg name="init_pose"/>
 
+  <!-- Load the URDF into the ROS Parameter Server -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find pioneer_description)/urdf/pioneer_kinect.urdf.xacro'"/>
+
   <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
 	args="$(arg init_pose) -urdf -model $(arg robot_name) -param /robot_description"/>
@@ -24,6 +27,7 @@
     <rosparam command="load" file="$(find robotnav_try)/config/params.yaml" />
     <rosparam param="output_frame_id" subst_value="True">$(arg robot_name)/camera_depth_frame</rosparam>
   </node>
-  <node pkg="tf2_ros" type="static_transform_publisher" name="scan_tf" args="0.14 0 0.27 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/camera_link" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="scan_tf" args="0.14 0 0.27 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/camera_rgb_frame 100" />
+
 
 </launch>

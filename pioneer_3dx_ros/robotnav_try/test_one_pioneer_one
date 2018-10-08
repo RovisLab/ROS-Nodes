@@ -11,21 +11,21 @@ sleep 5s
 echo "Launching Gazebo..."
 roslaunch robotnav_try gazebo.launch &
 pid="$pid $!"
-sleep 15s
+sleep 5s
 
 
 for i in `seq 1 2`;
 do
   roslaunch robotnav_try model.launch name:=pioneer$i pose:="-x $(rosparam get /pioneer$i/x) -y $(rosparam get /pioneer$i/y) -Y $(rosparam get /pioneer$i/a)" &
   pid="$pid $!"
-  sleep 10s
+  sleep 5s
 done
 
 echo "Launching map server..."
 
-roslaunch robotnav_try map_server.launch map_name:=maze &
+roslaunch robotnav_try map_server.launch map_name:=gabi_finish &
 pid="$pid $!"
-sleep 10s
+sleep 5s
 
 
 echo "Launching navigation stack..."
@@ -34,7 +34,7 @@ for i in `seq 1 2`;
 do
   roslaunch robotnav_try single_navigation_kinect.launch robot_name:=pioneer$i x:="$(rosparam get /pioneer$i/x)" y:="$(rosparam get /pioneer$i/y)" yaw:="$(rosparam get /pioneer$i/a)" &
   pid="$pid $!"
-  sleep 10s
+  sleep 5s
 done
 
 echo "Launching rviz..."

@@ -1,6 +1,6 @@
 TrajectoryPlannerROS:
-  max_vel_x: 0.8
-  min_vel_x: 0.0
+  max_vel_x: 0.3
+  min_vel_x: 0.02
   max_vel_theta: 1.0
   min_vel_theta: -1.0
   min_in_place_vel_theta: 0.4
@@ -16,4 +16,4 @@ TrajectoryPlannerROS:
   heading_lookahead: 0.325
   pdist_scale: 0.8
   gdist_scale: 1.0
-planner_frequency: 0.1
+planner_frequency: 2

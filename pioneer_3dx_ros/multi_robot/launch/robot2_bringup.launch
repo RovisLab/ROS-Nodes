@@ -1,0 +1,69 @@
+<!-- xml -->
+<launch>
+
+  <arg name="robot_ns"             default="robot2"/>  <!-- create, roomba -->
+
+  <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+  <group ns="$(arg robot_ns)">    
+    <arg name="robot_name"       default="robot2"/>
+    <param name="tf_prefix" type="string" value="$(arg robot_ns)"/>
+    <param name="/use_sim_time" value="true"/>
+    
+    <!-- Load the URDF into the ROS Parameter Server -->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find pioneer_description)/urdf/pioneer_kinect.urdf.xacro'"/>
+
+    <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+	args="-x 2.3 -y 0.0 -yaw 2.57 -urdf -model $(arg robot_ns) -param robot_description"/>
+
+    <!-- send fake joint values -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+      <param name="use_gui" value="false"/>
+      <param name="tf_prefix" type="string" value="$(arg robot_ns)"/>
+    </node>
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+      <param name="tf_prefix" type="string" value="$(arg robot_ns)"/>
+      <param name="publish_frequency" type="double" value="5.0" />
+    </node>
+
+    <!-- ###################################
+      3D sensors 
+    ############################################# -->
+
+    <!-- "camera" should uniquely identify the device. All topics are pushed down
+       into the "camera" namespace, and it is prepended to tf frame ids. -->
+    <arg name="camera"      default="camera"/>
+    <arg name="publish_tf"  default="false"/>
+
+    <!-- Factory-calibrated depth registration -->
+    <arg name="depth_registration"              default="true"/>
+    <arg     if="$(arg depth_registration)" name="depth" value="depth_registered" />
+    <arg unless="$(arg depth_registration)" name="depth" value="depth" />
+    <!-- Laserscan topic -->
+    <arg name="scan_topic" default="scan"/>
+    <arg name="scan_processing" default="true"/>
+
+    <!--                        Laserscan 
+      This uses lazy subscribing, so will not activate until scan is requested.
+    -->
+    <node name="laserscan_kinect" pkg="laserscan_kinect" type="laserscan_kinect" > 
+      <remap from="image" to="$(arg camera)/$(arg depth)/image_raw"/>
+      <remap from="camera_info" to="$(arg camera)/$(arg depth)/camera_info"/>
+      <param name="scan_height" value="10"/>
+      <param name="output_frame_id" value="$(arg robot_ns)/$(arg camera)_depth_frame"/>
+      <param name="range_min" value="0.1"/>
+      <param name="range max" value="7.0"/>
+      <param name="scan_height" value="400"/>
+      <param name="dept_img_row_step" value="1"/>
+      <param name="cam_model_update" value="false"/>
+      <param name="sensor_mount_height" value="0.2"/>
+      <param name="sensor_tilt_angle" value="5.0"/>
+      <param name="ground_remove_en" value="true"/>
+      <param name="ground_margin" value="0.05"/>
+      <param name="tilt_compensation_en" value="true"/>
+	    <remap from="scan" to="$(arg scan_topic)"/>
+    </node>
+    <node pkg="tf" type="static_transform_publisher" name="scan_tf" args="0.14 0 0.3 0 0 0 $(arg robot_ns)/base_link $(arg robot_ns)/laser_frame 100"/>
+
+  </group>
+</launch>

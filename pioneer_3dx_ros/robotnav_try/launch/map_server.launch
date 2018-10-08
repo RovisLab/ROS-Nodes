@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="map_name" default="maze"/>
+  <arg name="map_name" default="gabi_finish"/>
   <param name="/use_sim_time" value="true"/>
 
   <!-- Run the map server -->
