@@ -15,9 +15,8 @@
   
 
 
-  <include file="$(find multi_robot)/launch/includes/move_base_multirobot.launch.xml">
-    
-  </include>
+  <include file="$(find multi_robot)/launch/includes/move_base_multirobot.launch.xml"/>
+
 
 <!-- 
   <include file="$(find multi_robot)/launch/includes/move_base_multirobot_collvoid.launch.xml">

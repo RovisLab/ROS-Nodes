@@ -18,6 +18,10 @@ roslaunch multi_robot multi_robot_navigation.launch &
 pid="$pid $!"
 sleep 5s
 
+echo "Launching rviz..."
+roslaunch robotnav_try multi_pioneer_kinect.launch rviz_config:=two_pioneer_kinect &
+pid="$pid $!"
+sleep 10s
 
 trap "echo Killing all processes.; kill -2 TERM $pid; exit" SIGINT SIGTERM
 

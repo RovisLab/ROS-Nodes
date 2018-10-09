@@ -9,7 +9,7 @@ my_goal_status = 0
 recovery_state = False
 angular_z = 0 ;
 override_z = 0.4 ;
-cmd_vel_pub = rospy.Publisher("pioneer/cmd_vel", Twist, queue_size = 10)
+cmd_vel_pub = rospy.Publisher("cmd_vel", Twist, queue_size = 10)
 
 def turn_robot_around():
 	global my_goal_status

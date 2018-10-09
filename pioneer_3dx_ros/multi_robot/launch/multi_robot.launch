@@ -17,6 +17,9 @@
     <arg name="use_sim_time" value="$(arg use_sim_time)"/>
     <arg name="headless" value="$(arg headless)"/>
   </include>
-  <include file="$(find multi_robot)/launch/robot1_bringup.launch"/>
-  <include file="$(find multi_robot)/launch/robot2_bringup.launch"/> 
+  <rosparam file="$(find robotnav_try)/launch/pioneer_poses.yaml" command="load"/>
+  <include file="$(find multi_robot)/launch/robot1_bringup.launch">
+  </include>
+  <include file="$(find multi_robot)/launch/robot2_bringup.launch"> 
+  </include>
 </launch>

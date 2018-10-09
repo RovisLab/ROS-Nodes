@@ -31,7 +31,7 @@ class MoveBaseRecover{
 MoveBaseRecover::MoveBaseRecover(ros::NodeHandle nh){
   subResult = nh.subscribe("move_base/status", 10, &MoveBaseRecover::actionCallback, this) ;
   subCmdVel = nh.subscribe("controller_cmd_vel", 10, &MoveBaseRecover::cmdVelCallback, this) ;
-  pubCmdVel = nh.advertise<geometry_msgs::Twist>("pioneer/cmd_vel", 10) ;
+  pubCmdVel = nh.advertise<geometry_msgs::Twist>("cmd_vel", 10) ;
   
   ros::param::get("move_base/TrajectoryPlannerROS/max_vel_theta",thetaThreshold) ;
   ROS_INFO_STREAM("Recovery behaviour with rotate robot in place at " << thetaThreshold << " rad/s") ;

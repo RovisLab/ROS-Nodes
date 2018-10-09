@@ -14,16 +14,16 @@
 
     <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
     <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-	args="-x 2.3 -y 0.0 -yaw 2.57 -urdf -model $(arg robot_ns) -param robot_description"/>
+	args="-x 4.0 -y 0.0 -Y 3.14 -urdf -model $(arg robot_ns) -param robot_description"/>
 
     <!-- send fake joint values -->
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
-      <param name="use_gui" value="false"/>
+      <param name="use_gui" value="FALSE"/>
       <param name="tf_prefix" type="string" value="$(arg robot_ns)"/>
     </node>
+
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
       <param name="tf_prefix" type="string" value="$(arg robot_ns)"/>
-      <param name="publish_frequency" type="double" value="5.0" />
     </node>
 
     <!-- ###################################
@@ -35,13 +35,8 @@
     <arg name="camera"      default="camera"/>
     <arg name="publish_tf"  default="false"/>
 
-    <!-- Factory-calibrated depth registration -->
-    <arg name="depth_registration"              default="true"/>
-    <arg     if="$(arg depth_registration)" name="depth" value="depth_registered" />
-    <arg unless="$(arg depth_registration)" name="depth" value="depth" />
-    <!-- Laserscan topic -->
     <arg name="scan_topic" default="scan"/>
-    <arg name="scan_processing" default="true"/>
+    <arg name="depth" value="depth" />
 
     <!--                        Laserscan 
       This uses lazy subscribing, so will not activate until scan is requested.

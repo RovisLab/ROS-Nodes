@@ -14,8 +14,7 @@
     <include file="$(find robotnav_try)/launch/localisation_launcher_kinect.launch">
       <arg name="robot_name" value="$(arg robot_name)" />
     </include>
-    <include file="$(find robotnav_try)/launch/move_base.launch">
-    </include>
+  <include file="$(find multi_robot)/launch/includes/move_base_multirobot.launch.xml"/>
     <node pkg="simple_navigation_goals" type="map_navigation_client" name="map_goal_client" output="screen"/>
     <include file="$(find pioneer_ros)/launch/pioneer_controller_spin_recover_kinect.launch" />
   </group>
