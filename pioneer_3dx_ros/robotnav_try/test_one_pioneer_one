@@ -38,7 +38,7 @@ do
 done
 
 echo "Launching rviz..."
-roslaunch robotnav_try multi_pioneer_kinect.launch rviz_config:=two_pioneer_kinect &
+roslaunch robotnav_try multi_pioneer_kinect_rviz.launch rviz_config:=two_pioneers &
 pid="$pid $!"
 sleep 10s
 
