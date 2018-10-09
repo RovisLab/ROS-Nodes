@@ -1,0 +1,48 @@
+#!/bin/bash
+ 
+my_pid=$$
+echo "My process ID is $my_pid"
+
+echo "Launching roscore..."
+roscore &
+pid=$!
+sleep 5s
+
+echo "Launching Gazebo..."
+roslaunch robotnav_try gazebo.launch &
+pid="$pid $!"
+sleep 5s
+
+
+for i in `seq 1 2`;
+do
+  roslaunch robotnav_try model.launch name:=pioneer$i pose:="-x $(rosparam get /pioneer$i/x) -y $(rosparam get /pioneer$i/y) -Y $(rosparam get /pioneer$i/a)" &
+  pid="$pid $!"
+  sleep 5s
+done
+
+echo "Launching map server..."
+
+roslaunch robotnav_try map_server.launch map_name:=gabi_finish &
+pid="$pid $!"
+sleep 5s
+
+
+echo "Launching navigation stack..."
+sleep 5s
+for i in `seq 1 2`;
+do
+  roslaunch robotnav_try single_navigation_kinect.launch robot_name:=pioneer$i x:="$(rosparam get /pioneer$i/x)" y:="$(rosparam get /pioneer$i/y)" yaw:="$(rosparam get /pioneer$i/a)" &
+  pid="$pid $!"
+  sleep 5s
+done
+
+echo "Launching rviz..."
+roslaunch robotnav_try multi_pioneer_kinect_rviz.launch rviz_config:=two_pioneers &
+pid="$pid $!"
+sleep 10s
+
+trap "echo Killing all processes.; kill -2 TERM $pid; exit" SIGINT SIGTERM
+
+sleep 24h
+

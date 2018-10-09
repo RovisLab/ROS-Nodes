@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <launch>
   <!-- BEGIN PIONEER 1 -->
   <group ns="pioneer1">
     <param name="goal_x" value="-2" />
     <param name="goal_y" value="0" />
-    <param name="goal_theta" value="90" />
+    <param name="goal_theta" value="20" />
     <node pkg="multi_nav" type="send_multiple_goal" respawn="false" name="send_multiple_goal" output="screen" args="1"/>
   </group>
   <!-- END ROBOT 0 -->
@@ -12,19 +13,11 @@
   <group ns="pioneer2">
     <param name="goal_x" value="0" />
     <param name="goal_y" value="-2" />
-    <param name="goal_theta" value="0" />
+    <param name="goal_theta" value="15" />
     <node pkg="multi_nav" type="send_multiple_goal" respawn="false" name="send_multiple_goal" output="screen" args="2"/>
   </group>
   <!-- END ROBOT 1 -->
 
-  <!-- BEGIN PIONEER 3 -->
-  <group ns="pioneer3">
-    <param name="goal_x" value="2" />
-    <param name="goal_y" value="0" />
-    <param name="goal_theta" value="-90" />
-    <node pkg="multi_nav" type="send_multiple_goal" respawn="false" name="send_multiple_goal" output="screen" args="3"/>
-  </group>
-  <!-- END ROBOT 1 -->
 </launch>
 
   
