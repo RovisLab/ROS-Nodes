@@ -80,7 +80,7 @@ namespace darknet_ros
          ROS_INFO("[YoloObjectDetector] Xserver is not running.");
          viewImage_ = false;
       }
-//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
       // Set vector sizes.
       nodeHandle_.param("yolo_model/detection_classes/names", classLabels_, std::vector<std::string>(0));
       numClasses_ = classLabels_.size();
@@ -89,7 +89,7 @@ namespace darknet_ros
 
       return true;
    }
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
    void YoloObjectDetector::init()
    {
       ROS_INFO("[YoloObjectDetector] init().");
@@ -593,6 +593,18 @@ namespace darknet_ros
       }
    */
 
+      cvNamedWindow("YOLO", CV_WINDOW_NORMAL);
+      if (fullScreen_)
+      {
+        cvSetWindowProperty("YOLO", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
+      }
+
+      else
+      {
+         cvMoveWindow("YOLO", 0, 0);
+         cvResizeWindow("YOLO", 640, 480);
+      }
+
       demoTime_ = what_time_is_it_now();
 
       while (!demoDone_)
@@ -605,6 +617,7 @@ namespace darknet_ros
          {
             fps_ = 1./(what_time_is_it_now() - demoTime_);
             demoTime_ = what_time_is_it_now();
+
             if (viewImage_)
             {
                displayInThread(0);               
@@ -612,7 +625,8 @@ namespace darknet_ros
             cv::Mat image;
             cv::cvtColor(camImageCopy_, image, cv::COLOR_RGB2XYZ);
             publishInThread(image);
-             cv::imshow("YOLO",image);
+            cv::imshow("YOLO",image);
+
          }
          else
          {
@@ -705,13 +719,13 @@ namespace darknet_ros
 
                   cv::Point pt1(xmin, ymin);
                   cv::Point pt2(xmax, ymax);
-                  cv::Point pt3(xmin,ymin+20);
+                  cv::Point pt3(xmin,ymin+10);
                   cv::Point pt4(xmin,ymin);
-                  cv::Point pt5(xmin+120,ymin+30);
+                  cv::Point pt5(xmin+60,ymin+16);
                   //Starting points for coords on bounding boxes
-                  cv::Point pt6(xmin+5,ymin+50);
-                  cv::Point pt7(xmin+5,ymin+70);
-                  cv::Point pt8(xmin+5,ymin+90);
+                  cv::Point pt6(((((xmax-xmin))/2)+xmin),(((ymax-ymin)/2)+ymin-15));
+                  cv::Point pt7((((xmax-xmin))/2)+xmin,((ymax-ymin)/2)+ymin);
+                  cv::Point pt8((((xmax-xmin))/2)+xmin,((ymax-ymin)/2)+ymin+15);
 
                   //Fill the rectangle with color
                   YoloObjectDetector::FillRectWithColor(image,i,xmin,ymin,xmax,ymax);
@@ -724,14 +738,14 @@ namespace darknet_ros
                     */
 
                    //Show coordinates on bounding box
-                  cv::putText(image,showx,pt6,cv::FONT_HERSHEY_TRIPLEX,0.5,cv::Scalar(0,0,0),1);
-                  cv::putText(image,showy,pt7,cv::FONT_HERSHEY_TRIPLEX,0.5,cv::Scalar(0,0,0),1);
-                  cv::putText(image,showz,pt8,cv::FONT_HERSHEY_TRIPLEX,0.5,cv::Scalar(0,0,0),1);
+                  cv::putText(image,showx,pt6,cv::FONT_HERSHEY_TRIPLEX,0.5,cv::Scalar(0,255,0),1);
+                  cv::putText(image,showy,pt7,cv::FONT_HERSHEY_TRIPLEX,0.5,cv::Scalar(0,255,0),1);
+                  cv::putText(image,showz,pt8,cv::FONT_HERSHEY_TRIPLEX,0.5,cv::Scalar(0,255,0),1);
 
                   //Show the bounding box with the class name
                   cv::rectangle(image,pt1,pt2,cv::Scalar(255,0,255),2, 8, 0);
                   cv::rectangle(image,pt4,pt5,cv::Scalar(255,0,255),2,8,0);
-                  cv::putText(image,classLabels_[i],pt3,cv::FONT_HERSHEY_TRIPLEX,1,cv::Scalar(0,0,0));
+                  cv::putText(image,classLabels_[i],pt3,cv::FONT_HERSHEY_TRIPLEX,0.5,cv::Scalar(0,0,0));
 
 
 
@@ -821,52 +835,52 @@ namespace darknet_ros
   void YoloObjectDetector::FillRectWithColor(cv::Mat image,int ObjID, int xmin, int ymin, int xmax, int ymax)
   {
       cv::Point linept1(xmin,ymin+15);
-      cv::Point linept2(xmin+120,ymin+15);
+      cv::Point linept2(xmin+60,ymin+15);
 
       cv::Point linept3(xmin,ymin+13);
-      cv::Point linept4(xmin+120,ymin+13);
+      cv::Point linept4(xmin+60,ymin+13);
 
       cv::Point linept5(xmin,ymin+11);
-      cv::Point linept6(xmin+120,ymin+11);
+      cv::Point linept6(xmin+60,ymin+11);
 
       cv::Point linept7(xmin,ymin+9);
-      cv::Point linept8(xmin+120,ymin+9);
+      cv::Point linept8(xmin+60,ymin+9);
 
       cv::Point linept9(xmin,ymin+7);
-      cv::Point linept10(xmin+120,ymin+7);
+      cv::Point linept10(xmin+60,ymin+7);
 
       cv::Point linept11(xmin,ymin+5);
-      cv::Point linept12(xmin+120,ymin+5);
+      cv::Point linept12(xmin+60,ymin+5);
 
       cv::Point linept13(xmin,ymin+3);
-      cv::Point linept14(xmin+120,ymin+3);
+      cv::Point linept14(xmin+60,ymin+3);
 
       cv::Point linept15(xmin,ymin+1);
-      cv::Point linept16(xmin+120,ymin+1);
+      cv::Point linept16(xmin+60,ymin+1);
 
       cv::Point linept17(xmin,ymin+17);
-      cv::Point linept18(xmin+120,ymin+17);
+      cv::Point linept18(xmin+60,ymin+17);
 
       cv::Point linept19(xmin,ymin+19);
-      cv::Point linept20(xmin+120,ymin+19);
+      cv::Point linept20(xmin+60,ymin+19);
 
       cv::Point linept21(xmin,ymin+21);
-      cv::Point linept22(xmin+120,ymin+21);
+      cv::Point linept22(xmin+60,ymin+21);
 
       cv::Point linept23(xmin,ymin+23);
-      cv::Point linept24(xmin+120,ymin+23);
+      cv::Point linept24(xmin+60,ymin+23);
 
       cv::Point linept25(xmin,ymin+25);
-      cv::Point linept26(xmin+120,ymin+25);
+      cv::Point linept26(xmin+60,ymin+25);
 
       cv::Point linept27(xmin,ymin+27);
-      cv::Point linept28(xmin+120,ymin+27);
+      cv::Point linept28(xmin+60,ymin+27);
 
       cv::Point linept29(xmin,ymin+29);
-      cv::Point linept30(xmin+120,ymin+29);
+      cv::Point linept30(xmin+60,ymin+29);
 
 
-       cv::line(image,linept1,linept2,cv::Scalar(255,0,255),2,8,0);
+      // cv::line(image,linept1,linept2,cv::Scalar(255,0,255),2,8,0);
        cv::line(image,linept3,linept4,cv::Scalar(255,0,255),2,8,0);
        cv::line(image,linept5,linept6,cv::Scalar(255,0,255),2,8,0);
        cv::line(image,linept7,linept8,cv::Scalar(255,0,255),2,8,0);
@@ -874,13 +888,13 @@ namespace darknet_ros
        cv::line(image,linept11,linept12,cv::Scalar(255,0,255),2,8,0);
        cv::line(image,linept13,linept14,cv::Scalar(255,0,255),2,8,0);
        cv::line(image,linept15,linept16,cv::Scalar(255,0,255),2,8,0);
-       cv::line(image,linept17,linept18,cv::Scalar(255,0,255),2,8,0);
-       cv::line(image,linept19,linept20,cv::Scalar(255,0,255),2,8,0);
-       cv::line(image,linept21,linept22,cv::Scalar(255,0,255),2,8,0);
-       cv::line(image,linept23,linept24,cv::Scalar(255,0,255),2,8,0);
-       cv::line(image,linept25,linept26,cv::Scalar(255,0,255),2,8,0);
-       cv::line(image,linept27,linept28,cv::Scalar(255,0,255),2,8,0);
-       cv::line(image,linept29,linept30,cv::Scalar(255,0,255),2,8,0);
+   //    cv::line(image,linept17,linept18,cv::Scalar(255,0,255),2,8,0);
+      // cv::line(image,linept19,linept20,cv::Scalar(255,0,255),2,8,0);
+    //   cv::line(image,linept21,linept22,cv::Scalar(255,0,255),2,8,0);
+    //   cv::line(image,linept23,linept24,cv::Scalar(255,0,255),2,8,0);
+    //   cv::line(image,linept25,linept26,cv::Scalar(255,0,255),2,8,0);
+    //   cv::line(image,linept27,linept28,cv::Scalar(255,0,255),2,8,0);
+   //    cv::line(image,linept29,linept30,cv::Scalar(255,0,255),2,8,0);
 
   }
 
