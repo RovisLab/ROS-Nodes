@@ -2,9 +2,13 @@
 
 The YOLO packages have been tested under ROS Kinetic and Ubuntu 16.04 with Xbox Kinect camera.
 
+# Description
+This Object deteciton node is optimised to detect only people and, with the help of the kinect camera, it shows the coordinates of the person placement.
+![Screenshot of detection](doc/Screenshot.png)
+
 ## How to get the 3D coordinates
 
-![How i get the 3D coordinates](img4.png)
+![How i get the 3D coordinates](doc/img4.png)
 
 	x_world = (x_screen - c_x) * z_world / f_x;
 	y_world = (y_screen - c_y) * z_world / f_y;
@@ -37,3 +41,4 @@ Debug mode
 
 	$roslaunch darknet_ros darknet_ros_gdb.launch
 	
+
