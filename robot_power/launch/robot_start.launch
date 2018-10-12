@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="name" />
+  <arg name="pose" />
+
+  
+  <group ns="$(arg name)">
+    <param name="tf_prefix" value="$(arg_name)" />
+    <include file="$(find robot_power)/launch/rosaria_with_kinect.launch">
+      <arg name="robot_name" value="$(arg name)" />
+      <arg name=" init_pose" value="$(arg pose)" />    
+    </include>
+  </group>
+</launch>
