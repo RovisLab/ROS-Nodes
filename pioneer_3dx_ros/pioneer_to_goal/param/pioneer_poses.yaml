@@ -1,0 +1,23 @@
+pioneer1:
+  x: 0
+  y: 0
+  a: 1.57
+pioneer2:
+  x: 1.0
+  y: 0.0
+  a: 1.57
+pioneer3:
+  x: 2.0
+  y: 0.0
+  a: 1.57
+pioneer4:
+  x: 3.0
+  y: 0.0
+  a: 1.57
+pioneer5:
+  x: 4.0
+  y: 0.0
+  a: 1.57
+
+
+

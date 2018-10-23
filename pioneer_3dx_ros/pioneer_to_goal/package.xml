@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package>
+  <name>pioneer_to_goal</name>
+  <version>0.0.0</version>
+  <description>The pioneer_to_goal package</description>
+
+  <maintainer email="gabriel.tutu@gmail.com">gabriel</maintainer>
+
+  <license>BSD</license>
+
+  <author email="gabriel.tutu@gmail.com">gabriel</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+  </export>
+</package>
