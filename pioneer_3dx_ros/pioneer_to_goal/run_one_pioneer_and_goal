@@ -4,14 +4,14 @@ my_pid=$$
 echo "My process ID is $my_pid"
 
 echo "Launching Gazebo..."
-roslaunch pioneer_to_goal pioneer_world.launch &
+roslaunch pioneer_to_goal pioneer_world.launch pioneer_model:=multi_robot_base/pioneer3dx &
 pid="$pid $!"
 sleep 5s
 
 
 for i in `seq 1 1`;
 do
-  roslaunch pioneer_to_goal model.launch name:=pioneer$i pose:="-x $(rosparam get /pioneer$i/x) -y $(rosparam get /pioneer$i/y) -Y $(rosparam get /pioneer$i/a)" &
+  roslaunch pioneer_to_goal model.launch pioneer_model:=multi_pioneer_hokuyo.urdf name:=pioneer$i pose:="-x $(rosparam get /pioneer$i/x) -y $(rosparam get /pioneer$i/y) -Y $(rosparam get /pioneer$i/a)" &
   pid="$pid $!"
   sleep 5s
 done

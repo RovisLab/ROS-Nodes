@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot name="sensor_hokuyo" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find pioneer_description)/urdf/sensors/hokuyo_gazebo.urdf.xacro"/>
+
+  <xacro:macro name="sensor_hokuyo" params="parent">
+    <!-- Camera -->
+    <joint name="camera_joint" type="fixed">
+      <origin xyz="0.17 0 0.0255" rpy="0 0 0"/>
+      <parent link="${parent}"/>
+      <child link="camera_link"/>
+    </joint>
+
+    <link name="camera_link">
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+	        <box size="0.05 0.07 0.10"/>
+        </geometry>
+      </collision>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+      	  <box size="0.05 0.07 0.10"/>
+        </geometry>
+        <material name="CameraGreen"/>
+      </visual>
+
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+    </link>
+    <!-- Hokuyo Laser -->
+    <joint name="hokuyo_joint" type="fixed">
+      <origin xyz="0 0 0.085" rpy="0 0 0"/>
+      <parent link="camera_link"/>
+      <child link="laser"/>
+    </joint>
+
+    <link name="laser">
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pioneer_description/meshes/hokuyo.dae"/>
+	        <!--box size="0.05 0.05 0.071"/-->
+        </geometry>
+      </collision>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pioneer_description/meshes/hokuyo.dae"/>
+        </geometry>
+      </visual>
+
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+    </link>
+  <!-- Hokuyo sensor for simulation -->
+	<hokuyo_sim/>
+  </xacro:macro>
+</robot>

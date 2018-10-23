@@ -7,6 +7,11 @@ If you want to start a simulation with only one pioneer run the following script
 If you want to start a simulation with five pioneers run the followin script instead:
   $ ./run_five_pioneers_and_goal
 
+  For both runfile the robot model can be choose from the followin models, changing the "pioneer_model" argument from the runfile:
+- simple Pioneer model : multi_robot_base/pioneer3dx
+- Pioneer equiped with an Hokuyo laser: multi_pioneer_hokuyo.urdf
+- Pioneer equiped with a Kinect camera: multi_pioneer_kinect.urdf
+
 The goal can be set in RViz via the 2D NAV Goal button.
 
 In the 5 robots case you can change to which robot the 2D NAV Goal button reffers by changing the topic name.The default topic is set as :

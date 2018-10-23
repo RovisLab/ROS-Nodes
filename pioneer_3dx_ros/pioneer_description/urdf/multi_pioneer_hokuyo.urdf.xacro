@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+    - Base      : pioneer
+    - 3d Sensor : kinect
+--> 
+<robot name="pioneer" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find pioneer_description)/urdf/multi_robot_base/pioneer3dx.xacro"/>
+  <xacro:include filename="$(find pioneer_description)/urdf/sensors/hokuyo.urdf.xacro"/>
+  
+  <pioneer3dx/>
+  <sensor_hokuyo parent="top"/>
+</robot>

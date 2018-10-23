@@ -3,12 +3,14 @@
 
   <arg name="name"/>
   <arg name="pose"/>
+  <arg name="pioneer_model" default="multi_pioneer_hokuyo.urdf"/>
   
   <group ns="$(arg name)">
     <param name="tf_prefix" value="$(arg name)" />
     <include file="$(find pioneer_to_goal)/launch/includes/one_pioneer.launch" >
-      <arg name="robot_name"  value="$(arg name)" />
+      <arg name="robot_name"  value="$(arg name)"/>
       <arg name="init_pose" value="$(arg pose)"/>
+      <arg name="pioneer_model" value="$(arg pioneer_model)"/>
     </include>
   </group>
 </launch>

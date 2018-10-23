@@ -8,10 +8,10 @@
 
 	Usage:
 1.  Mapping with hokuyo laser. 
-  $ ./test_one_pioneer_one
+  $ ./run_multi_pioneer_nav
 	Note:
 		if you cannot run the script, run:
-	$ chmod +x test_one_pioneer_one and then the command from 1.	
+	$ chmod +x run_multi_pioneer_nav and then the command from 1.	
 
 *This will start the following:
 		- roscore (no need to run it in another terminal)

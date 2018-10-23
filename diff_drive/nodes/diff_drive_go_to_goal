@@ -129,7 +129,7 @@ class GoToGoalNode:
         d = self.controller.get_goal_distance(self.pose, self.goal)
         self.dist_pub.publish(d)
 
-        self.send_velocity(desired.xVel, - desired.thetaVel)
+        self.send_velocity(desired.xVel, desired.thetaVel)
 
         # Forget the goal if achieved.
         if self.controller.at_goal(self.pose, self.goal):
