@@ -14,10 +14,11 @@ pid="$pid $!"
 
 for i in `seq 1 1`;
 do
-  roslaunch pioneer_to_goal model.launch pioneer_model:=multi_pioneer_hokuyo.urdf name:=pioneer$i pose:="-x $(rosparam get /pioneer$i/x) -y $(rosparam get /pioneer$i/y) -Y $(rosparam get /pioneer$i/a)" &
+  roslaunch pioneer_to_goal model_fake.launch pioneer_model:=multi_pioneer_hokuyo.urdf name:=pioneer$i pose:="-x $(rosparam get /pioneer$i/x) -y $(rosparam get /pioneer$i/y) -Y $(rosparam get /pioneer$i/a)" &
   pid="$pid $!"
   sleep 5s
 done
+
 
 echo "Launching rviz..."
 roslaunch pioneer_to_goal pioneer_kinect_rviz_vis.launch rviz_name:=one_pioneer_with_goal &

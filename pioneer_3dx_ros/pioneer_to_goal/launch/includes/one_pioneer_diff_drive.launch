@@ -19,8 +19,11 @@
   <!-- Combine joint values -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
   
-  <node pkg="tf2_ros" type="static_transform_publisher" name="world_tf" args="0 0 0 0 0 0 map $(arg robot_name)/odom" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="world_tf" args="0 0 0 0 0 0 world $(arg robot_name)/odom" />
 
-
+  <node name="diff_drive_go_to_goal" pkg="diff_drive" type="diff_drive_go_to_goal">
+    <param name="tf_prefix" type="string" value="$(arg robot_name)" />
+    <remap from="pioneer/cmd_vel" to="cmd_vel"/>
+	</node>
 
 </launch>
