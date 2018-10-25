@@ -19,7 +19,7 @@
       <arg name="robot_name" value="$(arg name)" />
     </include>
 
-    <include file="$(find pioneer_nav)/launch/move_base_global.launch"/>
+    <include file="$(find robotnav_try)/launch/includes/move_base_multirobot.launch.xml"/>
     <node pkg="simple_navigation_goals" type="map_navigation_client" name="map_goal_client" output="screen"/>
     <include file="$(find pioneer_ros)/launch/pioneer_controller_spin_recover.launch"/>
   </group>

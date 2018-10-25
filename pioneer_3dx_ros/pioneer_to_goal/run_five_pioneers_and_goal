@@ -6,8 +6,12 @@ echo "My process ID is $my_pid"
 echo "Launching Gazebo..."
 roslaunch pioneer_to_goal pioneer_world.launch pioneer_model:=multi_robot_base/pioneer3dx &
 pid="$pid $!"
-sleep 5s
+sleep 30s
 
+echo "Launching map server..."
+sleep 5s
+roslaunch pioneer_nav map_server.launch map_name:=institut2 &
+pid="$pid $!"
 
 for i in `seq 1 5`;
 do

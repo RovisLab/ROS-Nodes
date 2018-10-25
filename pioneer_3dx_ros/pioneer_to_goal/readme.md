@@ -24,6 +24,6 @@ If the runfile does not run, change the permision of running it from the proprie
 The dependecies are given in this project under the following packages:
 1.  pioneer_description
 2.  diff_drive
-
+3.  move_base
 Important:
-the navigation to the goal takes in consideration for each robot only it's odometry and controls the robot via the "cmd_vel" topic.NO LASER USED so the robots might knock each other, so play nice :P.
+the navigation to the goal takes in consideration for each robot only it's odometry and controls the robot via the "cmd_vel" topic.NO LASER USED so the robots might knock each other or get stuck on the map, so play nice :P.
