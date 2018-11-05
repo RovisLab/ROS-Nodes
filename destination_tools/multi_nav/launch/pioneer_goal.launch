@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name" />
+  <arg name="x" default="0" />
+  <arg name="y" default="0" />
+  <arg name="a" default="0" />
+
+  <group ns="$(arg robot_name)">
+    <param name="poz_x" type="double" value="$(arg x)" />
+    <param name="poz_y" value="$(arg x)" />
+    <param name="poz_theta" value="$(arg a)" />
+    <node pkg="multi_nav" type="map_navigation" respawn="false" name="map_navigation" output="screen" />
+  </group>
+
+</launch>
+
+  
+

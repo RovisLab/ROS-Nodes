@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="pioneer_model" default="multi_pioneer_hokuyo.urdf"/>
+  <arg name="pose_file" default="pioneer_poses"/>
+
+  <!-- Load the URDF into the ROS Parameter Server -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find pioneer_description)/urdf/$(arg pioneer_model).xacro'"/>
+  <!-- Initialize robot position-->
+  <rosparam file="$(find pioneer_description)/params/$(arg pose_file).yaml" command="load"/>
+
+</launch>

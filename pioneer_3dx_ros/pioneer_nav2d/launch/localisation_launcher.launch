@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name"/>
+  <arg name="x" default="0"/>
+  <arg name="y" default="0"/>
+  <arg name="yaw" default="0"/>
+
+  <!-- Run AMCL (noisy localisation)-->
+  <group ns="$(arg robot_name)">
+    <param name="tf_prefix" value="$(arg robot_name)" />
+    <param name="amcl/initial_pose_x" value="$(arg x)" />
+    <param name="amcl/initial_pose_y" value="$(arg y)" />
+    <param name="amcl/initial_pose_a" value="$(arg yaw)" />
+    <include file="$(find robotnav_try)/launch/includes/amcl_pioneer_kinect.launch">
+      <arg name="tf_name" value="$(arg robot_name)"/>
+    </include>
+  </group>
+
+</launch>

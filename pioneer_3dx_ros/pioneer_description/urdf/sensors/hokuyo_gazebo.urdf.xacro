@@ -28,7 +28,7 @@
           </noise>
         </ray>
         <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
-          <topicName>base_scan</topicName>
+          <topicName>scan</topicName>
           <frameName>laser</frameName>
         </plugin>
       </sensor>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+  <rosparam file="$(find coords_sender)/param/final_goal.yaml" command="load"/>
+</launch>
+
+  
+

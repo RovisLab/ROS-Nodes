@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name"/>
+  <arg name="x" default="0"/>
+  <arg name="y" default="0"/>
+  <arg name="yaw" default="0"/>
+  <arg name="movement_type" default="fast"/>
+  
+  <!-- Make sure initial pose matches $(find pioneer_description)/launch/pioneers.launch arg init_pose -->
+  <group ns="$(arg robot_name)">
+    <include file="$(find pioneer_nav2d)/launch/includes/move_base_pioneer.launch">
+    <arg name="movement_type" value="$(arg movement_type)"/>
+    </include>
+    <include file="$(find pioneer_ros)/launch/pioneer_controller_spin_recover.launch" />
+  </group>
+</launch>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- SLAM mapping nodes -->
+  <node pkg="gmapping" type="slam_gmapping" name="gmapping">
+    <param name="map_update_interval" value="0.35"/>
+  </node>
+  
+  <include file="$(find robotnav_try)/launch/includes/move_base_for_gmapping.launch.xml"/>
+	
+</launch>

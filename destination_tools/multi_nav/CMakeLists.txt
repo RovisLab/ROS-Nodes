@@ -25,6 +25,7 @@ include_directories(
 
 add_executable(send_goal src/send_goal.cpp)
 add_executable(send_multiple_goal src/send_multiple_goal.cpp)
+add_executable(map_navigation src/map_navigation.cpp)
 
 ## Generate the msg before the node.
 add_dependencies(send_goal coords_msgs_generate_messages_cpp)
@@ -36,6 +37,8 @@ target_link_libraries(send_goal
 target_link_libraries(send_multiple_goal
   ${catkin_LIBRARIES}
 )
-
+target_link_libraries(map_navigation
+  ${catkin_LIBRARIES}
+)
 
 

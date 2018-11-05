@@ -9,7 +9,7 @@ my_goal_status = 0
 recovery_state = False
 angular_z = 0 ;
 override_z = 0.4 ;
-cmd_vel_pub = rospy.Publisher("pioneer/cmd_vel", Twist, queue_size = 10)
+cmd_vel_pub = rospy.Publisher("cmd_vel", Twist, queue_size = 10)
 
 def turn_robot_around():
 	global my_goal_status
@@ -28,7 +28,7 @@ def turn_robot_around():
 		cmd_vel_data = Twist(Vector3(0,0,0), Vector3(0,0,override_z))
 		cmd_vel_pub.publish(cmd_vel_data)
 		recovery_state = True ;
-		rospy.loginfo("Overriding pioneer/cmd_vel, sending '[0,0,0] [0,0,%.1f]'",-cmd_vel_data.angular.z)
+		rospy.loginfo("Overriding cmd_vel, sending '[0,0,0] [0,0,%.1f]'",-cmd_vel_data.angular.z)
 	elif (my_goal_status == 3):
 	#This state means the robot has reached its goal.           
 	#Reset global variables
@@ -62,7 +62,7 @@ def listener_node():
 	rospy.init_node('listener_node', anonymous=True)
 
 	rospy.Subscriber("move_base/status", GoalStatusArray, move_base_callback)
-	rospy.Subscriber("controller_cmd_vel", Twist, cmd_vel_callback)	
+	rospy.Subscriber("raw_cmd_vel", Twist, cmd_vel_callback)	
 
 	rospy.spin() 
 

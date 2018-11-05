@@ -1,0 +1,47 @@
+#!/bin/bash
+
+PATH=$(echo $PATH | sed 's|/home/aadi-workstation/anaconda3/bin:||g')
+export PATH=$PATH
+ 
+my_pid=$$
+echo "My process ID is $my_pid"
+
+echo "Launching roscore..."
+roscore &
+pid=$!
+
+echo "Launching Gazebo..."
+sleep 10s
+roslaunch pioneer_gazebo multi_pioneer_hokuyo_world.launch world:=scout_service pose_file:=pioneer_poses &
+pid="$pid $!"
+
+echo "Launching Pioneers in Gazebo stack..."
+sleep 5s
+for i in `seq 1 2`;
+do
+  roslaunch pioneer_description generic_pioneer.launch name:=pioneer$i pose:="-x $(rosparam get /pioneer$i/x) -y $(rosparam get /pioneer$i/y) -Y $(rosparam get /pioneer$i/a)" &
+  pid="$pid $!"
+  sleep 10s
+done
+
+echo "Launching map server..."
+sleep 5s
+roslaunch pioneer_nav map_server.launch map_name:=scout_gabi &
+pid="$pid $!"
+
+echo "Launching navigation stack..."
+sleep 5s
+for i in `seq 1 2`;
+do
+  roslaunch robotnav_try single_navigation_kinect.launch robot_name:=pioneer$i x:="$(rosparam get /pioneer$i/x)" y:="$(rosparam get /pioneer$i/y)" yaw:="$(rosparam get /pioneer$i/a)" &
+  pid="$pid $!"
+  sleep 10s
+done
+
+echo "Launching rviz..."
+roslaunch pioneer_description multi_pioneer_hokuyo.launch rviz_config:=multi_pioneer &
+pid="$pid $!"
+
+trap "echo Killing all processes.; kill -2 TERM $pid; exit" SIGINT SIGTERM
+
+sleep 24h

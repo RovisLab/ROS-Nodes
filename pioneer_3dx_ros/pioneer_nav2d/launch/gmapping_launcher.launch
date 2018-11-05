@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name"/>
+
+  <!-- Run SLAM Gmapping -->
+  <group ns="$(arg robot_name)">
+    <param name="tf_prefix" value="$(arg robot_name)" />
+    <include file="$(find pioneer_nav2d)/launch/includes/gmapping_pioneer.launch">
+      <arg name="tf_name" value="$(arg robot_name)"/>
+    </include>
+  </group>
+
+</launch>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+  <rosparam file="$(find multi_nav)/param/goal.yaml" command="load"/>
+</launch>
+
+  
+
