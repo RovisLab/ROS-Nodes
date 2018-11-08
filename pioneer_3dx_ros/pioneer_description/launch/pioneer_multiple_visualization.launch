@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Show in Rviz   -->
+  <node name="rviz_pioneer1" pkg="rviz" type="rviz" args="-d $(find pioneer_description)/RViz/pioneer1.rviz"/>  
+  
+  <node name="rviz_pioneer2" pkg="rviz" type="rviz" args="-d $(find pioneer_description)/RViz/pioneer2.rviz"/>
+
+  <node name="rviz_pioneer3" pkg="rviz" type="rviz" args="-d $(find pioneer_description)/RViz/pioneer3.rviz"/>
+
+  <node name="rviz_pioneer4" pkg="rviz" type="rviz" args="-d $(find pioneer_description)/RViz/pioneer4.rviz"/>
+
+  <node name="rviz_pioneer5" pkg="rviz" type="rviz" args="-d $(find pioneer_description)/RViz/pioneer5.rviz"/>
+
+</launch>

@@ -4,7 +4,7 @@ my_pid=$$
 echo "My process ID is $my_pid"
 
 echo "Launching Gazebo..."
-roslaunch pioneer_gazebo gazebo_world.launch world:=scout_service &
+roslaunch pioneer_gazebo gazebo_world.launch world:=maze_one &
 pid="$pid $!"
 sleep 5s
 
@@ -22,7 +22,7 @@ do
 done
 
 echo "Launching map server..."
-roslaunch pioneer_nav2d map_server.launch map_name:=scout_gabi &
+roslaunch pioneer_nav2d map_server.launch map_name:=maze_one &
 pid="$pid $!"
 sleep 5s
 
@@ -45,8 +45,9 @@ do
 done
 
 echo "Launching rviz..."
-roslaunch pioneer_description pioneer_visualization.launch rviz_config:=multi_pioneer &
+roslaunch pioneer_description pioneer_visualization.launch  &
 pid="$pid $!"
+
 trap "echo Killing all processes.; kill -2 TERM $pid; exit" SIGINT SIGTERM
 
 sleep 24h

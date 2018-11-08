@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="pioneer_model" default="multi_robot_base/pioneer3dx"/>
+
+  <!-- Load the URDF into the ROS Parameter Server -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find pioneer_description)/urdf/$(arg pioneer_model).xacro'"/>
+  <rosparam file="$(find pioneer_to_goal)/param/pioneer_poses.yaml" command="load"/>
+
+</launch>

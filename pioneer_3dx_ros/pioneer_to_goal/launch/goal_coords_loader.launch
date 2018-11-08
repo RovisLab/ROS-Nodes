@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+  <rosparam file="$(find pioneer_to_goal)/param/goal.yaml" command="load"/>
+</launch>
+
+  
+

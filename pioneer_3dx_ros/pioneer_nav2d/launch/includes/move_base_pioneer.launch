@@ -11,7 +11,7 @@
     <rosparam file="$(find pioneer_nav2d)/param/costmap_common_params_$(arg movement_type).yaml" command="load" ns="local_costmap" />   
     <rosparam file="$(find pioneer_nav2d)/param/local_costmap_params.yaml" command="load" />   
     <rosparam file="$(find pioneer_nav2d)/param/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find pioneer_nav2d)/param/dwa_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find pioneer_nav2d)/param/dwa_local_planner_params_$(arg movement_type).yaml" command="load" />
     <rosparam file="$(find pioneer_nav2d)/param/move_base_params.yaml" command="load" />
     <rosparam file="$(find pioneer_nav2d)/param/global_planner_params.yaml" command="load" />
     <rosparam file="$(find pioneer_nav2d)/param/navfn_global_planner_params.yaml" command="load" />

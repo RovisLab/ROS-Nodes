@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="name"/>
+  <arg name="pose"/>
+  <arg name="pioneer_model" default="multi_pioneer_hokuyo.urdf"/>
+  
+  <group ns="$(arg name)">
+    <param name="tf_prefix" value="$(arg name)" />
+    <include file="$(find pioneer_to_goal)/launch/includes/one_pioneer.launch" >
+      <arg name="robot_name"  value="$(arg name)"/>
+      <arg name="init_pose" value="$(arg pose)"/>
+      <arg name="pioneer_model" value="$(arg pioneer_model)"/>
+    </include>
+      <!-- Run fake localization compatible with AMCL output -->
+    <node pkg="fake_localization" type="fake_localization" name="fake_localization" clear_params="true" output="screen">
+      <remap from="base_pose_ground_truth" to="odom" />
+      <param name="global_frame_id" value="map" />
+      <param name="base_frame_id" value="$(arg name)/base_link" />
+      <param name="odom_frame_id" value="$(arg name)/odom" />
+    </node>
+
+    <include file="$(find pioneer_nav)/launch/amcl_pioneer.launch">
+      <arg name="tf_name" value="$(arg name)"/>
+    </include>
+
+    <include file="$(find pioneer_nav)/launch/move_base_global.launch"/>
+
+    <node pkg="simple_navigation_goals" type="map_navigation_client" name="map_goal_client" output="screen"/>
+
+    <include file="$(find pioneer_ros)/launch/pioneer_controller_spin_recover.launch"/>
+  </group>
+</launch>

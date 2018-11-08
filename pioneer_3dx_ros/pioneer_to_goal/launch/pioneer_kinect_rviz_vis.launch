@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-  <arg name="rviz_name" default="big_maze_pioneer_kinect"/>
-
-  <!-- Show in Rviz   -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pioneer_to_goal)/launch/$(arg rviz_name).rviz"/>
-
-</launch>

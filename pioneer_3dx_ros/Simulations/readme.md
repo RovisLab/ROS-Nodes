@@ -27,3 +27,12 @@ The dependecies are given in this project under the following packages:
 3.  move_base
 Important:
 the navigation to the goal takes in consideration for each robot only it's odometry and controls the robot via the "cmd_vel" topic.NO LASER USED so the robots might knock each other or get stuck on the map, so play nice :P.
+
+
+
+note:
+          Gmapping is good with hokuyo and kinect.watchout cuz i slowed down the move_base velocity for the robot.see where.tomorrow test the nav tool with 5 robots.
+          first spawn 5 robots in the new created map.
+          get for everyone an rviz visualization.
+          test navigation without dynamic colission
+          check dynamic colision and what is the max speed.

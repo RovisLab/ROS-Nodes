@@ -1,7 +1,0 @@
-# The global navigation is used to create paths for a goal in the map
-
-global_costmap:
-  global_frame: map
-  robot_base_frame: base_link
-  update_frequency:  2.0
-  static_map: true

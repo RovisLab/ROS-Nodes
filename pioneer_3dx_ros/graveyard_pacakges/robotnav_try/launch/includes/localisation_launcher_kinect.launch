@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-  <!-- Run AMCL (noisy localisation)-->
-  <arg name="robot_name"/>
-  <include file="$(find robotnav_try)/launch/includes/amcl_pioneer_kinect.launch">
-    <arg name="tf_name" value="$(arg robot_name)"/>
-  </include>
-</launch>
