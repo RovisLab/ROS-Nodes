@@ -7,11 +7,11 @@ pioneer2:
   y: 0.7
   a: -1.57
 pioneer3:
-  x: 2.0
+  x: 1.7
   y: 5.0
   a: -1.31
 pioneer4:
-  x: -5.0
+  x: -5.5
   y: 3.0
   a: 2.0
 pioneer5:

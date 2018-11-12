@@ -9,7 +9,7 @@ pid="$pid $!"
 sleep 5s
 
 echo "Sending goal to the pioneers"
-for i in `seq 1 2`;
+for i in `seq 1 5`;
 do
   roslaunch pioneer_to_goal pioneer_goal_hardcoded.launch pioneer_number:=$i x:="$(rosparam get /poz_x)" y:="$(rosparam get /poz_y)" &
   pid="$pid $!"
