@@ -7,6 +7,7 @@
 
 //general
 #include <cmath>
+#include <boost/lexical_cast.hpp>
 
 using namespace std;
 using namespace cv;
@@ -17,6 +18,8 @@ const int height = 600;
 const int centerX = width/2;
 const int centerY = height/2;
 int scale = 40;
+int pioneer_number;
+string window_name="LaserScan";
 
 void isExit()
 {
@@ -52,7 +55,8 @@ void visualizeLaserScan(const sensor_msgs::LaserScan::ConstPtr& scan)
     }
 
     //visualize
-    imshow("Scan", matScan);
+    ROS_INFO("window name: %s", window_name.c_str());
+    imshow(window_name, matScan);
 
     //fill matScan with zeros
     Mat Z = Mat::zeros(matScan.size(), matScan.type());
@@ -63,9 +67,13 @@ void visualizeLaserScan(const sensor_msgs::LaserScan::ConstPtr& scan)
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "visualizer");
-    ros::NodeHandle n;
-    namedWindow("Scan", WINDOW_NORMAL);
-    ros::Subscriber sub = n.subscribe("/pioneer1/scan", 1000, visualizeLaserScan);
+    ros::NodeHandle n("~");
+    if (!n.getParam("pioneer_number", pioneer_number))
+        pioneer_number = 5;
+    window_name = window_name + boost::lexical_cast<std::string>(pioneer_number);
+
+    namedWindow(window_name, WINDOW_NORMAL);
+    ros::Subscriber sub = n.subscribe("/scan", 1000, visualizeLaserScan);
     ros::spin();
     return 0;
 }

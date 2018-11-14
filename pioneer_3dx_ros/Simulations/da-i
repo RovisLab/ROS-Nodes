@@ -14,7 +14,7 @@ pid="$pid $!"
 sleep 5s
 
 echo "Launching Pioneers in Gazebo stack..."
-for i in `seq 1 1`;
+for i in `seq 1 2`;
 do
   roslaunch pioneer_description pioneer_description.launch robot_name:=pioneer$i pose:="-x $(rosparam get /pioneer$i/x) -y $(rosparam get /pioneer$i/y) -Y $(rosparam get /pioneer$i/a)" use_kinect:=true sim:=true real_kinect:=false &
   pid="$pid $!"
