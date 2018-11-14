@@ -3,7 +3,7 @@ project(laserscan_visualizer)
 find_package(OpenCV REQUIRED)
 
 ## Find catkin and any catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp std_msgs genmsg)
+find_package(catkin REQUIRED COMPONENTS roscpp cv_bridge image_transport std_msgs sensor_msgs genmsg)
 
 ## Declare a catkin package
 catkin_package()

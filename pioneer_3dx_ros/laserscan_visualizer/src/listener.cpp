@@ -4,13 +4,20 @@
 
 //OpenCV
 #include <opencv2/opencv.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <cv_bridge/cv_bridge.h>
 
 //general
+#include <message_filters/subscriber.h>
+#include <message_filters/time_synchronizer.h>
+#include <image_transport/image_transport.h>
 #include <cmath>
 #include <boost/lexical_cast.hpp>
+#include <boost/bind.hpp>
 
 using namespace std;
 using namespace cv;
+using namespace message_filters;
 
 //global
 const int width = 400;
@@ -29,12 +36,14 @@ void isExit()
         exit(0);
 }
 
-void visualizeLaserScan(const sensor_msgs::LaserScan::ConstPtr& scan)
+void visualizeCallback(const sensor_msgs::LaserScan::ConstPtr& scan, const sensor_msgs::ImageConstPtr& img)
 {
     float theta, alpha, beta;
     int y, x;
     Mat matScan(width, height, CV_8UC1);
-    line(matScan, Point( centerX, 0), Point( centerX, centerY), Scalar( 0, 220, 0 ), 2 , 8);
+    cv_bridge::CvImagePtr cv_ptr;
+
+    //line(matScan, Point( centerX, 0), Point( centerX, centerY), Scalar( 0, 220, 0 ), 2 , 8);
 
     //data acquisition
     for(int i = 0; i<scan->ranges.size(); i++)
@@ -53,9 +62,22 @@ void visualizeLaserScan(const sensor_msgs::LaserScan::ConstPtr& scan)
             matScan.at<uchar>(y, x) = 255;
         }
     }
+    try
+    {
+        cv_ptr = cv_bridge::toCvCopy(img, sensor_msgs::image_encodings::MONO8); //image encoding: BGR8 is colored.
+        resize(cv_ptr->image, cv_ptr->image, Size(400, 300));
+        //cv::hconcat(matScan, cv_ptr->image, matScan);
+        //imshow("view", cv_bridge::toCvShare(img, "bgr8")->image);
+        imshow("view", cv_ptr->image);
+
+
+    }
+    catch (cv_bridge::Exception& e)
+    {
+        ROS_ERROR("Could not convert from '%s' to 'bgr8'.", img->encoding.c_str());
+    }
 
     //visualize
-    ROS_INFO("window name: %s", window_name.c_str());
     imshow(window_name, matScan);
 
     //fill matScan with zeros
@@ -67,13 +89,19 @@ void visualizeLaserScan(const sensor_msgs::LaserScan::ConstPtr& scan)
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "visualizer");
-    ros::NodeHandle n("~");
-    if (!n.getParam("pioneer_number", pioneer_number))
+    ros::NodeHandle nh("~");
+
+    if (!nh.getParam("pioneer_number", pioneer_number))
         pioneer_number = 5;
     window_name = window_name + boost::lexical_cast<std::string>(pioneer_number);
 
     namedWindow(window_name, WINDOW_NORMAL);
-    ros::Subscriber sub = n.subscribe("/scan", 1000, visualizeLaserScan);
+    namedWindow("view", WINDOW_NORMAL);
+
+    message_filters::Subscriber<sensor_msgs::LaserScan> laser_sub(nh, "/scan", 100);
+    message_filters::Subscriber<sensor_msgs::Image> image_sub(nh, "/pioneer1/camera/rgb/image_raw", 100);
+    TimeSynchronizer<sensor_msgs::LaserScan, sensor_msgs::Image> sync(laser_sub, image_sub, 10);
+    sync.registerCallback(boost::bind(&visualizeCallback, _1, _2));
     ros::spin();
     return 0;
 }
