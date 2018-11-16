@@ -2,6 +2,7 @@
 #include "ros/ros.h"
 #include "sensor_msgs/LaserScan.h"
 
+
 //OpenCV
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -27,6 +28,10 @@ const int centerY = height/2;
 int scale = 40;
 int pioneer_number;
 string window_name="LaserScan";
+Mat matScan(width, height, CV_8UC1);
+cv_bridge::CvImagePtr cv_ptr;
+Mat Z;
+int rows, cols;
 
 void isExit()
 {
@@ -40,8 +45,7 @@ void visualizeCallback(const sensor_msgs::LaserScan::ConstPtr& scan, const senso
 {
     float theta, alpha, beta;
     int y, x;
-    Mat matScan(width, height, CV_8UC1);
-    cv_bridge::CvImagePtr cv_ptr;
+
 
     //line(matScan, Point( centerX, 0), Point( centerX, centerY), Scalar( 0, 220, 0 ), 2 , 8);
 
@@ -65,7 +69,7 @@ void visualizeCallback(const sensor_msgs::LaserScan::ConstPtr& scan, const senso
     try
     {
         cv_ptr = cv_bridge::toCvCopy(img, sensor_msgs::image_encodings::MONO8); //image encoding: BGR8 is colored.
-        resize(cv_ptr->image, cv_ptr->image, Size(400, 300));
+        resize(cv_ptr->image, cv_ptr->image, Size(matScan.cols, matScan.rows));
         //cv::hconcat(matScan, cv_ptr->image, matScan);
         //imshow("view", cv_bridge::toCvShare(img, "bgr8")->image);
         imshow("view", cv_ptr->image);
@@ -81,8 +85,27 @@ void visualizeCallback(const sensor_msgs::LaserScan::ConstPtr& scan, const senso
     imshow(window_name, matScan);
 
     //fill matScan with zeros
-    Mat Z = Mat::zeros(matScan.size(), matScan.type());
+    Z = Mat::zeros(matScan.size(), matScan.type());
     Z.copyTo(matScan);
+    rows = matScan.rows;
+    cols = matScan.cols + cv_ptr->image.cols;
+    ROS_INFO("Laser_rows: %d Laser_cols: %d Image_rows: %d Image_cols %d", matScan.rows, matScan.cols, cv_ptr->image.rows, cv_ptr->image.cols);
+    ROS_INFO("max rows: %d max cols: %d ", rows, cols);
+
+    Mat result(rows, cols, CV_8UC1);
+    //matScan.copyTo(result(Rect(0, 0, matScan.cols, matScan.rows)));
+    //cv_ptr->image.copyTo(result(Rect(matScan.cols, 0, cv_ptr->image.cols, cv_ptr->image.rows)));
+    cv::hconcat(matScan, cv_ptr->image, result);
+    imshow("result", result);
+
+/*
+    int rows = max(matScan.rows, Z.rows);
+    int cols = matScan.cols + cv_ptr->image.cols;
+    Mat result(rows, cols, CV_8UC1);
+    matScan.copyTo(result(Rect(0, 0, matScan.cols, matScan.rows)));
+    cv_ptr->image.copyTo(result(Rect(matScan.cols, 0, cv_ptr->image.cols, cv_ptr->image.rows)));
+    imshow("view", result);*/
+
     isExit();
 }
 
@@ -95,13 +118,15 @@ int main(int argc, char **argv)
         pioneer_number = 5;
     window_name = window_name + boost::lexical_cast<std::string>(pioneer_number);
 
-    namedWindow(window_name, WINDOW_NORMAL);
-    namedWindow("view", WINDOW_NORMAL);
+    namedWindow(window_name, WINDOW_AUTOSIZE);
+    namedWindow("view", WINDOW_AUTOSIZE);
+    namedWindow("result", WINDOW_AUTOSIZE);
 
-    message_filters::Subscriber<sensor_msgs::LaserScan> laser_sub(nh, "/scan", 100);
-    message_filters::Subscriber<sensor_msgs::Image> image_sub(nh, "/pioneer1/camera/rgb/image_raw", 100);
-    TimeSynchronizer<sensor_msgs::LaserScan, sensor_msgs::Image> sync(laser_sub, image_sub, 10);
+    message_filters::Subscriber<sensor_msgs::LaserScan> laser_sub(nh, "/scan", 1000);
+    message_filters::Subscriber<sensor_msgs::Image> image_sub(nh, "/pioneer1/camera/rgb/image_raw", 1000);
+    TimeSynchronizer<sensor_msgs::LaserScan, sensor_msgs::Image> sync(laser_sub, image_sub, 20000);
     sync.registerCallback(boost::bind(&visualizeCallback, _1, _2));
+    printf("wtf bro");
     ros::spin();
     return 0;
 }

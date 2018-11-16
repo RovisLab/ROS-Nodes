@@ -3,7 +3,7 @@
   <arg name="pioneer_number" />
 
   <group ns="pioneer$(arg pioneer_number)">
-	  <node name="visualizer" pkg="laserscan_visualizer" type="listener" output="screen">
+	  <node name="visualizer" pkg="laserscan_visualizer" type="listener_node" output="screen">
       <param name="pioneer_number" type="int" value="$(arg pioneer_number)"/> 
 	  	<remap from="/scan" to="/pioneer$(arg pioneer_number)/scan"/>
 	  </node>

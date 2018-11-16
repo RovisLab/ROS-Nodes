@@ -14,3 +14,6 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 
 add_executable(listener src/listener.cpp)
 target_link_libraries(listener ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+
+add_executable(listener_node src/listener_node.cpp)
+target_link_libraries(listener_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
