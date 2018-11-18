@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <launch>
 	<!-- Convert depth image to laser scan -->
 	<node name="laserscan_kinect" pkg="laserscan_kinect" type="laserscan_kinect" > 
