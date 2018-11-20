@@ -18,5 +18,5 @@ For pioneer gazebo simulation or hardware use pioneer_2dnav.
 
 For erratic stage robot simulation use stagebot_2dnav
 
-change something heree
+BOSS, WIP, don't considerate this readme as a documentation.In short terms, this package is used to make the robot navigate.
 
