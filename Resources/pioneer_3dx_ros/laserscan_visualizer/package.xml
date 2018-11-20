@@ -27,6 +27,7 @@
   <!-- Use build_depend for packages you need at compile time: -->
   <build_depend>message_generation</build_depend>
   <build_depend>image_transport</build_depend>
+  <build_depend>message_filters</build_depend>
   <build_depend>cv_bridge</build_depend>
   <build_depend>sensor_msgs</build_depend>
   <!-- Use buildtool_depend for build tool packages: -->
@@ -43,6 +44,7 @@
   <run_depend>rospy</run_depend>
   <run_depend>std_msgs</run_depend>
   <run_depend>image_transport</run_depend>
+  <run_depend>message_filters</run_depend>
   <run_depend>sensor_msgs</run_depend>
   <run_depend>cv_bridge</run_depend>
 

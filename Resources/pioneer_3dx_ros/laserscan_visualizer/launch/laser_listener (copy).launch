@@ -3,9 +3,9 @@
   <arg name="pioneer_number" />
 
   <group ns="pioneer$(arg pioneer_number)">
-	  <node name="visualizer" pkg="laserscan_visualizer" type="listener" output="screen">
-      <param name="pioneer_number" type="int" value="$(arg pioneer_number)"/> 
+	  <node name="my_node" pkg="laserscan_visualizer" type="try" output="screen">
 	  	<remap from="/scan" to="/pioneer$(arg pioneer_number)/scan"/>
+      <remap from="/camera/rgb/image_raw" to="/pioneer$(arg pioneer_number)/camera/rgb/image_raw"/>
 	  </node>
   </group>
 

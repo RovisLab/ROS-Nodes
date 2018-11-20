@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="pioneer_number" />
+
+  <group ns="pioneer$(arg pioneer_number)">
+	  <node name="my_node" pkg="laserscan_visualizer" type="try" output="screen">
+      <param name="pioneer_number" type="int" value="$(arg pioneer_number)"/> 
+	  	<remap from="/scan" to="/pioneer$(arg pioneer_number)/scan"/>
+	  </node>
+  </group>
+
+</launch>
+

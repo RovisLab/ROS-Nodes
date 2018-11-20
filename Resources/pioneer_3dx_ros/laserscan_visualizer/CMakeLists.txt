@@ -3,7 +3,7 @@ project(laserscan_visualizer)
 find_package(OpenCV REQUIRED)
 
 ## Find catkin and any catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp cv_bridge image_transport std_msgs sensor_msgs genmsg)
+find_package(catkin REQUIRED COMPONENTS roscpp cv_bridge image_transport message_filters std_msgs sensor_msgs genmsg)
 
 ## Declare a catkin package
 catkin_package()
@@ -17,3 +17,6 @@ target_link_libraries(listener ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 add_executable(listener_node src/listener_node.cpp)
 target_link_libraries(listener_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+
+#add_executable(try src/try.cpp)
+#target_link_libraries(try ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})

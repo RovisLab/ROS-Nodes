@@ -24,29 +24,29 @@ using namespace message_filters;
 class Listener
 {
 public:
-    ros::NodeHandle nh("~");
-
-    message_filters::Subscriber<sensor_msgs::LaserScan> sub_laser;
-    message_filters::Subscriber<sensor_msgs::Image> sub_image;
-    TimeSynchronizer<sensor_msgs::LaserScan, sensor_msgs::Image> sync;
-
-
-    Test_Message_Filters(ros::NodeHandle& _nh): nh(_nh),
-            sub_laser(nh, "/camera/rgb/points" , 10),
-            sub_image(nh, "/camera/rgb/image_color" , 10),
-            sync(sub_laser, sub_image)
-
-    {
-            sub_laser.registerCallback(&Test_Message_Filters::sub_points_callback, this);
-            sub_image.registerCallback(&Test_Message_Filters::sub_image_callback, this);
-            sync.registerCallback(boost::bind(&Test_Message_Filters::sync_subs_callback, this, _1, _2));
-    }
-
     int width, height, centerX, centerY, scale;
     Mat matScan;
     cv_bridge::CvImagePtr cv_ptr;
     Mat Z, result;
     int rows, cols;
+    ros::NodeHandle nh;
+
+    message_filters::Subscriber<sensor_msgs::LaserScan> sub_laser;
+    message_filters::Subscriber<sensor_msgs::Image> sub_image;
+    message_filters::TimeSynchronizer<sensor_msgs::LaserScan, sensor_msgs::Image> sync;
+
+
+    Listener(ros::NodeHandle& _nh): nh(_nh),
+            sub_laser(_nh, "/scan" , 10),
+            sub_image(_nh, "pioneer1/camera/rgb/image_raw" , 10),
+            sync(_nh, &Listener::sub_laser, &Listener::sub_image)
+    {
+            sub_laser.registerCallback(&Listener::laserScanCallback, this);
+            sub_image.registerCallback(&Listener::imageCallback, this);
+            sync.registerCallback(boost::bind(&Listener::sync_subs_callback, this, _1, _2));
+    }
+
+
 
     void sync_subs_callback(const sensor_msgs::LaserScan::ConstPtr& scan, const sensor_msgs::ImageConstPtr& img)
     {
@@ -54,7 +54,7 @@ public:
         cols = matScan.cols + cv_ptr->image.cols;
         result.create(rows, cols, CV_8UC1);
         cv::hconcat(matScan, cv_ptr->image, result);
-        imshow("result", result);
+        imshow("test", result);
         isExit();
     }
 
@@ -66,7 +66,7 @@ public:
             exit(0);
     }
 
-    void ImageCallback(const sensor_msgs::ImageConstPtr& img)
+    void imageCallback(const sensor_msgs::ImageConstPtr& img)
     {
         try
         {
@@ -81,7 +81,7 @@ public:
         this->isExit();
     }
 
-    void LaserScanCallback(const sensor_msgs::LaserScan::ConstPtr& scan)
+    void laserScanCallback(const sensor_msgs::LaserScan::ConstPtr& scan)
     {
         float theta;
         int y, x;
@@ -117,8 +117,8 @@ public:
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "visualizer");
-    ros::NodeHandle nh("~");
+    ros::init(argc, argv, "lasimg");
+    ros::NodeHandle nh;
     int pioneer_number;
     string window_name="LaserScan";
 
@@ -129,36 +129,15 @@ int main(int argc, char **argv)
     namedWindow(window_name, WINDOW_AUTOSIZE);
     namedWindow("view", WINDOW_AUTOSIZE);
     namedWindow("result", WINDOW_AUTOSIZE);
+    namedWindow("test", WINDOW_AUTOSIZE);
+
+    Listener test_message_filters(nh);
 
     ros::Rate loop_rate(10);
-
-    Listener listener;
-
-    message_filters::Subscriber<sensor_msgs::LaserScan> laser_sub(nh, "/scan", 100);
-    message_filters::Subscriber<sensor_msgs::Image> image_sub(nh, "/pioneer1/camera/rgb/image_raw", 100);
-    TimeSynchronizer<sensor_msgs::LaserScan, sensor_msgs::Image> sync(laser_sub, image_sub, 200);
-    sync.registerCallback(boost::bind(&Listener::visualizeCallback, &listener, _1, _2));
-
-        while (ros::ok())
-        {
-            ros::spinOnce();
-            //ROS_INFO("rows %d and cols %d", listener.rows, listener.cols);
-            //ROS_INFO("This is theta1f: %.2f", listener.theta1f);
-            //ROS_INFO("This is theta2f: %.2f", listener.theta2f);
-            //ROS_INFO("This is theta2f: %.2f", listener.theta2f);
-            //if(listener.rows > 0 && listener.cols > 0)
-            //    imshow(window_name, listener.matScan);
-            //Mat result(listener.rows, listener.cols, CV_8UC1);
-            //cv::hconcat(listener.matScan, listener.cv_ptr->image, result);
-            //imshow("result", result);
-            //waitKey(0);
-            //imshow("view", listener.cv_ptr->image);
-            //listener.isExit();
-
-
-
-            loop_rate.sleep();
-        }
-
+    while(ros::ok())
+    {
+        ros::spinOnce();
+        loop_rate.sleep();
+    }
     return 0;
 }

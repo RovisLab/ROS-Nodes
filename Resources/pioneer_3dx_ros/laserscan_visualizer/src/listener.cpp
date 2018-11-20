@@ -12,6 +12,8 @@
 #include <message_filters/subscriber.h>
 #include <message_filters/time_synchronizer.h>
 #include <image_transport/image_transport.h>
+#include <message_filters/sync_policies/approximate_time.h>
+#include <message_filters/synchronizer.h>
 #include <cmath>
 #include <boost/lexical_cast.hpp>
 #include <boost/bind.hpp>
@@ -45,9 +47,6 @@ void visualizeCallback(const sensor_msgs::LaserScan::ConstPtr& scan, const senso
 {
     float theta, alpha, beta;
     int y, x;
-
-
-    //line(matScan, Point( centerX, 0), Point( centerX, centerY), Scalar( 0, 220, 0 ), 2 , 8);
 
     //data acquisition
     for(int i = 0; i<scan->ranges.size(); i++)
@@ -87,24 +86,24 @@ void visualizeCallback(const sensor_msgs::LaserScan::ConstPtr& scan, const senso
     //fill matScan with zeros
     Z = Mat::zeros(matScan.size(), matScan.type());
     Z.copyTo(matScan);
+
     rows = matScan.rows;
     cols = matScan.cols + cv_ptr->image.cols;
-    ROS_INFO("Laser_rows: %d Laser_cols: %d Image_rows: %d Image_cols %d", matScan.rows, matScan.cols, cv_ptr->image.rows, cv_ptr->image.cols);
-    ROS_INFO("max rows: %d max cols: %d ", rows, cols);
+    //ROS_INFO("Laser_rows: %d Laser_cols: %d Image_rows: %d Image_cols %d", matScan.rows, matScan.cols, cv_ptr->image.rows, cv_ptr->image.cols);
+    //ROS_INFO("max rows: %d max cols: %d ", rows, cols);
+
+    //matScan.copyTo(result(Rect(0, 0, matScan.cols, matScan.rows)));
+    //cv_ptr->image.copyTo(result(Rect(matScan.cols, 0, cv_ptr->image.cols, cv_ptr->image.rows)));
+/*
+    cv::hconcat(matScan, cv_ptr->image, result);
+    imshow("result", result);
+    */
 
     Mat result(rows, cols, CV_8UC1);
     //matScan.copyTo(result(Rect(0, 0, matScan.cols, matScan.rows)));
     //cv_ptr->image.copyTo(result(Rect(matScan.cols, 0, cv_ptr->image.cols, cv_ptr->image.rows)));
     cv::hconcat(matScan, cv_ptr->image, result);
     imshow("result", result);
-
-/*
-    int rows = max(matScan.rows, Z.rows);
-    int cols = matScan.cols + cv_ptr->image.cols;
-    Mat result(rows, cols, CV_8UC1);
-    matScan.copyTo(result(Rect(0, 0, matScan.cols, matScan.rows)));
-    cv_ptr->image.copyTo(result(Rect(matScan.cols, 0, cv_ptr->image.cols, cv_ptr->image.rows)));
-    imshow("view", result);*/
 
     isExit();
 }
@@ -122,10 +121,17 @@ int main(int argc, char **argv)
     namedWindow("view", WINDOW_AUTOSIZE);
     namedWindow("result", WINDOW_AUTOSIZE);
 
-    message_filters::Subscriber<sensor_msgs::LaserScan> laser_sub(nh, "/scan", 1000);
-    message_filters::Subscriber<sensor_msgs::Image> image_sub(nh, "/pioneer1/camera/rgb/image_raw", 1000);
-    TimeSynchronizer<sensor_msgs::LaserScan, sensor_msgs::Image> sync(laser_sub, image_sub, 20000);
+    message_filters::Subscriber<sensor_msgs::LaserScan> laser_sub(nh, "/scan", 10);
+    message_filters::Subscriber<sensor_msgs::Image> image_sub(nh, "/camera/rgb/image_raw", 10);
+    //TimeSynchronizer<sensor_msgs::LaserScan, sensor_msgs::Image> sync(laser_sub, image_sub, 10);
+    //sync.registerCallback(boost::bind(&visualizeCallback, _1, _2));
+
+    typedef sync_policies::ApproximateTime<sensor_msgs::LaserScan, sensor_msgs::Image> MySyncPolicy;
+    // ApproximateTime takes a queue size as its constructor argument, hence MySyncPolicy(10)
+    Synchronizer<MySyncPolicy> sync(MySyncPolicy(10), laser_sub, image_sub);
     sync.registerCallback(boost::bind(&visualizeCallback, _1, _2));
+
+
     printf("wtf bro");
     ros::spin();
     return 0;
