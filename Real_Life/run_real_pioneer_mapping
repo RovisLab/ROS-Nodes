@@ -6,7 +6,7 @@ echo "My process ID is $my_pid"
 echo "Launching Pioneers in Gazebo stack..."
 for i in `seq 1 1`;
 do
-  roslaunch pioneer_description pioneer_description.launch robot_name:=pioneer$i pose:="-x $(rosparam get /pioneer$i/x) -y $(rosparam get /pioneer$i/y) -Y $(rosparam get /pioneer$i/a)" use_kinect:=false sim:=false real_kinect:=true &
+  roslaunch pioneer_description pioneer_description.launch robot_name:=pioneer$i pose:="-x $(rosparam get /pioneer$i/x) -y $(rosparam get /pioneer$i/y) -Y $(rosparam get /pioneer$i/a)" use_kinect:=true sim:=false real_kinect:=true &
   pid="$pid $!"
   sleep 5s
 done

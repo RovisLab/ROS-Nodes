@@ -20,6 +20,10 @@ To make sure you have all dependecies required run the followin commands in the 
 	$ cd ..
 	$ rosdep install --from-paths src --ignore-src --rosdistro=kinetic
 
+There is an error about not finding the "rosaria"package go to your workspace src, open a terminal and run:
+
+  $ git clone https://github.com/amor-ros-pkg/rosaria.git
+
 ### Building
 
 To maximize performance, make sure to build in *Release* mode. You can specify the build type by setting"

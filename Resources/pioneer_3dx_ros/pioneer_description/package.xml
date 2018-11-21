@@ -11,6 +11,8 @@
   <author email="jenjen.chung88@gmail.com">Jen Jen Chung</author>
 
   <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>rosaria</build_depend>
+  <run_depend>rosaria</run_depend>
 
   <export>
   </export>
