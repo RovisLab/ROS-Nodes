@@ -1,8 +1,12 @@
+/*
+tried to make a callback inside a class.
+used message_filters::TimeSynchronizer. It does not recon it. :(
+*/
+
 //ROS
 #include "ros/ros.h"
 #include "sensor_msgs/LaserScan.h"
 #include "sensor_msgs/Image.h"
-
 
 //OpenCV
 #include <opencv2/opencv.hpp>
@@ -12,7 +16,8 @@
 //general
 #include <message_filters/subscriber.h>
 #include <message_filters/time_synchronizer.h>
-#include <image_transport/image_transport.h>
+#include <message_filters/synchronizer.h>
+
 #include <cmath>
 #include <boost/lexical_cast.hpp>
 #include <boost/bind.hpp>
@@ -20,6 +25,11 @@
 using namespace std;
 using namespace cv;
 using namespace message_filters;
+
+/*
+error: no matching function for call to ‘message_filters::TimeSynchronizer<sensor_msgs::LaserScan_<std::allocator<void> >, sensor_msgs::Image_<std::allocator<void> > >::TimeSynchronizer(message_filters::Subscriber<sensor_msgs::LaserScan_<std::allocator<void> > > Listener::*, message_filters::Subscriber<sensor_msgs::Image_<std::allocator<void> > > Listener::*)’
+             sync(&Listener::sub_laser, &Listener::sub_image)
+*/
 
 class Listener
 {
@@ -39,7 +49,7 @@ public:
     Listener(ros::NodeHandle& _nh): nh(_nh),
             sub_laser(_nh, "/scan" , 10),
             sub_image(_nh, "pioneer1/camera/rgb/image_raw" , 10),
-            sync(_nh, &Listener::sub_laser, &Listener::sub_image)
+            sync(&Listener::sub_laser, &Listener::sub_image)
     {
             sub_laser.registerCallback(&Listener::laserScanCallback, this);
             sub_image.registerCallback(&Listener::imageCallback, this);

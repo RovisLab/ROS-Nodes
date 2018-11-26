@@ -18,5 +18,8 @@ target_link_libraries(listener ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 add_executable(listener_node src/listener_node.cpp)
 target_link_libraries(listener_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
+#add_executable(laserimage_node src/laserimage.cpp)
+#target_link_libraries(laserimage_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+
 #add_executable(try src/try.cpp)
 #target_link_libraries(try ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})

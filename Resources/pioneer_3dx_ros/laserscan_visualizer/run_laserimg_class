@@ -6,7 +6,7 @@ echo "My process ID is $my_pid"
 echo "Starting the laserscan visualization node"
 for i in `seq 1 1`;
 do
-  roslaunch laserscan_visualizer laserimage_class_listener.launch pioneer_number:=$i &
+  roslaunch laserscan_visualizer laser_class_listener.launch pioneer_number:=$i &
   pid="$pid $!"
   sleep 5s
 done

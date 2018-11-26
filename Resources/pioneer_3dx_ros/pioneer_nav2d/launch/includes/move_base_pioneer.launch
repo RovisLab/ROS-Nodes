@@ -7,12 +7,12 @@
   <arg name="odom_topic" default="odom" />
 
   <node pkg="move_base" type="move_base" respawn="true" name="move_base" output="screen">
-    <rosparam file="$(find pioneer_nav2d)/param/mastering_ros_yaml/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find pioneer_nav2d)/param/mastering_ros_yaml/costmap_common_params.yaml" command="load" ns="local_costmap" />   
-    <rosparam file="$(find pioneer_nav2d)/param/mastering_ros_yaml/local_costmap_params.yaml" command="load" />   
-    <rosparam file="$(find pioneer_nav2d)/param/mastering_ros_yaml/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find pioneer_nav2d)/param/mastering_ros_yaml/dwa_local_planner_params.yaml" command="load" />
-    <rosparam file="$(find pioneer_nav2d)/param/mastering_ros_yaml/move_base_params.yaml" command="load" />
+    <rosparam file="$(find pioneer_nav2d)/param/$(arg movement_type)/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find pioneer_nav2d)/param/$(arg movement_type)/costmap_common_params.yaml" command="load" ns="local_costmap" />   
+    <rosparam file="$(find pioneer_nav2d)/param/$(arg movement_type)/local_costmap_params.yaml" command="load" />   
+    <rosparam file="$(find pioneer_nav2d)/param/$(arg movement_type)/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find pioneer_nav2d)/param/$(arg movement_type)/dwa_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find pioneer_nav2d)/param/$(arg movement_type)/move_base_params.yaml" command="load" />
     <!--><rosparam file="$(find pioneer_nav2d)/param/global_planner_params.yaml" command="load" />
     <rosparam file="$(find pioneer_nav2d)/param/navfn_global_planner_params.yaml" command="load" /><-->
     

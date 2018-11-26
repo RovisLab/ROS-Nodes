@@ -46,7 +46,7 @@ public:
         centerX = width/2;
         centerY = height/2;
         scale = 40;
-        matScan.create(this->width, this->height, CV_8UC1);
+        this->matScan.create(this->width, this->height, CV_8UC1);
         //this->matScan = Mat::zeros(this->width, this->height,CV_8UC1);
 
 
@@ -61,15 +61,15 @@ public:
             //fill Mat with data
             if(x > 0 && y > 0)
             {
-                matScan.at<uchar>(y, x) = 255;
+                this->matScan.at<uchar>(y, x) = 255;
             }
         }
 
         try
         {
             cv_ptr = cv_bridge::toCvCopy(img, sensor_msgs::image_encodings::MONO8);
-            resize(cv_ptr->image, cv_ptr->image, Size(matScan.cols, matScan.rows));
-            imshow("view", cv_ptr->image);
+            resize(cv_ptr->image, cv_ptr->image, Size(this->matScan.cols, this->matScan.rows));
+            //imshow("view", cv_ptr->image);
         }
         catch (cv_bridge::Exception& e)
         {
@@ -77,17 +77,17 @@ public:
         }
 
         //fill matScan with zeros
-        Z = Mat::zeros(matScan.size(), matScan.type());
-        Z.copyTo(matScan);
+        Z = Mat::zeros(this->matScan.size(), this->matScan.type());
+        Z.copyTo(this->matScan);
         //imshow("result", matScan);
 
         this->isExit();
 
-        rows = matScan.rows;
-        cols = matScan.cols + cv_ptr->image.cols;
+        rows = this->matScan.rows;
+        cols = this->matScan.cols + cv_ptr->image.cols;
         result.create(rows, cols, CV_8UC1);
-        cv::hconcat(matScan, cv_ptr->image, result);
-        imshow("result", result);
+        cv::hconcat(this->matScan, cv_ptr->image, result);
+        //imshow("result", result);
     }
 };
 
@@ -121,9 +121,15 @@ int main(int argc, char **argv)
             //ROS_INFO("rows %d and cols %d", listener.rows, listener.cols);
             //ROS_INFO("This is theta1f: %.2f", listener.theta1f);
             //ROS_INFO("This is theta2f: %.2f", listener.theta2f);
-            //ROS_INFO("This is theta2f: %.2f", listener.theta2f);
+            ROS_INFO("This is theta2f: %d", listener.rows);
             //if(listener.rows > 0 && listener.cols > 0)
-            //    imshow(window_name, listener.matScan);
+            /*try{
+                imshow(window_name, listener.matScan);
+            }
+            catch (cv_bridge::Exception& e)
+            {
+                ROS_ERROR("Could not show");
+            }*/
             //Mat result(listener.rows, listener.cols, CV_8UC1);
             //cv::hconcat(listener.matScan, listener.cv_ptr->image, result);
             //imshow("result", result);

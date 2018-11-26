@@ -20,9 +20,6 @@ To make sure you have all dependecies required run the followin commands in the 
 	$ cd ..
 	$ rosdep install --from-paths src --ignore-src --rosdistro=kinetic
 
-There is an error about not finding the "rosaria"package go to your workspace src, open a terminal and run:
-
-  $ git clone https://github.com/amor-ros-pkg/rosaria.git
 
 ### Building
 
@@ -33,6 +30,11 @@ To maximize performance, make sure to build in *Release* mode. You can specify t
 Otherwise, you can just build it normally using the command:
 	
 	$ catkin_make
+
+If there is an error about not finding the "rosaria"package go to your workspace src, open a terminal and run:
+
+  $ git clone https://github.com/amor-ros-pkg/rosaria.git
+Then run "catkin_make" again in the workspace.
 
 ### Tools Available
 
