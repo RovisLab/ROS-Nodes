@@ -9,7 +9,7 @@ pid="$pid $!"
 sleep 5s
 
 echo "Launching map server..."
-roslaunch pioneer_nav2d real_map_server.launch map_name:=institut2 &
+roslaunch pioneer_nav2d map_server.launch map_name:=institut2 use_sim_time=false &
 pid="$pid $!"
 sleep 5s
 

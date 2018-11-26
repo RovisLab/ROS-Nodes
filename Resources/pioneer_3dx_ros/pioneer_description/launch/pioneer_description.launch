@@ -18,7 +18,7 @@
     
     <group unless="$(arg sim)">
       <include file="$(find pioneer_description)/launch/includes/connect_real_pioneer.launch" >
-        <arg name="req_arg" value="$(arg my_unless_arg)" />
+        <arg name="robot_name" value="$(arg robot_name)" />
       </include>
     </group>
 

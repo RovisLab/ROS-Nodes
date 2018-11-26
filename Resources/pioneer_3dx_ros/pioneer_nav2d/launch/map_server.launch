@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="map_name" default="maze"/>
-  <param name="/use_sim_time" value="true"/>
+  <arg name="use_sim_time" default="true"/>
+  <param name="/use_sim_time" value="$(arg use_sim_time)"/>
 
   <!-- Run the map server -->
   <node name="map_server" pkg="map_server" type="map_server" args="$(find pioneer_gazebo)/map/$(arg map_name).yaml" >

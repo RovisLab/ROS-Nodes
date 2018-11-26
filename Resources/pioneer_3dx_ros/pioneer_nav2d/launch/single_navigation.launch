@@ -11,6 +11,5 @@
     <include file="$(find pioneer_nav2d)/launch/includes/move_base_pioneer.launch">
     <arg name="movement_type" value="$(arg movement_type)"/>
     </include>
-    <include file="$(find pioneer_ros)/launch/pioneer_controller_spin_recover.launch" />
   </group>
 </launch>
