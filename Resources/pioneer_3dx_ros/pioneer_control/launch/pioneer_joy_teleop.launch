@@ -18,7 +18,8 @@
     <!-- Joystick to pioneer robot -->
     <!-- % rosrun demo_pioneer demo_pioneer_joy2twist_pioneer_node -->
     <node name="demo_pioneer_joy2twist_pioneer_node" pkg="pioneer_control" type="demo_pioneer_joy2twist_pioneer_node">
-      <remap from="/RosAria/cmd_vel" to="/$(arg robot_name)/cmd_vel">
+      <remap from="/RosAria/cmd_vel" to="/$(arg robot_name)/cmd_vel" />
     </node>
   </group>
+
 </launch>
