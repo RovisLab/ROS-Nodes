@@ -33,7 +33,8 @@ A.  Mapping:
 1.  Start the ROS_MASTER and initialize the robot model onto the Laptop:
   
 - From this folder open a terminal and run:
-  $./run_master_mapping
+
+  $./run_master_mapping.sh
 
 2. Connect to the robot's controller and start the mapping tools:
 
@@ -47,11 +48,11 @@ A.  Mapping:
 
 -Now just run the follwing command to start the script for mapping:
 
-  $<robot_name>@<robot_ip> ./run_real_pioneer_mapping
+  $<robot_name>@<robot_ip> ./run_real_pioneer_mapping.sh
 
 3.  In order to have a real-time visualization of the map and control the robot's movement open another terminal in the same location on the Laptop and run the visualization tool:
 
-  $ ./run_visualization
+  $ ./run_visualization.sh
 
 Note:make sure that the runfile has the <rviz_config> argument set to <one_pioneer_mapping>.
 
@@ -77,9 +78,12 @@ B.  Navigation
 1.  Start the ROS_MASTER and initialize the robot and map model onto the Laptop:
   
 - From this folder open a terminal and run:
-  $./run_master_navigation
+
+  $./run_master_navigation.sh
+
 - This will first load the robots model and initial position.
 Note: In this runfile we sent to the Master the initial 2D position of the robots via a *.yaml file placed into <pioneer_description folder>/params
+
 - Also, the map created in the mapping tool can be added to the navigation tool by editing this runfile and replace the <map_name> argument to the name of the map.
 
 2.  Positionate the robots as close to the position mentioned in the file earlier mentioned.
@@ -97,11 +101,11 @@ Note: In this runfile we sent to the Master the initial 2D position of the robot
 
 -Now just run the follwing command to start the script for mapping:
 
-  $<robot_name>@<robot_ip> ./run_real_pioneer_navigation
+  $<robot_name>@<robot_ip> ./run_real_pioneer_navigation.sh
 
 3.  In order to have a real-time visualization of the robots position and movement on the known map, open another terminal in the same location on the Laptop and run the visualization tool:
 
-  $ ./run_visualization
+  $ ./run_visualization.sh
 
 Note:make sure that the runfile has the <rviz_config> argument set to <multi_pioneer>.
 
@@ -114,5 +118,6 @@ b. Using the	<goal_darket> runfile.
 - This will need data from a real robot.It used the depth cloud data and darknet's person recognition node to get the 3d coordinates of a detected person over the camera and send it to the robots.
 Connect a Kinect camera to the laptop, place it in the center of the room( (0, 0) position of the map) and run the earlier mentioned runfile placed in the same folder as this Readme:
 
-  $ ./goal_darknet
+  $ ./goal_darknet.sh
+
 Note:This is set to send only two robots to the detected person.You can edit the runfile to send as many robots you started to use navigation by modifying the max iteration on the for loop.

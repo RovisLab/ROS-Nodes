@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="robot_name"/>
+  <arg name="robot_name" default="pioneer1"/>
   <arg name="pose"/>
   <arg name="use_kinect" default="false"/>
   <arg name="sim" default="true"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="pioneer_model" default="multi_pioneer_hokuyo.urdf"/>
+  <arg name="pioneer_model" default="pioneer_hokuyo.urdf"/>
   <arg name="pose_file" default="pioneer_poses"/>
 
   <!-- Load the URDF into the ROS Parameter Server -->

@@ -4,7 +4,7 @@ my_pid=$$
 echo "My process ID is $my_pid"
 
 echo "loading destination:"
-roslaunch pioneer_to_goal goal_coords_loader.launch &
+roslaunch pioneer_to_goal goal_coords_loader.launch goal_file:=goal &
 pid="$pid $!"
 
 echo "Sending goal to the pioneers"

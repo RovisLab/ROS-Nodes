@@ -10,7 +10,7 @@ pid="$pid $!"
 sleep 5s
 
 echo "Loading initialisation parameters..."
-roslaunch pioneer_description pioneer_initialization.launch pioneer_model:=multi_pioneer_kinect.urdf  pose_file:=pioneer_poses &
+roslaunch pioneer_description pioneer_initialization.launch pioneer_model:=pioneer_kinect.urdf  pose_file:=pioneer_poses &
 pid="$pid $!"
 sleep 5s
 
