@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="pioneer_number" default="1" />
+  <arg name="use_bag" default="true" />
+  <arg name="bag_path" default="$(find laserscan_visualizer)/2018-12-05-13-45-45.bag" />
+
+  <group if="$(arg sim)">
+    <node pkg="rosbag" type="play" name="rosbag" required="true" args="$(arg bag_path)"/>
+  </group>
+    
+	<node name="state_saver" pkg="laserscan_visualizer" type="state_saver" output="screen">
+    <remap from="/camera/rgb/image_raw" to="/pioneer$(arg pioneer_number)/camera/rgb/image_raw"/>
+    <remap from="/scan" to="/pioneer$(arg pioneer_number)/scan"/>
+    <remap from="/odom" to="/pioneer$(arg pioneer_number)/odom"/>
+	</node>
+
+</launch>
+

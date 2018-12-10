@@ -1,7 +1,7 @@
 //ROS
 #include "ros/ros.h"
 #include "sensor_msgs/LaserScan.h"
-
+#include "nav_msgs/Odometry.h"
 
 //OpenCV
 #include <opencv2/opencv.hpp>
@@ -24,8 +24,8 @@ using namespace cv;
 using namespace message_filters;
 
 //global
-const int width = 240;
-const int height = 320;
+const int width = 400;
+const int height = 600;
 const int centerX = width/2;
 const int centerY = height/2;
 int scale = 40;
@@ -46,7 +46,7 @@ void isExit()
         exit(0);
 }
 
-void visualizeCallback( const sensor_msgs::LaserScan::ConstPtr& scan, const sensor_msgs::ImageConstPtr& img)
+void visualizeCallback(const sensor_msgs::ImageConstPtr& img, const sensor_msgs::LaserScan::ConstPtr& scan, const nav_msgs::Odometry::ConstPtr& odom)
 {
     //cv_bridge::CvImage out_msg;
 
@@ -70,9 +70,8 @@ void visualizeCallback( const sensor_msgs::LaserScan::ConstPtr& scan, const sens
     try
     {
         cv_ptr = cv_bridge::toCvCopy(img, sensor_msgs::image_encodings::MONO8); //image encoding: BGR8 is colored.
-        resize(cv_ptr->image, cv_ptr->image, Size(320, 240));
-        //cv::hconcat(matScan, cv_ptr->image, matScan);
-        //imshow("view", cv_bridge::toCvShare(img, "bgr8")->image);
+        resize(cv_ptr->image, cv_ptr->image, Size(matScan.cols, matScan.rows));
+        //visualize lasesrscan
         imshow("view", cv_ptr->image);
 
 
@@ -82,31 +81,26 @@ void visualizeCallback( const sensor_msgs::LaserScan::ConstPtr& scan, const sens
         ROS_ERROR("Could not convert from '%s' to 'bgr8'.", img->encoding.c_str());
     }
 
-    //visualize
+    //visualize image
     imshow(window_name, matScan);
-
-
-
-
-    rows = matScan.rows;
-    cols = matScan.cols + cv_ptr->image.cols;
-
-
-    result.create(rows, cols, CV_8UC1);
-    //matScan.copyTo(result(Rect(0, 0, matScan.cols, matScan.rows)));
-    //cv_ptr->image.copyTo(result(Rect(matScan.cols, 0, cv_ptr->image.cols, cv_ptr->image.rows)));
-    cv::hconcat(matScan, cv_ptr->image, result);
-    imshow("result", result);
-
     isExit();
+
     //fill matScan with zeros
     Z = Mat::zeros(matScan.size(), matScan.type());
     Z.copyTo(matScan);
+
+    ROS_INFO("Seq: [%d]", odom->header.seq);
+    ROS_INFO("Position-> x: [%f], y: [%f]", odom->pose.pose.position.x,odom->pose.pose.position.y);
+    ROS_INFO("Orientation->  w: [%f]", odom->pose.pose.orientation.w);
+    ROS_INFO("Vel-> Linear: [%f], Angular: [%f]", odom->twist.twist.linear.x,odom->twist.twist.angular.z);
+
+
+
 }
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "visualizer");
+    ros::init(argc, argv, "full_visualizer");
     ros::NodeHandle nh("~");
 
     if (!nh.getParam("pioneer_number", pioneer_number))
@@ -118,15 +112,9 @@ int main(int argc, char **argv)
 
     message_filters::Subscriber<sensor_msgs::LaserScan> laser_sub(nh, "/scan", 10);
     message_filters::Subscriber<sensor_msgs::Image> image_sub(nh, "/camera/rgb/image_raw", 10);
-    TimeSynchronizer<sensor_msgs::LaserScan, sensor_msgs::Image> sync(laser_sub, image_sub, 10);
-    sync.registerCallback(boost::bind(&visualizeCallback, _1, _2));
-
-/*
-    typedef sync_policies::ApproximateTime<sensor_msgs::LaserScan, sensor_msgs::Image> MySyncPolicy;
-    // ApproximateTime takes a queue size as its constructor argument, hence MySyncPolicy(10)
-    Synchronizer<MySyncPolicy> sync(MySyncPolicy(100), laser_sub, image_sub);
-    sync.registerCallback(boost::bind(&visualizeCallback, _1, _2));
-*/
+    message_filters::Subscriber<nav_msgs::Odometry> odom_sub(nh, "/odom", 10);
+    TimeSynchronizer<sensor_msgs::LaserScan, sensor_msgs::Image, nav_msgs::Odometry> sync(laser_sub, image_sub, odom_sub, 10);
+    sync.registerCallback(boost::bind(&visualizeCallback, _1, _2, _3));
 
     ros::spin();
     return 0;

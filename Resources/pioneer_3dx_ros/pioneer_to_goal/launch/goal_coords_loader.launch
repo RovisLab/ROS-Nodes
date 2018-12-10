@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="goal_file" default="goal"/>
-  <rosparam file="$(find pioneer_to_goal)/param/(arg goal_file).yaml" command="load"/>
+  <rosparam file="$(find pioneer_to_goal)/param/$(arg goal_file).yaml" command="load"/>
 </launch>
 
   
