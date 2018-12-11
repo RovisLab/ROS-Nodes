@@ -3,10 +3,10 @@
 my_pid=$$
 echo "My process ID is $my_pid"
 
-echo "Starting the laserscan visualization node"
+echo "Starting data_saver_node"
 for i in `seq 1 1`;
 do
-  roslaunch laserscan_visualizer laser_listener.launch pioneer_number:=$i &
+  roslaunch data_saver save_topics.launch robot_name:=pioneer$i use_bag:=true &
   pid="$pid $!"
   sleep 5s
 done
@@ -14,3 +14,4 @@ done
 trap "echo Killing all processes.; kill -2 TERM $pid; exit" SIGINT SIGTERM
 
 sleep 24h
+

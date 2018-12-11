@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>laserscan_visualizer</name>
+  <name>data_saver</name>
   <version>0.0.0</version>
-  <description>The laserscan_visualizer package</description>
+  <description>The data_saver package</description>
 
 
   <maintainer email="gaby.tg96@gmail.com">tgabriel</maintainer>

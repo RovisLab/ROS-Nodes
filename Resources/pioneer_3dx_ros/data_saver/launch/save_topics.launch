@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="robot_name" default="pioneer1" />
+  <arg name="use_bag" default="true" />
+  <arg name="bag_path" default="2018-12-05-13-45-45.bag" />
+
+  <group if="$(arg use_bag)">
+    <node pkg="rosbag" type="play" name="rosbag" required="true" args="$(find data_saver)/$(arg bag_path)"/>
+  </group>
+    
+  <group ns="$(arg robot_name)">
+	  <node name="state_saver" pkg="data_saver" type="state_saver" output="screen">
+      <param name="robot_namespace" value="$(arg robot_name)"/>
+	  </node>
+  </group>
+
+</launch>
+
