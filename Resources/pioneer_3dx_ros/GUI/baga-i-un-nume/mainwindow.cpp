@@ -17,10 +17,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_start_mapping_clicked()
 {
-    QString program = "/home/gatu270124/my_local_repo/src/ROS-Nodes/pioneer_3dx_ros/Simulations/run_pioneer_mapping.sh";
-    myProcess = new QProcess(this);
-    myProcess->start(program);
-    //system("/home/gatu270124/my_local_repo/src/ROS-Nodes/pioneer_3dx_ros/Simulations/run_pioneer_mapping.sh");
+    QString program = "/home/gatu270124/my_local_repo/src/ROS-Nodes/Simulations/start.sh";
+    myStartProcess = new QProcess(this);
+    myStartProcess->start(program);
 }
 
 void MainWindow::on_combo_box_mapping_currentIndexChanged()
@@ -33,6 +32,11 @@ void MainWindow::on_combo_box_mapping_currentIndexChanged()
 
 void MainWindow::on_pushButton_clicked()
 {
-    myProcess->kill();
+    myStartProcess->kill();
 
+    QString program = "/home/gatu270124/my_local_repo/src/ROS-Nodes/Simulations/kill.sh";
+    myStopProcess = new QProcess(this);
+    myStopProcess->start(program);
+    myStopProcess->waitForFinished();
+    myStopProcess->kill();
 }

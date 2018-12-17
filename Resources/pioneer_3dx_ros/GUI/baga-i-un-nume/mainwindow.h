@@ -24,7 +24,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QProcess *myProcess;
+    QProcess *myStartProcess;
+    QProcess *myStopProcess;
 };
 
 #endif // MAINWINDOW_H

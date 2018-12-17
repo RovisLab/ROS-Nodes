@@ -5,11 +5,14 @@
   <arg name="y" default="0"/>
   <arg name="yaw" default="0"/>
   <arg name="movement_type" default="fast"/>
+  <arg name="controller"  default="dwa"/>
   
   <!-- Make sure initial pose matches $(find pioneer_description)/launch/pioneers.launch arg init_pose -->
   <group ns="$(arg robot_name)">
     <include file="$(find pioneer_nav2d)/launch/includes/move_base_pioneer.launch">
-    <arg name="movement_type" value="$(arg movement_type)"/>
+      <arg name="movement_type" value="$(arg movement_type)"/>
+      <arg name="robot_name" value="$(arg robot_name)"/>
+      <arg name="controller" value="$(arg controller)"/>
     </include>
   </group>
 </launch>

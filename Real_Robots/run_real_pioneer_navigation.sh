@@ -24,7 +24,7 @@ echo "Launching move_base stack..."
 sleep 5s
 for i in `seq 1 1`;
 do
-  roslaunch pioneer_nav2d single_navigation.launch robot_name:=pioneer$i x:="$(rosparam get /pioneer$i/x)" y:="$(rosparam get /pioneer$i/y)" yaw:="$(rosparam get /pioneer$i/a)" movement_type:=fast &
+  roslaunch pioneer_nav2d single_navigation.launch robot_name:=pioneer$i x:="$(rosparam get /pioneer$i/x)" y:="$(rosparam get /pioneer$i/y)" yaw:="$(rosparam get /pioneer$i/a)" movement_type:=fast controller:=dwa &
   pid="$pid $!"
   sleep 10s
 done

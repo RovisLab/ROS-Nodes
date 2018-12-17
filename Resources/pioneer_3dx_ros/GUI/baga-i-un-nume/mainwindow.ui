@@ -299,7 +299,7 @@
           <property name="title">
            <string>Set the number of robots to be spawned and their initial position:</string>
           </property>
-          <widget class="QWidget" name="">
+          <widget class="QWidget" name="layoutWidget">
            <property name="geometry">
             <rect>
              <x>10</x>
@@ -589,29 +589,6 @@
             </rect>
            </property>
           </widget>
-          <zorder></zorder>
-          <zorder>label_17</zorder>
-          <zorder>label_18</zorder>
-          <zorder>start_nav</zorder>
-          <zorder>groupBox_13</zorder>
-          <zorder>x1</zorder>
-          <zorder>y1</zorder>
-          <zorder>label_19</zorder>
-          <zorder>x2</zorder>
-          <zorder>y2</zorder>
-          <zorder>label_20</zorder>
-          <zorder>label_21</zorder>
-          <zorder>x3</zorder>
-          <zorder>y3</zorder>
-          <zorder>label_22</zorder>
-          <zorder>label_23</zorder>
-          <zorder>x4</zorder>
-          <zorder>y4</zorder>
-          <zorder>label_37</zorder>
-          <zorder>label_38</zorder>
-          <zorder>label_39</zorder>
-          <zorder>y5</zorder>
-          <zorder>x5</zorder>
          </widget>
         </item>
         <item row="3" column="0">

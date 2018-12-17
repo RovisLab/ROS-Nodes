@@ -85,6 +85,17 @@ Arguments used into the simulation tools:
   
     If you use the tool on the real robot set the argument to <true>.It will start the data aquisition from the Kinect camera.<false> means that gazebo will start the plugin for data aquisition.
 
+~movement_type(string, default: "slow")
+  
+    Type of movement of the robots.it can be either <slow>, which is good for the mapping tool, either <fast>, which is good for the navigation tool.
+
+~controller(string, default: "dwa")
+  
+    The type of controller used by the navigation package to follow the global path.
+    Configuration available:
+  - dwa :Dynamic Window Approach:  Given a global plan to follow and a costmap, the local planner produces velocity commands to send to a mobile base.
+  - mpc :Model Predictive Control: Advanced method of process control that is used to control a process while satisfying a set of constraints.
+
 ~rviz_config(string, default: "one_pioneer_mapping")
 
     Configuration file loaded into RViz.Located into <pioneer_description>/RViz folder.
