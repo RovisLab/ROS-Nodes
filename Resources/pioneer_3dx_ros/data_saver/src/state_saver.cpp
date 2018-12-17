@@ -77,7 +77,7 @@ void bindCallback( const LaserScanConstPtr& scan, const ImageConstPtr& image, co
         //fill Mat with data
         if(x>0 && y>0)
         {
-            matScan.at<uchar>(y, x) = 255;
+            matScan.at<uchar>(y, x) = 0;
         }
     }
 
@@ -108,7 +108,7 @@ void bindCallback( const LaserScanConstPtr& scan, const ImageConstPtr& image, co
         ROS_ERROR("could not save the image");
     }
 
-    Z = Mat::zeros(matScan.size(), matScan.type());
+    Z = ~Mat::zeros(matScan.size(), matScan.type());
     Z.copyTo(matScan);
 }
 
@@ -129,6 +129,10 @@ int main(int argc, char **argv)
     string state_path_filename = robot_path + "/state_run.txt";
 
     myfile.open(state_path_filename.c_str());
+
+    Z = ~Mat::zeros(matScan.size(), matScan.type());
+    Z.copyTo(matScan);
+
 
     myfile << "CarPositionX\tCarPositionY\tCarAngle\tLinearVelocity\tAngularVelocity\tImageName\n";
 
