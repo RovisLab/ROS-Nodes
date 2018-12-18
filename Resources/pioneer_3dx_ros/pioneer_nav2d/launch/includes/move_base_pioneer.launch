@@ -33,8 +33,8 @@
   </node>
     <!--  ************** MPC Node **************  -->
     <group if="$(eval controller == 'mpc')">
-      <node name="MPC_Node" pkg="pioneer_nav2d" type="MPC_Node" output="screen" if="$(eval controller == 'mpc')" >
-        <rosparam file="$(find pioneer_nav2d)/param/mpc_params/mpc_params.yaml" command="load" />
+      <node name="MPC_Node" pkg="mpc_wrapped" type="MPC_Node" output="screen" if="$(eval controller == 'mpc')" >
+        <rosparam file="$(find mpc_wrapped)/param/mpc_params/mpc_params.yaml" command="load" />
         <param name="odom_frame" value="/$(arg robot_name)/odom"/>
         <param name="car_frame" value="/$(arg robot_name)/base_link"/>
         <remap from="/mpc_reference" to="mpc_reference"/>
