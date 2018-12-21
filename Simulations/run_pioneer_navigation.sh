@@ -14,7 +14,7 @@ pid="$pid $!"
 sleep 5s
 
 echo "Launching Pioneers in Gazebo stack..."
-for i in `seq 1 5`;
+for i in `seq 1 1`;
 do
   roslaunch pioneer_description pioneer_description.launch robot_name:=pioneer$i pose:="-x $(rosparam get /pioneer$i/x) -y $(rosparam get /pioneer$i/y) -Y $(rosparam get /pioneer$i/a)" use_kinect:=true sim:=true real_kinect:=false &
   pid="$pid $!"
@@ -28,7 +28,7 @@ sleep 5s
 
 echo "Launching AMCL localisation stack..."
 sleep 5s
-for i in `seq 1 5`;
+for i in `seq 1 1`;
 do
   roslaunch pioneer_nav2d localisation_launcher.launch robot_name:=pioneer$i x:="$(rosparam get /pioneer$i/x)" y:="$(rosparam get /pioneer$i/y)" yaw:="$(rosparam get /pioneer$i/a)" &
   pid="$pid $!"
@@ -37,15 +37,15 @@ done
 
 echo "Launching move_base stack..."
 sleep 5s
-for i in `seq 1 5`;
+for i in `seq 1 1`;
 do
-  roslaunch pioneer_nav2d single_navigation.launch robot_name:=pioneer$i x:="$(rosparam get /pioneer$i/x)" y:="$(rosparam get /pioneer$i/y)" yaw:="$(rosparam get /pioneer$i/a)" movement_type:=fast controller:=dwa &
+  roslaunch pioneer_nav2d single_navigation.launch robot_name:=pioneer$i x:="$(rosparam get /pioneer$i/x)" y:="$(rosparam get /pioneer$i/y)" yaw:="$(rosparam get /pioneer$i/a)" movement_type:=fast controller:=mpc &
   pid="$pid $!"
   sleep 10s
 done
 
 echo "Launching rviz..."
-roslaunch pioneer_description pioneer_visualization.launch rviz_config:=multi_pioneer &
+roslaunch pioneer_description pioneer_visualization.launch rviz_config:=MPC_usage_one_pioneer &
 pid="$pid $!"
 
 trap "echo Killing all processes.; kill -2 TERM $pid; exit" SIGINT SIGTERM
