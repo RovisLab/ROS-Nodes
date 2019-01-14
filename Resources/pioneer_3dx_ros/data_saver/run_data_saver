@@ -6,7 +6,7 @@ echo "My process ID is $my_pid"
 echo "Starting data_saver_node"
 for i in `seq 1 1`;
 do
-  roslaunch data_saver save_topics.launch robot_name:=pioneer$i use_bag:=true &
+  roslaunch data_saver save_topics.launch robot_name:=pioneer$i use_bag:=true bag_path:=*.bag &
   pid="$pid $!"
   sleep 5s
 done

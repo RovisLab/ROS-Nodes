@@ -83,7 +83,7 @@ void bindCallback( const LaserScanConstPtr& scan, const ImageConstPtr& image, co
 
     try
     {
-        cv_ptr = cv_bridge::toCvCopy(image, sensor_msgs::image_encodings::RGB8);
+        cv_ptr = cv_bridge::toCvCopy(image, sensor_msgs::image_encodings::BGR8);
         resize(cv_ptr->image, cv_ptr->image, Size(height, width));
     }
     catch (cv_bridge::Exception& e)
