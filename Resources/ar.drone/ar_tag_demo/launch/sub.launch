@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+
+<node name="pose_subscriber" pkg="ar_track_alvar" type="pose_subscriber" output="screen"/>
+
+</launch>

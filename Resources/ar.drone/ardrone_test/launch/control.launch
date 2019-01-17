@@ -1,0 +1,8 @@
+<?xml version = "1.0" ?>
+
+<launch>
+
+	<node name="ardrone_test_node" pkg="ardrone_test" type="ardrone_test_node"/>
+
+</launch>
+

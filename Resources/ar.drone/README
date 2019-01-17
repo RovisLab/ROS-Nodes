@@ -1,0 +1,28 @@
+Project: ArDrone following Ar Markers
+OS: Ububtu 16
+Language: ROS, C++
+
+Prerequirements:
+	-ROS (tutorial:) 
+	-catkin workspace (tutorial:)
+
+The project uses the following packages: "ardrone_autonomy", "ar_track_alvar" and "tum_simulator" to control the drone.
+
+To run the project:
+
+1. In a terminal run the command:
+	$roslaunch ardrone_test driver.launch
+
+2. In a second terminal run the command:
+	$rosrun ardrone_test camera
+
+3. In a third terminal run the command:
+	$rosrun ardrone_test waypoint_nav
+
+After executing the previous commands, we wait until the second terminal (the one with the camera) displays the message "READY..." in order for the camera to be prepared to detect the marker. Then we select the window with the keyboard control (waypoint_nav) and we launch the drone (using the corresponding keys). In this window we send all the commands to the drone.
+
+
+With the first command we start a driver for the drone. In the specified launchfile we can change the drone's parameters.
+The second command starts a runfile which launches a node used to connect to the drone's camera, for the marker detection.
+With the third command we start the node that controls the drone using the keyboard.
+

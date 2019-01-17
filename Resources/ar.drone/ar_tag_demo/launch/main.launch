@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+ <include file="$(find ar_tag_demo)/launch/camera.launch" />
+ <include file="$(find ar_tag_demo)/launch/track.launch" />
+ 
+
+</launch>

@@ -1,0 +1,23 @@
+#!/bin/bash
+ 
+my_pid=$$
+echo "My process ID is $my_pid"
+
+
+echo "Launching Main.launch..."
+roslaunch ar_tag_demo main.launch &
+pid="$pid $!"
+sleep 5s
+
+echo "Kill node..."
+rosnode kill /ardrone/ardrone_stream &
+pid="$pid $!"
+echo "WAIT FOR THE READY SIGNAL"
+sleep 5s
+
+echo "READY..."
+
+
+trap "echo Killing all processes.; kill -2 TERM $pid; exit" SIGINT SIGTERM
+
+sleep 24h
