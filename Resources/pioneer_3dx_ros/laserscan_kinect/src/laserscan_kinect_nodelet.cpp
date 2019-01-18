@@ -51,12 +51,11 @@ private:
   {
     converter.reset(new LaserScanKinectNode(getNodeHandle(), getPrivateNodeHandle()));
   };
-  
+
   std::shared_ptr<LaserScanKinectNode> converter;
 };
 
 } // end of namespace
 
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_DECLARE_CLASS(laserscan_kinect, LaserScanKinectNodelet,laserscan_kinect::LaserScanKinectNodelet, nodelet::Nodelet);
-
+PLUGINLIB_EXPORT_CLASS(laserscan_kinect::LaserScanKinectNodelet, nodelet::Nodelet);

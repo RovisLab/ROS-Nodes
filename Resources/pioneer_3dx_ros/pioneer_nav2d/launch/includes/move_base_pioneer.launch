@@ -1,52 +1,52 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="robot_name" default="pioneer1"/>
-  <arg name="movement_type" default="fast"/>
-  <arg name="odom_frame_id"   default="odom"/>
-  <arg name="base_frame_id"   default="base_link"/>
-  <arg name="global_frame_id" default="/map"/>
-  <arg name="odom_topic" default="odom" />
-  <arg name="controller"  default="mpc" doc="opt: dwa, mpc, pure_pursuit"/> 
+  <arg name="robot_name"        default="pioneer" />
+  <arg name="movement_type"     default="fast" />
+  <arg name="odom_frame_id"     default="odom" />
+  <arg name="base_frame_id"     default="base_link"/>
+  <arg name="global_frame_id"   default="map" />
+  <arg name="odom_topic"        default="odom" />
+  <arg name="controller"        default="mpc" doc="opt: dwa, mpc, pure_pursuit"/>
 
   <node pkg="move_base" type="move_base" respawn="true" name="move_base" output="screen">
     <rosparam file="$(find pioneer_nav2d)/param/$(arg movement_type)/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find pioneer_nav2d)/param/$(arg movement_type)/costmap_common_params.yaml" command="load" ns="local_costmap" />   
-    <rosparam file="$(find pioneer_nav2d)/param/$(arg movement_type)/local_costmap_params.yaml" command="load" />   
+    <rosparam file="$(find pioneer_nav2d)/param/$(arg movement_type)/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find pioneer_nav2d)/param/$(arg movement_type)/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find pioneer_nav2d)/param/$(arg movement_type)/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find pioneer_nav2d)/param/$(arg movement_type)/dwa_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find pioneer_nav2d)/param/$(arg movement_type)/dwa_local_planner_params.yaml" command="load"/>
     <rosparam file="$(find pioneer_nav2d)/param/$(arg movement_type)/move_base_params.yaml" command="load" />
     <!--><rosparam file="$(find pioneer_nav2d)/param/global_planner_params.yaml" command="load" />
     <rosparam file="$(find pioneer_nav2d)/param/navfn_global_planner_params.yaml" command="load" /><-->
-    
+
     <!-- reset frame_id parameters using user input data -->
     <param name="global_costmap/global_frame" value="$(arg global_frame_id)"/>
-    <param name="global_costmap/robot_base_frame" value="$(arg base_frame_id)"/>
-    <param name="local_costmap/global_frame" value="$(arg odom_frame_id)"/>
-    <param name="local_costmap/robot_base_frame" value="$(arg base_frame_id)"/>
-    <param name="DWAPlannerROS/global_frame_id" value="$(arg odom_frame_id)"/>
-    
-    <remap from="odom" to="$(arg odom_topic)"/>
-    <remap from="map" to="/map" />
+    <param name="global_costmap/robot_base_frame" value="$(arg robot_name)/$(arg base_frame_id)"/>
+
+    <param name="local_costmap/global_frame" value="$(arg robot_name)/$(arg odom_frame_id)"/>
+    <param name="local_costmap/robot_base_frame" value="$(arg robot_name)/$(arg base_frame_id)"/>
+
+    <param name="DWAPlannerROS/global_frame_id" value="$(arg robot_name)/$(arg odom_frame_id)"/>
+
+    <!-- Remap to global value, since we can't start a frame_id with '/' in tf2 -->
+    <remap from="$(arg global_frame_id)" to="/$(arg global_frame_id)" />
+
     <param name="planner_frequency" value="0.0" if="$(eval controller == 'mpc')"/>
     <param name="planner_patience" value="5.0" if="$(eval controller == 'mpc')"/>
     <remap from="cmd_vel" to="/fake_cmd" unless="$(eval controller == 'dwa')"/>
   </node>
-    <!--  ************** MPC Node **************  -->
-    <group if="$(eval controller == 'mpc')">
-      <node name="MPC_Node" pkg="mpc_wrapped" type="MPC_Node" output="screen" if="$(eval controller == 'mpc')" >
-        <rosparam file="$(find mpc_wrapped)/param/mpc_params/mpc_params.yaml" command="load" />
-        <param name="odom_frame" value="/$(arg robot_name)/odom"/>
-        <param name="car_frame" value="/$(arg robot_name)/base_link"/>
-        <remap from="/mpc_reference" to="mpc_reference"/>
-        <remap from="/mpc_trajectory" to="mpc_trajectory"/>
-        <remap from="map" to="/map" />
-        <remap from="/odom" to="odom" />
-        <remap from="/move_base/TrajectoryPlannerROS/global_plan" to="move_base/NavfnROS/plan" />
-        <remap from="map" to="/map" />
-        <remap from="/cmd_vel" to="cmd_vel" />
-        <remap from="/amcl_pose" to="amcl_pose" />
-        <remap from="/move_base_simple/goal" to="move_base_simple/goal" />
-      </node>
-    </group>
 
+  <!-- MPC Node - TBD -->
+  <group if="$(eval controller == 'mpc')">
+    <node name="MPC_Node" pkg="mpc_wrapped" type="MPC_Node" output="screen" if="$(eval controller == 'mpc')" >
+      <rosparam file="$(find mpc_wrapped)/param/mpc_params/mpc_params.yaml" command="load" />
+      <param name="odom_frame" value="$(arg robot_name)/odom"/>
+      <param name="car_frame" value="$(arg robot_name)/base_link"/>
+      <remap from="/mpc_reference" to="mpc_reference"/>
+      <remap from="/mpc_trajectory" to="mpc_trajectory"/>
+      <remap from="/move_base/TrajectoryPlannerROS/global_plan" to="move_base/NavfnROS/plan" />
+      <remap from="/cmd_vel" to="cmd_vel" />
+      <remap from="/amcl_pose" to="amcl_pose" />
+      <remap from="/move_base_simple/goal" to="move_base_simple/goal" />
+    </node>
+  </group>
 </launch>

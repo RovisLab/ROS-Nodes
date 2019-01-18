@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="tf_name"/>
+  <arg name="robot_name" default="pioneer" />
 
   <node pkg="amcl" type="amcl" name="amcl" output="screen">
     <param name="use_map_topic" value="true"/>
@@ -15,7 +15,7 @@
     <param name="kld_z" value="0.99"/>
     <param name="odom_alpha1" value="0.2"/>
     <param name="odom_alpha2" value="0.2"/>
-        <!-- translation std dev, m -->
+    <!-- translation std dev, m -->
     <param name="odom_alpha3" value="0.2"/>
     <param name="odom_alpha4" value="0.2"/>
     <param name="laser_z_hit" value="0.5"/>
@@ -29,18 +29,18 @@
     <param name="laser_likelihood_max_dist" value="2.0"/>
     <param name="update_min_d" value="0.2"/>
     <param name="update_min_a" value="0.1"/>
-    <param name="base_frame_id" value="$(arg tf_name)/base_link"/> 
-    <param name="odom_frame_id" value="$(arg tf_name)/odom"/> 
-    <param name="global_frame_id" value="/map" />
+    <param name="base_frame_id" value="$(arg robot_name)/base_link"/>
+    <param name="odom_frame_id" value="$(arg robot_name)/odom"/>
+    <param name="global_frame_id" value="map" />
+
+    <!-- Remap to global value, since we can't start a frame_id with '/' in tf2 -->
+    <remap from="map" to="/map" />
+
     <param name="resample_interval" value="1"/>
     <!-- Increase tolerance because the computer can get quite busy -->
     <param name="transform_tolerance" value="1.0"/>
     <param name="recovery_alpha_slow" value="0.0"/>
     <param name="recovery_alpha_fast" value="0.0"/>
-    <remap from="scan" to="/$(arg tf_name)/scan"/>    
-    <remap from="static_map" to="/static_map" /> 
-    <remap from="map" to="/map" />
-
   </node>
 
 </launch>

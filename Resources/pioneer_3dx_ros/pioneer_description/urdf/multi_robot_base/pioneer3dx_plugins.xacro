@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-  
-  <xacro:macro name="pioneer3dx_joints_state_publisher">        
+
+  <xacro:macro name="pioneer3dx_joints_state_publisher">
     <gazebo>
         <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
           <robotNamespace></robotNamespace>
@@ -11,7 +11,7 @@
         </plugin>
     </gazebo>
   </xacro:macro>
-      
+
   <xacro:macro name="pioneer3dx_diff_drive">
     <gazebo>
         <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
@@ -20,8 +20,10 @@
             <publishWheelTF>false</publishWheelTF>
             <publishWheelJointState>true</publishWheelJointState>
             <alwaysOn>true</alwaysOn>
-            <leftJoint>left_hub_joint</leftJoint>
-            <rightJoint>right_hub_joint</rightJoint>
+            <!-- For some reason, the joints have to be reversed
+                 or the odometry won't work. Might be related to a bug? -->
+            <leftJoint>right_hub_joint</leftJoint>
+            <rightJoint>left_hub_joint</rightJoint>
             <wheelSeparation>0.3</wheelSeparation>
             <wheelDiameter>0.18</wheelDiameter>
             <wheelTorque>20</wheelTorque>
@@ -36,7 +38,7 @@
             <publishTf>1</publishTf>
             <legacyMode>true</legacyMode>
         </plugin>
-    </gazebo>  
+    </gazebo>
   </xacro:macro>
 
 </robot>

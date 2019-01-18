@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="robot_name" default="pioneer1"/>
-  <arg name="pose"/>
-  <arg name="use_kinect" default="false"/>
-  <arg name="sim" default="true"/>
-  <arg name="real_kinect" default="false"/>
+  <arg name="robot_name"    default="pioneer" />
+  <arg name="pose" />
+  <arg name="use_kinect"    default="false" />
+  <arg name="sim"           default="true" />
+  <arg name="real_kinect"   default="false" />
 
   <group ns="$(arg robot_name)">
     <param name="tf_prefix" value="$(arg robot_name)" />
@@ -15,7 +15,7 @@
         <arg name="init_pose" value="$(arg pose)"/>
       </include>
     </group>
-    
+
     <group unless="$(arg sim)">
       <include file="$(find pioneer_description)/launch/includes/connect_real_pioneer.launch" >
         <arg name="robot_name" value="$(arg robot_name)" />
@@ -27,12 +27,12 @@
       <include file="$(find freenect_launch)/launch/freenect_tf_prefix.launch">
         <arg name="tf_prefix" value="$(arg robot_name)"/>
         <arg name="camera" default="camera"/>
-      </include>  
+      </include>
     </group>
 
     <group if="$(arg use_kinect)">
       <!-- LASERSCAN LAUNCH-->
-      <node name="laserscan_kinect" pkg="laserscan_kinect" type="laserscan_kinect" > 
+      <node name="laserscan_kinect" pkg="laserscan_kinect" type="laserscan_kinect" >
         <remap from="image" to="camera/depth/image_raw"/>
         <remap from="camera_info" to="camera/depth/camera_info"/>
         <param name="scan_height" value="10"/>
@@ -47,7 +47,6 @@
         <param name="ground_remove_en" value="true"/>
         <param name="ground_margin" value="0.05"/>
         <param name="tilt_compensation_en" value="true"/>
-	      <remap from="scan" to="scan"/>
       </node>
       <node pkg="tf2_ros" type="static_transform_publisher" name="scan_tf" args="0.14 0 0.27 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/camera_rgb_frame" />
     </group>
