@@ -127,7 +127,7 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
                 double qw = p.quaternion[0];
 
                 //Afisare punct
-                cv::Mat dImg =  cv_ptr_->image;
+                /*cv::Mat dImg =  cv_ptr_->image;
                 //cv::Point center((px/pz)+320, (py/pz)+240);
                 cv::Point center(((px*100)/((pz*100)/700))+320, ((py*100)/((pz*100)/700))+220);
                 //double diam = (1/(pz*2));
@@ -135,16 +135,16 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
                 cv::circle(dImg, center, diam, cv::Scalar(25,222,123), 40);
                 cv::imshow("img", dImg);
                 cv::waitKey(10);
-                //double dist = sqrt(px*px+py*py);
+                //double dist = sqrt(px*px+py*py);*/
 
 
                 //ROS_INFO("distanta drona-marker = %lf", dist);
                 //ROS_INFO("Coordonate: (%lf, %lf)", px, py);
                 //ROS_INFO("z = %lf", pz);
 
-                ROS_INFO("x = %lf", px);
-                ROS_INFO("y = %lf", py);
-                ROS_INFO("z = %lf", pz);
+                //ROS_INFO("x = %lf", px);
+                //ROS_INFO("y = %lf", py);
+                //ROS_INFO("z = %lf", pz);
                 //ROS_INFO("diam = %lf", diam);
 
 

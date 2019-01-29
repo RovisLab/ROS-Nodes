@@ -36,15 +36,14 @@ ros::Publisher E_pub_empty;
 ros::Publisher velocity_publisher;		// velocity publisher
 ros::Subscriber pose_subscriber;		// ardrone navdata subsciber
 ros::Subscriber imu_subscriber;                 // ardrone imu data subsciber
-ros::Subscriber joy_sub_;
 ros::ServiceClient client1;                     // Variables for Service  // ardrone camera service
 
 using namespace std;
 
 const double PI = 3.14159265359;
-double px;
-double py;
-double pz;
+double px=0;
+double py=0;
+double pz=0;
 double dist;
 float lx;
 float ly;
@@ -53,7 +52,7 @@ float ax;
 float ay;
 float az;
 int f = 200;
-double Kp = 0.3, Ki = 0.05;
+double Kp = 0.6, Ki = 0.05; //0.5, 0.01
 
 //class instances
 ardrone_autonomy::Navdata drone_navdata;  	// Using this class variable for storing navdata
@@ -72,7 +71,7 @@ void land();
 void move(float lx, float ly, float lz, float ax, float ay, float az );                 // publishing command velocity
 void basic_movement();
 void printPose(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& msg);
-void pid(double setpoint);
+void pid(double setpoint_x, double setpoint_y);
 void sus();
 void jos();
 
@@ -105,10 +104,12 @@ int main(int argc, char **argv)
         //cout << "m - start drona, s - PID, x - stop drona" << endl;
         cout << "w - start drona, s - stop drona, r - reset, p - PID, h - hover , m - menu" << endl;
 
-        ros::Subscriber pose_sub = n.subscribe("ar_pose_marker", 100, printPose);
+        //ros::Subscriber pose_sub = n.subscribe("ar_pose_marker", 100, printPose);
 
-        int c = getch();                                                        // call your non-blocking input function
-        int timee;
+        int c = getch();    // call your non-blocking input function
+        cout << endl;
+        //int timee;
+        int d = 0;
 
         switch (c)
         {
@@ -126,7 +127,8 @@ int main(int argc, char **argv)
                         break;
 
             case 'p':   cout << "\n PID" << endl;
-                        pid(0.0);
+                        pid(0.0,0.0);
+                        //pid(-0.03, -0.02);
                         break;
 
             case 'r':   cout << "\n Reset.." << endl;
@@ -137,15 +139,7 @@ int main(int argc, char **argv)
                         hover(5);
                         break;
 
-           case 'u':    cout << "\n sus" << endl;
-                        //sus();
-                        break;
-
-           case 'd':    cout << "\n jos" << endl;
-                        //jos();
-                        break;
-
-            default:    //land();
+            default:    land();
                         break;
 
         }
@@ -158,35 +152,37 @@ int main(int argc, char **argv)
     //land();
     cout<<"landed";
 
+    return 0;
+
 }
 
 
 
 
-void pid(double setpoint)
+void pid(double setpoint_x, double setpoint_y)
 {
     double integral_old_x = 0, integral_old_y = 0;
     double val_x, val_y;
     double error_x, error_y;
     double prop_x, prop_y;
     double integral_x, integral_y;
-    double min = -0.5, max = 0.5;
+    double min = -1, max = 1;
 
-    ros::Rate loop_rate(10);
+    ros::Rate loop_rate(5);
     while (ros::ok())
     {
         double init_time=ros::Time::now().toSec();
         double time;
-        while (time < (init_time+2.0))                 // Send command for 2 seconds
+        while (time < (init_time+3.0))                 // Send command for 2 seconds
         {
             //pt x
-            error_x = setpoint - px;
+            error_x = setpoint_x - px;
             prop_x = Kp * error_x;
             integral_x = integral_old_x + Ki * error_x;
             val_x = prop_x + integral_x;
 
             //pt y
-            error_y = setpoint - py;
+            error_y = setpoint_y - py;
             prop_y = Kp * error_y;
             integral_y = integral_old_y + Ki * error_y;
             val_y = prop_y + integral_y;
@@ -201,10 +197,10 @@ void pid(double setpoint)
             else if(val_y > max)
                 val_y = max;
 
-            move(val_x, val_y, 0, 0, 0, 0);
+            //move(val_x, val_y, 0, 0, 0, 0);
 
-            //ROS_INFO("x = %lf", px);
-            //ROS_INFO("val_x: %lf", val_x);
+            ROS_INFO("x = %lf", px);
+            ROS_INFO("val_x: %lf", val_x);
             //ROS_INFO("y = %lf", py);
             //ROS_INFO("val_y: %lf", val_y);
             ros::spinOnce();
@@ -275,11 +271,13 @@ void basic_movement()
     //cout << "a |down|    jkl  |left|  back |right|       s |land| other |hover|" << endl;
 
     cout << endl;
-    cout << "q |up|     a |down|      e |exit to prev menu|" << endl;
+    cout << "p- pid, e- exit menu, s- land" << endl;
+    cout << "q- up, a- down, i- forward, k- backward, j- left, l- right" << endl;
 	
     while (exit_val==0)
     {
         int l = getch();                            //calling non blocking input fucntion
+        cout << endl;
         int sval = 0.5;
 
         if (l=='q')
@@ -290,22 +288,22 @@ void basic_movement()
         {
             move(0,0,-1,0,0,0);
         }
-        /*else if (l=='i')
+        else if (l=='i')
         {
-            move(1,0,0,0,0,0);
+            move(0.5,0,0,0,0,0);
         }
         else if (l=='k')
         {
-            move(-1,0,0,0,0,0);
+            move(-0.5,0,0,0,0,0);
         }
         else if (l=='j')
         {
-            move(0,1,0,0,0,0);
+            move(0,0.5,0,0,0,0);
         }
         else if (l=='l')
         {
-            move(0,-1,0,0,0,0);
-        }*/
+            move(0,-0.5,0,0,0,0);
+        }
         else if (l=='e')
         {
             exit_val = 1;
@@ -313,6 +311,11 @@ void basic_movement()
         else if (l=='s')
         {
             land();
+        }
+        else if (l=='p')
+        {
+            pid(-0.03, -0.02);
+            //pid(0.0, 0.0);
         }
         else
         {
@@ -383,7 +386,7 @@ void takeoff()
         double init_time=ros::Time::now().toSec();  // epoch time
         double time;
 
-        while (time < (init_time + 1.0))            // Send command for five seconds
+        while (time < (init_time + 3.0))            // Send command for five seconds
         {
             T_pub_empty.publish(emp_msg);           // launches the drone
             ros::spinOnce();                        // feedback

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
- <arg name="marker_size" default="10.7" />   <!-- 6.9 .. 4.5 mergea-->
+ <arg name="marker_size" default="17.3" />   <!-- 6.9 .. 4.5 mergea-->
  <arg name="max_new_marker_error" default="0.08" />
  <arg name="max_track_error" default="0.2" />
 <!--

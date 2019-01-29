@@ -1,0 +1,3 @@
+rosrun image_view image_saver image:=[your topic]
+
+intr-un terminal deschis din folderul unde vrem sa salvam
