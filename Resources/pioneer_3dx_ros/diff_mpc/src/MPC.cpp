@@ -1,20 +1,3 @@
-/*
-# Copyright (c) 2018 Elektrobit Automotive
-# Developer: Mihai, Zaha (mihai.zaha@elektrobit.com)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-*/
-
 #include "MPC.h"
 #include "common.h"
 
@@ -23,12 +6,10 @@ DiffFGEval::DiffFGEval()
     m_wd(0.25),
     m_dt(0.1),
     m_ref_velocity(1.),
-    m_w_position(1.),
+    m_w_velocity(1.),
     m_w_orientation(1.),
     m_w_vchange(1.),
-    idx(m_mpc_steps),
-    m_goal_x(0.),
-    m_goal_y(0.)
+    idx(m_mpc_steps)
 {
 }
 
@@ -37,18 +18,12 @@ void DiffFGEval::LoadCoeffs(const Eigen::VectorXd& coeffs)
     m_coeffs = coeffs;
 }
 
-void DiffFGEval::SetGoal(double x, double y)
-{
-    m_goal_x = x;
-    m_goal_y = y;
-}
-
-// Load parameters for constraints
+// Load parameters of the MPC
 void DiffFGEval::LoadParams(const std::map<std::string, double> &params)
 {
     common::LoadParameter("mpc_dt", params, m_dt);
     common::LoadParameter("mpc_steps", params, m_mpc_steps);
-    common::LoadParameter("mpc_position_weight", params, m_w_position);
+    common::LoadParameter("mpc_velocity_weight", params, m_w_velocity);
     common::LoadParameter("mpc_orientation_weight", params, m_w_orientation);
     common::LoadParameter("mpc_velocity_change_weight", params, m_w_vchange);
 
@@ -64,45 +39,37 @@ void DiffFGEval::operator()(ADvector& fg, const ADvector& vars)
 {
     fg[0] = 0.;
 
-    std::vector<double> x_ref;
-    x_ref.resize(m_mpc_steps);
-
-    const double sign = CppAD::Value(CppAD::Var2Par(CppAD::sign(m_goal_x - vars[idx.x_start])));
-    const double step = sign * m_ref_velocity * m_dt;
-    for (int i = 0; i < m_mpc_steps; ++i)
+    // The cost function is made based on the reference velocity
+    // for the robot and the orientation at each timepoint of the MPC controller
+    // The orientation is calculated using a fitted polynomial on the path points
+    for (int i = 0; i < (m_mpc_steps - 1); ++i)
     {
-        x_ref[i] = i * step;
-    }
-
-    for (int i = 0; i < m_mpc_steps; ++i)
-    {
-        const CppAD::AD<double> x0  = vars[idx.x_start  + i];
-        const CppAD::AD<double> y0  = vars[idx.y_start  + i];
+        const CppAD::AD<double> x0 = vars[idx.x_start + i];
         const CppAD::AD<double> th0 = vars[idx.th_start + i];
+        const CppAD::AD<double> v0 = vars[idx.v_start + i];
 
-        const CppAD::AD<double> y_ref = common::PolyEval(m_coeffs, x_ref[i]); // y=f(x) at time t
-        const CppAD::AD<double> th_ref = CppAD::atan(common::PolyDerivativeEval(m_coeffs, x_ref[i])); // atan(f'(x)) at time t -> orientation
+         // atan(f'(x)) at time t -> orientation
+        const CppAD::AD<double> ref_th = CppAD::atan(common::PolyDerivativeEval(m_coeffs, x0));
 
-        fg[0] += m_w_position * CppAD::pow(x_ref[i] - x0, 2);
-        fg[0] += m_w_position * CppAD::pow(y_ref - y0, 2);
-        fg[0] += m_w_orientation * CppAD::pow(th_ref - th0, 2);
+        fg[0] += m_w_velocity * CppAD::pow(v0 - m_ref_velocity, 2);
+        fg[0] += m_w_orientation * CppAD::pow(th0 - ref_th, 2);
     }
 
+    // This should constrain the acceleration of the robot
     for (int i = 1; i < (m_mpc_steps - 1); ++i)
     {
-        const CppAD::AD<double> vr0 = vars[idx.vr_start + i - 1];
-        const CppAD::AD<double> vl0 = vars[idx.vl_start + i - 1];
-        const CppAD::AD<double> vr1 = vars[idx.vr_start + i];
-        const CppAD::AD<double> vl1 = vars[idx.vl_start + i];
+        const CppAD::AD<double> v0 = vars[idx.v_start + i - 1];
+        const CppAD::AD<double> v1 = vars[idx.v_start + i];
 
-        fg[0] += m_w_vchange * CppAD::pow(vr1 - vr0, 2);
-        fg[0] += m_w_vchange * CppAD::pow(vl1 - vl0, 2);
+        fg[0] += m_w_vchange * CppAD::pow(v1 - v0, 2);
     }
 
     fg[1 + idx.x_start]  = vars[idx.x_start];
     fg[1 + idx.y_start]  = vars[idx.y_start];
     fg[1 + idx.th_start] = vars[idx.th_start];
 
+    // Solve the speed and steering controls based on
+    // the parameters determined at minimizing cost function
     for (int i = 0; i < (m_mpc_steps - 1); ++i)
     {
         // The state at time t
@@ -111,19 +78,17 @@ void DiffFGEval::operator()(ADvector& fg, const ADvector& vars)
         const CppAD::AD<double> th0 = vars[idx.th_start + i];
 
         // Actuators at time t
-        const CppAD::AD<double> vr0 = vars[idx.vr_start + i];
-        const CppAD::AD<double> vl0 = vars[idx.vl_start + i];
+        const CppAD::AD<double> v0 = vars[idx.v_start + i];
+        const CppAD::AD<double> s0 = vars[idx.s_start + i];
 
         // The state at time t+1
         const CppAD::AD<double> x1  = vars[idx.x_start  + i + 1];
         const CppAD::AD<double> y1  = vars[idx.y_start  + i + 1];
         const CppAD::AD<double> th1 = vars[idx.th_start + i + 1];
 
-        const CppAD::AD<double> alpha = m_dt * (vr0 - vl0) / m_wd;
-
-        fg[2 + idx.x_start  + i] = x1 - (x0 + (vr0 + vl0) * 0.5 * CppAD::cos(th0) * m_dt);
-        fg[2 + idx.y_start  + i] = y1 - (y0 + (vr0 + vl0) * 0.5 * CppAD::sin(th0) * m_dt);
-        fg[2 + idx.th_start + i] = th1 - (th0 + alpha);
+        fg[2 + idx.x_start  + i] = x1 - (x0 + v0 * CppAD::cos(th0) * m_dt);
+        fg[2 + idx.y_start  + i] = y1 - (y0 + v0 * CppAD::sin(th0) * m_dt);
+        fg[2 + idx.th_start + i] = th1 - (th0 + s0 * m_dt);
     }
 }
 
@@ -140,11 +105,6 @@ void DiffMPC::LoadParams(const std::map<std::string, double> &params)
     common::LoadParameter("max_velocity", params, m_max_velocity);
 
     m_fg_eval.LoadParams(params);
-}
-
-void DiffMPC::SetGoal(double x, double y)
-{
-    m_fg_eval.SetGoal(x, y);
 }
 
 // state vector: [x, y, w]
@@ -177,17 +137,23 @@ std::vector<double> DiffMPC::Solve(Eigen::VectorXd state_vec, const Eigen::Vecto
 
     Dvector vars_lowerbound(n_vars);
     Dvector vars_upperbound(n_vars);
-    for (int i = 0; i < m_fg_eval.idx.vr_start; ++i)
+    for (int i = 0; i < m_fg_eval.idx.v_start; ++i)
     {
         vars_lowerbound[i] = -1e10; // almost no limit
         vars_upperbound[i] = 1e10;  // almost no limit
     }
 
     // Limits for the velocity
-    for (int i = m_fg_eval.idx.vr_start; i < n_vars; ++i)
+    for (int i = m_fg_eval.idx.v_start; i < m_fg_eval.idx.s_start; ++i)
     {
-        vars_lowerbound[i] = -m_max_velocity;
+        vars_lowerbound[i] = 0.;
         vars_upperbound[i] = m_max_velocity;
+    }
+
+    for (int i = m_fg_eval.idx.s_start; i < n_vars; ++i)
+    {
+        vars_lowerbound[i] = -1e10;
+        vars_upperbound[i] = 1e10;
     }
 
     // Lower and upper limits for the constraints
@@ -245,6 +211,6 @@ std::vector<double> DiffMPC::Solve(Eigen::VectorXd state_vec, const Eigen::Vecto
     }
 
     // Control vector:
-    //  [velocity right, velocity left]
-    return { solution.x[m_fg_eval.idx.vr_start], solution.x[m_fg_eval.idx.vl_start] };
+    //  [velocity, steering]
+    return { solution.x[m_fg_eval.idx.v_start], solution.x[m_fg_eval.idx.s_start] };
 }

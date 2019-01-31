@@ -14,15 +14,15 @@ struct sVarsIndex
     const int x_start;
     const int y_start;
     const int th_start;
-    const int vr_start;
-    const int vl_start;
+    const int v_start;
+    const int s_start;
 
     sVarsIndex(int mpc_steps)
         : x_start(0),
         y_start(x_start + mpc_steps),
-        th_start(x_start + mpc_steps),
-        vr_start(th_start + mpc_steps),
-        vl_start(vr_start + mpc_steps - 1)
+        th_start(y_start + mpc_steps),
+        v_start(th_start + mpc_steps),
+        s_start(v_start + mpc_steps - 1)
     {
     }
 };

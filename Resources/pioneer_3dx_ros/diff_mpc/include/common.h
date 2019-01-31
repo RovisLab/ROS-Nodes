@@ -56,28 +56,30 @@ static Eigen::VectorXd PolyFit(
 }
 
 // Evaluate the polynomial at x
-static double PolyEval(
+template <typename ValueType_t>
+ValueType_t PolyEval(
     Eigen::VectorXd coeffs,
-    double x)
+    ValueType_t x)
 {
-    double result = 0.;
+    ValueType_t result = 0.;
     for (int i = 0; i < coeffs.size(); i++)
     {
-        result += coeffs[i] * pow(x, i + 1U);
+        result += coeffs[i] * CppAD::pow(x, i + 1U);
     }
 
     return result;
 }
 
 // Evaluate first derivative of the polynomial at x
-static double PolyDerivativeEval(
+template <typename ValueType_t>
+ValueType_t PolyDerivativeEval(
     Eigen::VectorXd coeffs,
-    double x)
+    ValueType_t x)
 {
-    double result = 0.;
+    ValueType_t result = 0.;
     for (int i = 0; i < coeffs.size(); i++)
     {
-        result += (i + 1U) * coeffs[i] * pow(x, i);
+        result += (i + 1U) * coeffs[i] * CppAD::pow(x, i);
     }
 
     return result;

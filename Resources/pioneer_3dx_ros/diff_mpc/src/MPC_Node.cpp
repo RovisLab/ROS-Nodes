@@ -1,20 +1,3 @@
-/*
-# Copyright 2018 HyphaROS Workshop.
-# Developer: HaoChih, LIN (hypha.ros@gmail.com)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-*/
-
 #include <iostream>
 #include <map>
 #include <math.h>
@@ -145,7 +128,7 @@ DiffMPCNode::DiffMPCNode()
     std::map<std::string, double> mpc_parameters;
     COPY_MPC_PARAM("mpc_dt", 0.1);
     COPY_MPC_PARAM("mpc_steps", 20.0);
-    COPY_MPC_PARAM("mpc_position_weight", 1.);
+    COPY_MPC_PARAM("mpc_velocity_weight", 1.);
     COPY_MPC_PARAM("mpc_orientation_weight", 10.);
     COPY_MPC_PARAM("mpc_velocity_change_weight", 1.0);
 
@@ -248,11 +231,22 @@ void DiffMPCNode::controlLoopCB(const ros::TimerEvent&)
         const double v = m_odom.twist.twist.linear.x;
         const double dth = m_odom.twist.twist.angular.z;
 
+        Eigen::VectorXd state_vec(3); // [x, y, w] = 3
+        sRobotState state(state_vec);
+
+        // Kinematic model is used to predict vehicle state at the actual
+        // moment of control (current time + delay dt)
+        // TBD: Instead of 0.025 should be the time it takes
+        // to compute everything and send the command
+        state.x  = v * CppAD::cos(0) * 0.025;
+        state.y  = v * CppAD::sin(0) * 0.025;
+        state.th = dth * 0.025;
+
         // Determine how many points should be chosen for the reference polynomial
         //const double wp_dist = distance(m_odom_path.poses[0], m_odom_path.poses[1]);
         const double mpc_dist = 1.2 * m_ref_vel * m_mpc_dt * m_mpc_steps;
 
-        // Compute the first index on the path points
+        // Compute the first index on the path pointsbase_frame_id
         double last_dist = distance(m_odom_path.poses[0].pose, m_odom.pose.pose);
         size_t first_idx = 0U;
         for (size_t i = 1U; i < m_odom_path.poses.size(); ++i)
@@ -294,9 +288,9 @@ void DiffMPCNode::controlLoopCB(const ros::TimerEvent&)
         Eigen::VectorXd ref_x(last_idx - first_idx + extra_pts);
         Eigen::VectorXd ref_y(last_idx - first_idx + extra_pts);
 
-        // Robot position
-        ref_x[0] = 0.;
-        ref_y[0] = 0.;
+        // Predicted robot position
+        ref_x[0] = state.x;
+        ref_y[0] = state.y;
 
         for (size_t i = first_idx; i < last_idx; ++i)
         {
@@ -313,29 +307,17 @@ void DiffMPCNode::controlLoopCB(const ros::TimerEvent&)
             ref_y[last_idx - first_idx + 1U] = m_goal_pos.y - py;
         }
 
-        // Fit the polynomial on the points with the approximated order
+        // Fit the polynomial on the points
         const auto coeffs = common::PolyFit(ref_x, ref_y, 4);
 
-        // Compute wheels velocities
-        const double Vr = ((2. * v) + (dth * m_wd)) / (2. * m_wr);
-        const double Vl = ((2. * v) - (dth * m_wd)) / (2. * m_wr);
-
-        Eigen::VectorXd state_vec(3); // [x, y, w] = 3
-        sRobotState state(state_vec);
-
-        // Kinematic model is used to predict vehicle state at the actual
-        // moment of control (current time + delay dt)
-        state.x  = (Vr + Vl) * 0.5 * CppAD::cos(0) * 0.025;
-        state.y  = (Vr + Vl) * 0.5 * CppAD::sin(0) * 0.025;
-        state.th = 0.025 * (Vr - Vl) / m_wd;
-
         // Solve MPC problem
-        m_mpc.SetGoal(m_goal_pos.x - px, m_goal_pos.y - py);
-        const std::vector<double> mpc_velocities = m_mpc.Solve(state_vec, coeffs);
+        // TODO: This does not yet cares about the final orientation
+        // given by the goal
+        const std::vector<double> mpc_solution = m_mpc.Solve(state_vec, coeffs);
 
         // Command based on MPC solution
-        steering = (mpc_velocities[0] - mpc_velocities[1]) / m_wd;
-        speed = (mpc_velocities[0] + mpc_velocities[1]) * 0.5;
+        speed = mpc_solution[0];
+        steering = mpc_solution[1];
 
         if(m_debug_info)
         {

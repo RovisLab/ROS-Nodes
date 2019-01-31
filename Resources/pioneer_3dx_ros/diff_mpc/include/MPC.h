@@ -19,14 +19,11 @@ private:
     double m_dt;
     double m_ref_velocity;
 
-    double m_w_position;
+    double m_w_velocity;
     double m_w_orientation;
     double m_w_vchange;
 
     Eigen::VectorXd m_coeffs;
-
-    double m_goal_x;
-    double m_goal_y;
 
 public:
     using ADvector = CPPAD_TESTVECTOR(CppAD::AD<double>);
@@ -41,7 +38,6 @@ public:
 
     void LoadCoeffs(const Eigen::VectorXd& coeffs);
     void LoadParams(const std::map<std::string, double> &params);
-    void SetGoal(double x, double y);
 
     void operator()(ADvector& fg, const ADvector& vars);
 };
@@ -63,7 +59,6 @@ class DiffMPC
             const Eigen::VectorXd& coeffs);
 
         void LoadParams(const std::map<std::string, double>& params);
-        void SetGoal(double x, double y);
 
         std::vector<double> predicted_x;
         std::vector<double> predicted_y;
