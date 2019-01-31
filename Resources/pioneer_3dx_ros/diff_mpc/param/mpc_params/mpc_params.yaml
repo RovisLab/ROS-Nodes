@@ -1,0 +1,31 @@
+# Node parameters
+debug_info: false # display debug info in the console; this might slower the controller
+publish_estimated_trajectory: true # publish trajectory estimated by MPC
+publish_estimated_polynomial: true # publish polynomial used to estimate trajectory using MPC
+publish_rdp_waypoints: true # publish the waypoints determined using Ramer-Douglas-Peucker
+
+# Control loop parameters
+controller_freq: 50.0 # frequency of the controller in Hz
+goal_distance: 0.1
+
+# Robot parameters
+wheel_distance: 0.3 # distance between wheels in meters
+wheel_radius: 0.09 # radius of the wheels
+max_velocity: 1.0 # the maximum velocity of the robot in m/s
+reference_velocity: 0.7 # the usual velocity of the robot in m/s
+
+# Parameters for MPC solver
+mpc_dt: 0.15 # time difference between control points
+mpc_steps: 5 # how many steps to look ahead
+mpc_position_weight: 1.0 # weight of the position in the cost function
+mpc_orientation_weight: 0.1 # weight of the orientation in the cost function
+mpc_velocity_change_weight: 1.0 # rate of velocity change weight
+
+######
+## Formula for the lookahead distance:
+##  reference_velocity * mpc_dt * m_mpc_steps
+##
+## Example:
+##  for reference_velocity = 0.7, mpc_dt = 0.1 and mpc_steps = 20
+##  distance points = (0., 0.07, 0.14, 0.21, 0.28, ..., 1.4) meters
+##

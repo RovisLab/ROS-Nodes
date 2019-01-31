@@ -32,13 +32,13 @@ for i in {1..1}; do
     sleep 10s
 
     echo "# Launcing move_base stack for 'pioneer$i'"
-    roslaunch pioneer_nav2d single_navigation.launch robot_name:=pioneer$i x:="$(rosparam get /pioneer$i/x)" y:="$(rosparam get /pioneer$i/y)" yaw:="$(rosparam get /pioneer$i/a)" movement_type:=navigation controller:=dwa &
+    roslaunch pioneer_nav2d single_navigation.launch robot_name:=pioneer$i x:="$(rosparam get /pioneer$i/x)" y:="$(rosparam get /pioneer$i/y)" yaw:="$(rosparam get /pioneer$i/a)" movement_type:=navigation controller:=mpc &
     pid="$pid $!"
     sleep 10s
 done
 
 echo "## Launching rviz..."
-roslaunch pioneer_description pioneer_visualization.launch rviz_config:=one_pioneer_nav &
+roslaunch pioneer_description pioneer_visualization.launch rviz_config:=MPC_usage_one_pioneer &
 pid="$pid $!"
 
 trap "echo Killing all processes.; kill -2 TERM $pid; exit" SIGINT SIGTERM
