@@ -15,9 +15,7 @@
     <rosparam file="$(find pioneer_nav2d)/param/$(arg movement_type)/global_costmap_params.yaml" command="load" />
     <rosparam file="$(find pioneer_nav2d)/param/$(arg movement_type)/dwa_local_planner_params.yaml" command="load" />
     <rosparam file="$(find pioneer_nav2d)/param/$(arg movement_type)/move_base_params.yaml" command="load" />
-    <!--><rosparam file="$(find pioneer_nav2d)/param/global_planner_params.yaml" command="load" />
-    <rosparam file="$(find pioneer_nav2d)/param/navfn_global_planner_params.yaml" command="load" /><-->
-    
+   
     <!-- reset frame_id parameters using user input data -->
     <param name="global_costmap/global_frame" value="$(arg global_frame_id)"/>
     <param name="global_costmap/robot_base_frame" value="$(arg base_frame_id)"/>

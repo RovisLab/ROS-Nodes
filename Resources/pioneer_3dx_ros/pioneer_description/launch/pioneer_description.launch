@@ -33,20 +33,10 @@
     <group if="$(arg use_kinect)">
       <!-- LASERSCAN LAUNCH-->
       <node name="laserscan_kinect" pkg="laserscan_kinect" type="laserscan_kinect" > 
+        <rosparam file="$(find laserscan_kinect)/config/laserscan.yaml" command="load" />
         <remap from="image" to="camera/depth/image_raw"/>
         <remap from="camera_info" to="camera/depth/camera_info"/>
-        <param name="scan_height" value="10"/>
         <param name="output_frame_id" value="$(arg robot_name)/camera_depth_frame"/>
-        <param name="range_min" value="0.1"/>
-        <param name="range max" value="10.0"/>
-        <param name="scan_height" value="400"/>
-        <param name="depth_img_row_step" value="2"/>
-        <param name="cam_model_update" value="false"/>
-        <param name="sensor_mount_height" value="0.2"/>
-        <param name="sensor_tilt_angle" value="5.0"/>
-        <param name="ground_remove_en" value="true"/>
-        <param name="ground_margin" value="0.05"/>
-        <param name="tilt_compensation_en" value="true"/>
 	      <remap from="scan" to="scan"/>
       </node>
       <node pkg="tf2_ros" type="static_transform_publisher" name="scan_tf" args="0.14 0 0.27 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/camera_rgb_frame" />

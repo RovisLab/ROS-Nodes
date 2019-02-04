@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-  <arg name="pose_file" default="pioneer_poses"/>
-  <!-- Load the URDF into the ROS Parameter Server -->
-  <param name="robot_description"
-	 command="$(find xacro)/xacro.py '$(find pioneer_description)/urdf/pioneer_kinect.urdf.xacro'" />
-  
-  <rosparam file="$(find pioneer_description)/launch/navigation/$(arg pose_file).yaml" command="load"/>
-</launch>

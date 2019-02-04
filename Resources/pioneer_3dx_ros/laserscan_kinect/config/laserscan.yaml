@@ -1,0 +1,13 @@
+# Laserscan parameters
+
+scan_height: 400 # Height of used part of depth img (px).
+range_min: 0.1 # Minimum sensor range (m).
+range_max: 8.0 # Maximum sensor range (m).
+depth_img_row_step: 1 # Row step in depth image processing (px).
+cam_model_update: false # If continously camera data update.
+sensor_mount_height: 0.2 # Height of sensor optical center mount (m).
+sensor_tilt_angle: 5.0 # Sensor tilt angle compensation.
+ground_remove_en: true # Remove ground from scan.
+ground_margin: 0.05 # Ground margin (m).
+tilt_compensation_en: true # Sensor tilt angle compensation.
+
