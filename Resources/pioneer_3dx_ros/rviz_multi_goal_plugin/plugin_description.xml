@@ -1,0 +1,7 @@
+<library path="lib/librviz_multi_goal_plugin">
+  <class type="rviz::MultiGoalTool" base_class_type="rviz::Tool">
+    <description>
+      Publish goals for two robots.
+    </description>
+  </class>
+</library>
