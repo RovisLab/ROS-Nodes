@@ -95,7 +95,7 @@ void MultiGoalTool::onPoseSet(double x, double y, double theta)
   ROS_INFO("Setting goal: Frame:%s, Position(%.3f, %.3f, %.3f), Orientation(%.3f, %.3f, %.3f, %.3f) = Angle: %.3f\n", fixed_frame.c_str(),
       goal_3_.pose.position.x, goal_3_.pose.position.y, goal_3_.pose.position.z,
       goal_3_.pose.orientation.x, goal_3_.pose.orientation.y, goal_3_.pose.orientation.z, goal_3_.pose.orientation.w, theta);
-  pub_2_.publish(goal_3_);
+  pub_3_.publish(goal_3_);
 }
 
 } // end namespace rviz
