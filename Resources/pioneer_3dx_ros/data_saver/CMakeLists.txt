@@ -15,3 +15,11 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 add_executable(state_saver src/state_saver.cpp)
 target_link_libraries(state_saver ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
+add_executable(multi_odom src/multi_odom.cpp)
+target_link_libraries(multi_odom ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+
+add_executable(one_pioneer_path src/one_pioneer_path.cpp)
+target_link_libraries(one_pioneer_path ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+
+add_executable(two_pioneers_path src/two_pioneers_path.cpp)
+target_link_libraries(two_pioneers_path ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})

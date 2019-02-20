@@ -96,10 +96,17 @@ Arguments used into the simulation tools:
   - dwa :Dynamic Window Approach:  Given a global plan to follow and a costmap, the local planner produces velocity commands to send to a mobile base.
   - mpc :Model Predictive Control: Advanced method of process control that is used to control a process while satisfying a set of constraints.
 
+~move_base_type(string, default:move_base_pioneer)
+	
+		Option to use the normal move_base package, or the one where you give a ".txt" with the path
+		Configuration available:
+  - move_base_pioneer :Default <move_base> integration.
+  - move_base_test : The ".txt" file must be placed into <move_base_test>/resources/ folder and have the name file "global_path_pioneerX.txt", where x is the number of the robot.
+
 ~rviz_config(string, default: "one_pioneer_mapping")
 
     Configuration file loaded into RViz.Located into <pioneer_description>/RViz folder.
-    Conifgurations available:
+    Confgurations available:
   - one_pioneer_mapping : One Pioneer 3-DX model, map to be discovered, Global and Local plan in case of using the 2D Nav Goal tool.
   - multi_pioneer_rviz : Five Pioneer 3-DX models, map loaded from <map_server> package,for each one: Global plan, Local plan and Local CostMap. 
 

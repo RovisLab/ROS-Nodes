@@ -57,7 +57,7 @@ MultiGoalTool::MultiGoalTool()
 void MultiGoalTool::onInitialize()
 {
   PoseTool::onInitialize();
-  setName( "2D Multi-Nav Goal" );
+  setName( "2D Multi Goals" );
   updateTopic();
 }
 

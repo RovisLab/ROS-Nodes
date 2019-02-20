@@ -16,6 +16,6 @@ oscillation_distance: 0.5
 conservative_reset_dist: 0.3
 
 # local planner - default is trajectory rollout
-base_local_planner: teb_local_planner/TebLocalPlannerROS
+#base_local_planner: teb_local_planner/TebLocalPlannerROS
 #base_local_planner: eband_local_planner/EBandPlannerROS
-#base_local_planner: "dwa_local_planner/DWAPlannerROS"
+base_local_planner: "dwa_local_planner/DWAPlannerROS"

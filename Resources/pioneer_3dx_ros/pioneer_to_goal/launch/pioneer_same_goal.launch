@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="pioneer_number" />
+  <arg name="x" default="5" />
+  <arg name="y" default="5.5"/>
+
+    <node pkg="pioneer_to_goal" type="send_one" respawn="false" name="send_one" output="screen">
+      <param name="poz_x" value="$(eval arg('x'))"/>
+      <param name="poz_y" value="$(eval arg('y') - arg('pioneer_number'))"/>
+      <param name="poz_theta" value="0.0"/>
+    </node>
+
+</launch>
+
+  
+

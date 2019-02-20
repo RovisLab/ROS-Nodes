@@ -33,15 +33,21 @@ add_definitions(-DQT_NO_KEYWORDS)
 
 QT5_WRAP_CPP(MOC_FILES
   src/multi_goal_tool.h 
+  src/goal_multi_robots_tool.h
+	src/same_goal_tool.h
   OPTIONS -DBOOST_TT_HAS_OPERATOR_HPP_INCLUDED -DBOOST_LEXICAL_CAST_INCLUDED 
 )
 
 set(SOURCE_FILES
-  src/multi_goal_tool.cpp 
+  src/multi_goal_tool.cpp
+  src/goal_multi_robots_tool.cpp
+	src/same_goal_tool.cpp 
   ${MOC_FILES}
 )
 set(HEADER_FILES
   src/multi_goal_tool.h
+  src/goal_multi_robots_tool.h
+	src/same_goal_tool.h
 )
 
 ## An rviz plugin is just a shared library, so here we declare the

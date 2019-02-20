@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name"        default="pioneer" />
+  <arg name="odom_frame_id"     default="odom" />
+  <arg name="base_frame_id"     default="base_link"/>
+  <arg name="global_frame_id"   default="map" />
+  <arg name="odom_topic"        default="odom" />
+
+  <node name="MA_DiffMPC_Node" pkg="ma_diff_mpc" type="MA_DiffMPC_Node" output="screen" >
+    <rosparam file="$(find ma_diff_mpc)/param/mpc_params/mpc_params.yaml" command="load" />
+    <param name="odom_frame" value="$(arg odom_frame_id)" />
+    <param name="car_frame" value="$(arg base_frame_id)" />
+    <param name="robots_number" value="2" />
+    <param name="global_path_topic" value="move_base/NavfnROS/plan" />
+    <!-- <param name="global_path_topic" value="move_base/DWAPlannerROS/local_plan" /> -->
+    <param name="goal_topic" value="move_base_simple/goal" />
+
+    <remap from="$(arg global_frame_id)" to="/$(arg global_frame_id)" />
+  </node>
+</launch>

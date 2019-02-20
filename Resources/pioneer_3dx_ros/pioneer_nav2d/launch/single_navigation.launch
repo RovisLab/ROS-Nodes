@@ -6,10 +6,11 @@
   <arg name="yaw" default="0"/>
   <arg name="movement_type" default="fast"/>
   <arg name="controller"  default="dwa"/>
+	<arg name="move_base_type" default="move_base_pioneer" doc="opt: move_base_test_pioneer"/>
   
   <!-- Make sure initial pose matches $(find pioneer_description)/launch/pioneers.launch arg init_pose -->
   <group ns="$(arg robot_name)">
-    <include file="$(find pioneer_nav2d)/launch/includes/move_base_pioneer.launch">
+    <include file="$(find pioneer_nav2d)/launch/includes/$(arg move_base_type).launch">
       <arg name="movement_type" value="$(arg movement_type)"/>
       <arg name="robot_name" value="$(arg robot_name)"/>
       <arg name="controller" value="$(arg controller)"/>

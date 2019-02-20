@@ -26,6 +26,8 @@ include_directories(
 
 add_executable(map_navigation src/map_navigation.cpp)
 add_executable(map_navigation_darknet src/map_navigation_darknet.cpp)
+add_executable(send_one src/send_one.cpp)
+
 
 add_dependencies(map_navigation_darknet darknet_ros_msgs_generate_messages_cpp)
 
@@ -33,6 +35,9 @@ target_link_libraries(map_navigation
   ${catkin_LIBRARIES}
 )
 target_link_libraries(map_navigation_darknet
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(send_one
   ${catkin_LIBRARIES}
 )
 

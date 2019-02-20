@@ -9,8 +9,16 @@ find_package(catkin REQUIRED COMPONENTS
   move_base
   amcl
   map_server
+	costmap_2d
+	tf
+	dwa_local_planner
+	teb_local_planner
+	eband_local_planner
 )
 
+catkin_package()
 
-include_directories( ${catkin_INCLUDE_DIRS}
-)
+## Build listener
+include_directories(include ${catkin_INCLUDE_DIRS})
+
+
