@@ -134,8 +134,8 @@ void getCapCallback (const sensor_msgs::ImageConstPtr & image_msg)
                 double diam = (10/(pz*100))*20;
                 cv::circle(dImg, center, diam, cv::Scalar(25,222,123), 40);
                 cv::imshow("img", dImg);
-                cv::waitKey(10);
-                //double dist = sqrt(px*px+py*py);*/
+                cv::waitKey(10);*/
+                //double dist = sqrt(px*px+py*py);
 
 
                 //ROS_INFO("distanta drona-marker = %lf", dist);

@@ -7,10 +7,10 @@
  <arg name="cam_image_topic" default="/camera/image_raw" />
  <arg name="cam_info_topic" default="/camera/camera_info" />-->
 
- <arg name="cam_image_topic" default="/ardrone/image_raw" />
- <arg name="cam_info_topic" default="/ardrone/camera_info" />
+ <arg name="cam_image_topic" default="/ardrone/image_raw" />  <!-- /ardrone/bottom/image_raw -->
+ <arg name="cam_info_topic" default="/ardrone/camera_info" />  <!-- /ardrone/bottom/camera_info -->
 
- <arg name="output_frame" default="/ardrone_base_link" />
+ <arg name="output_frame" default="/ardrone_base_link" /> <!-- /base_link -->
  
 
 

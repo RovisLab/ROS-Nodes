@@ -13,7 +13,7 @@
         <param name="navdata_demo" value="1" />
         <param name="flight_without_shell" value="0" />
         <param name="altitude_max" value="100" />   <!--400-->
-        <param name="altitude_min" value="50" />
+        <param name="altitude_min" value="100" />
         <param name="euler_angle_max" value="0.21" />
         <param name="control_vz_max" value="700" />
         <param name="control_yaw" value="1.75" />

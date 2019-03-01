@@ -6,8 +6,8 @@
 		<param name="video_channel" value = "1"/>
 		<param name="flight_without_shell" value="0" /> <!-- Changes internal controller gains if we are flying without the propeller guard -->
 	    
-		<param name="altitude_max" value="3000" /> <!-- in millimeters = 3 meters = 9' // de fapt zboara la 50 inch-->
-        	<param name="altitude_min" value="100" /> <!-- in millimeters = 5cm = 2" -->
+		<param name="altitude_max" value="2000" /> <!-- in millimeters = 3 meters = 9' // de fapt zboara la 50 inch, 3000-->
+        	<param name="altitude_min" value="1500" /> <!-- in millimeters = 5cm = 2" , 100-->
         	<param name="euler_angle_max" value="0.1" /> <!-- maximum allowable body angle in radians = 5 degrees -->
         	<param name="control_vz_max" value="500" /> <!-- maximum z velocity in mm/sec = 0.2m/sec initial: 200 / eu:100/default: 700-->
 		<param name="control_yaw" value="1.75" /> <!-- maximum rotation rate in radians/sec = 40 degrees per second (1/9 rev/sec)/ eu:0.7 -->
@@ -15,6 +15,7 @@
 		<param name="realtime_navdata" value="True" />
         	<param name="realtime_video" value="True" />
 		<param name="vision_enable" value="1"/>
+		<param name="enable_navdata_pressure_raw" value="true"/>
 
 	<rosparam param="cov/imu_la">[0.1, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.1]</rosparam>
 	<rosparam param="cov/imu_av">[1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0]</rosparam>

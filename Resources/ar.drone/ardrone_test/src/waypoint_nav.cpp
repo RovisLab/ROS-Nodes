@@ -19,6 +19,7 @@
 #include "std_msgs/Float64.h"
 #include "ardrone_test/Drone_odo.h"
 #include "ardrone_test/est_co.h"
+#include <cmath>
 
 //subscriber
 #include <ros/ros.h>
@@ -40,7 +41,7 @@ ros::ServiceClient client1;                     // Variables for Service  // ard
 
 using namespace std;
 
-const double PI = 3.14159265359;
+//const double PI = 3.14159265359;
 double px=0;
 double py=0;
 double pz=0;
@@ -52,7 +53,8 @@ float ax;
 float ay;
 float az;
 int f = 200;
-double Kp = 0.6, Ki = 0.05; //0.5, 0.01
+double stop=0;
+double Kp = 0.6, Ki = -0.05; //0.5, 0.01 sau 0.8, 0.1
 
 //class instances
 ardrone_autonomy::Navdata drone_navdata;  	// Using this class variable for storing navdata
@@ -60,7 +62,6 @@ sensor_msgs::Imu ang;
 nav_msgs::Odometry odo;
 
 //callback function declarations
-double getDistance(double x1, double y1, double z1, double x2, double y2, double z2);
 void poseCallback(const ardrone_autonomy::Navdata::ConstPtr & pose_message);		// drone actual data
 void imuCallback(const sensor_msgs::Imu::ConstPtr & imu_message);                       // drone actual data
 int getch();
@@ -72,8 +73,7 @@ void move(float lx, float ly, float lz, float ax, float ay, float az );         
 void basic_movement();
 void printPose(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& msg);
 void pid(double setpoint_x, double setpoint_y);
-void sus();
-void jos();
+
 
 
 int main(int argc, char **argv)
@@ -102,14 +102,8 @@ int main(int argc, char **argv)
         cout << "w-takeoff | s-land | m-basic movements" << endl;
         cout << "h-hover for input time | x - exit | e - emergency" << endl;*/
         //cout << "m - start drona, s - PID, x - stop drona" << endl;
-        cout << "w - start drona, s - stop drona, r - reset, p - PID, h - hover , m - menu" << endl;
-
-        //ros::Subscriber pose_sub = n.subscribe("ar_pose_marker", 100, printPose);
-
+        cout << "w- start drona, s- stop drona, r- reset, h- hover, q-up, a-down , m- menu" << endl << endl;
         int c = getch();    // call your non-blocking input function
-        cout << endl;
-        //int timee;
-        int d = 0;
 
         switch (c)
         {
@@ -123,12 +117,13 @@ int main(int argc, char **argv)
 
             case 'w':   cout << "\n Take off initiated" << endl;
                         takeoff();
-                        hover(2);
+                        hover(1);
                         break;
 
             case 'p':   cout << "\n PID" << endl;
-                        pid(0.0,0.0);
-                        //pid(-0.03, -0.02);
+                        //pid(0.06,0.0);
+                        hover(1);
+                        cout << "Done! \n";
                         break;
 
             case 'r':   cout << "\n Reset.." << endl;
@@ -136,7 +131,15 @@ int main(int argc, char **argv)
                         break;
 
             case 'h':   cout << "\n Hover" << endl;
-                        hover(5);
+                        hover(2);
+                        break;
+
+            case 'q':   cout << "Up" << endl;
+                        move(0, 0, 0.3, 0, 0, 0);
+                        break;
+
+            case 'a':   cout << "Down" << endl;
+                        move(0, 0, -0.3, 0, 0, 0);
                         break;
 
             default:    land();
@@ -159,32 +162,37 @@ int main(int argc, char **argv)
 
 
 
-void pid(double setpoint_x, double setpoint_y)
+/*void pid(double setpoint_x, double setpoint_y)
 {
-    double integral_old_x = 0, integral_old_y = 0;
-    double val_x, val_y;
-    double error_x, error_y;
-    double prop_x, prop_y;
-    double integral_x, integral_y;
-    double min = -1, max = 1;
+    //double integral_old_x = 0, integral_old_y = 0;
+    double val_x=0, val_y=0, val_z=0;
+    double error_x=0, error_y=0;
+    double prop_x=0, prop_y=0;
+    double integral_x=0, integral_y=0;
+    double min = -0.3, max = 0.3;
 
-    ros::Rate loop_rate(5);
+    ros::Rate loop_rate(10);
     while (ros::ok())
     {
         double init_time=ros::Time::now().toSec();
         double time;
-        while (time < (init_time+3.0))                 // Send command for 2 seconds
+
+        while (time < (init_time+4.0))                 // Send command for 2 seconds, 1.0 -> 1 sec
         {
+            time=ros::Time::now().toSec();
+
             //pt x
             error_x = setpoint_x - px;
             prop_x = Kp * error_x;
-            integral_x = integral_old_x + Ki * error_x;
+            //integral_x = integral_old_x + Ki * error_x;
+            integral_x += Ki * error_x;
             val_x = prop_x + integral_x;
 
             //pt y
             error_y = setpoint_y - py;
             prop_y = Kp * error_y;
-            integral_y = integral_old_y + Ki * error_y;
+            //integral_y = integral_old_y + Ki * error_y;
+            integral_y += Ki * error_y;
             val_y = prop_y + integral_y;
 
             if(val_x < min)
@@ -197,25 +205,49 @@ void pid(double setpoint_x, double setpoint_y)
             else if(val_y > max)
                 val_y = max;
 
-            //move(val_x, val_y, 0, 0, 0, 0);
+            if(pz <= -1.7)
+                val_z = 0.1;
+            else if(pz > -0.6)
+                val_z = -0.1;
+            else
+                val_z = 0;
+
+            //if(val_x<0.02 || val_x>-0.1 || val_y<0.04 || val_y>-0.04)
+            //if(px<0.02 || px>-0.06 || py<0.04 || py>-0.04)
+            if(stop==1)
+            {
+                hover(1);       //stop drone if marker is not found
+                px = 0;
+                val_x = 0;
+                py = 0;
+                val_y = 0;
+            }                    //0.03           +-0.04
+            else if(px>-0.06 && px<0.0 || py<0.01 && py>-0.01)
+            {
+                hover(1);
+                cout << "hoverig" << endl;
+            }
+            else
+                move(val_x, val_y, val_z, 0, 0, 0);
+
 
             ROS_INFO("x = %lf", px);
             ROS_INFO("val_x: %lf", val_x);
             //ROS_INFO("y = %lf", py);
             //ROS_INFO("val_y: %lf", val_y);
+            //ROS_INFO("z: %lf", pz);
+            //ROS_INFO("val_z: %lf", val_z);
+
             ros::spinOnce();
             loop_rate.sleep();
 
             time = ros::Time::now().toSec();
-            integral_old_x = integral_x;
-            integral_old_y = integral_y;
-
 
         }
         break;
     }
 
-}
+}*/
 
 
 
@@ -226,7 +258,7 @@ void reset()
     {
         double init_time=ros::Time::now().toSec();
         double time;
-        while (time < (init_time+2.0))                 // Send command for five seconds
+        while (time < (init_time+3.0))                 // Send command for five seconds
         {
             E_pub_empty.publish(emp_msg);              // lands the drone
             ros::spinOnce();
@@ -244,19 +276,28 @@ void printPose(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& msg)
 {
     tf::Pose marker_pose_in_camera_;
 
-    for (int i=0; i < msg->markers.size(); i++)
+    if(msg->markers.empty())
     {
-        marker_pose_in_camera_.setOrigin(tf::Vector3(msg->markers[i].pose.pose.position.x,
+        stop = 1;
+    }
+    else
+    {
+        stop = 0;
+        for (int i = 0; i < msg->markers.size(); i++)
+        {
+            marker_pose_in_camera_.setOrigin(tf::Vector3(msg->markers[i].pose.pose.position.x,
                              msg->markers[i].pose.pose.position.y,
                              msg->markers[i].pose.pose.position.z));
 
-        //ROS_INFO("x: [%lf]", msg->markers[i].pose.pose.position.x);
-        //ROS_INFO("y: [%lf]", msg->markers[i].pose.pose.position.y);
-        //ROS_INFO("z: [%lf]", msg->markers[i].pose.pose.position.z);
+            //ROS_INFO("x: [%lf]", msg->markers[i].pose.pose.position.x);
+            //ROS_INFO("y: [%lf]", msg->markers[i].pose.pose.position.y);
+            //ROS_INFO("z: [%lf]", msg->markers[i].pose.pose.position.z);
 
-        px = msg->markers[i].pose.pose.position.x;
-        py = msg->markers[i].pose.pose.position.y;
-        pz = msg->markers[i].pose.pose.position.z;
+            px = msg->markers[i].pose.pose.position.x;
+            py = msg->markers[i].pose.pose.position.y;
+            pz = msg->markers[i].pose.pose.position.z;
+        }
+
     }
 
 }
@@ -278,7 +319,7 @@ void basic_movement()
     {
         int l = getch();                            //calling non blocking input fucntion
         cout << endl;
-        int sval = 0.5;
+        //int sval = 0.5;
 
         if (l=='q')
         {
@@ -314,8 +355,8 @@ void basic_movement()
         }
         else if (l=='p')
         {
-            pid(-0.03, -0.02);
-            //pid(0.0, 0.0);
+            //pid(-0.03, -0.02);
+           // pid(0.0, 0.0);
         }
         else
         {
@@ -367,16 +408,6 @@ int getch()
   return c;
 }
 
-double deg2rad(double angle_in_degrees)
-{
-    return angle_in_degrees*PI/180.0;
-}
-
-double getDistance(double x1, double y1, double z1, double x2, double y2, double z2)
-{
-    return sqrt(pow(x1-x2, 2) + pow(y1-y2, 2) + pow(z1-z2, 2));
-}
-
 void takeoff()
 {
     ros::Rate loop_rate(10);
@@ -389,6 +420,7 @@ void takeoff()
         while (time < (init_time + 3.0))            // Send command for five seconds
         {
             T_pub_empty.publish(emp_msg);           // launches the drone
+            //cout << "zboara" << endl;
             ros::spinOnce();                        // feedback
             loop_rate.sleep();
             time = ros::Time::now().toSec();
@@ -425,12 +457,13 @@ void hover(int timee)
 {
     double t0 = ros::Time::now().toSec();               //ros has a 'Time' function in which the current time can be found by using 'now'.                                         							we need time in sec to compute hence 'tosec'
     double t1;
-
+    //cout << "Hovering" << endl;
     ros::Rate loop_rate(200);
 
     do
     {
         t1 = ros::Time::now().toSec();                   //ros has a 'Time' function in which the current time can be found by using 'now'.                                         							we need time in sec to compute hence 'tosec'
+
 
         vel_msg.linear.x = 0;
         vel_msg.linear.y = 0;

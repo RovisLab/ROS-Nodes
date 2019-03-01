@@ -9,7 +9,7 @@ void printPose(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& msg)
 	//ROS_INFO("I can hear");
 
     tf::Pose marker_pose_in_camera_;   
-	for (int i=0; i < msg->markers.size(); i++)
+    for (int i=0; i < msg->markers.size(); i++)
     {
 	marker_pose_in_camera_.setOrigin(tf::Vector3(msg->markers[i].pose.pose.position.x,
                              msg->markers[i].pose.pose.position.y,
@@ -17,7 +17,7 @@ void printPose(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr& msg)
 
 	ROS_INFO("x: [%lf]", msg->markers[i].pose.pose.position.x);
 	ROS_INFO("y: [%lf]", msg->markers[i].pose.pose.position.y);
-	ROS_INFO("z: [%lf]", msg->markers[i].pose.pose.position.z);
+        ROS_INFO("z: [%lf] \n", msg->markers[i].pose.pose.position.z);
     }
 
 }

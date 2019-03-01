@@ -138,6 +138,10 @@ add_executable(waypoint_nav src/waypoint_nav.cpp)
 target_link_libraries(waypoint_nav ${catkin_LIBRARIES}) 
 add_dependencies(waypoint_nav ardrone_autonomy_gencpp tum_ardrone_gencpp)
 
+add_executable(pid src/pid.cpp)
+target_link_libraries(pid ${catkin_LIBRARIES}) 
+add_dependencies(pid ardrone_autonomy_gencpp)
+
 ## Declare a cpp executable
 
 #add_executable(estimation_node src/estimation.cpp)
