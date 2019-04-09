@@ -1,0 +1,39 @@
+#Move_base params:
+recovery_behaviors:
+  - name: 'super_conservative_reset'
+    type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  - name: 'conservative_reset'
+    type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  - name: 'aggressive_reset'
+    type: 'clear_costmap_recovery/ClearCostmapRecovery'
+  - name: 'rotate_recovery_1'
+    type: 'rotate_recovery/RotateRecovery'
+  - name: 'rotate_recovery_2'
+    type: 'rotate_recovery/RotateRecovery'
+  - name: 'rotate_recovery_3'
+    type: 'rotate_recovery/RotateRecovery'
+# A list of recovery behavior plugins to use with move_base, see pluginlib documentation for more details on plugins. These behaviors will be run when move_base fails to find a valid plan in the order that they are specified. After each behavior completes, move_base will attempt to make a plan. If planning is successful, move_base will continue normal operation. Otherwise, the next recovery behavior in the list will be executed. These plugins must adhere to the nav_core::RecoveryBehavior interface specified in the nav_core package.
+super_conservative_reset:
+  reset_distance: 3.0
+conservative_reset:
+  reset_distance: 2.0
+aggressive_reset:
+  reset_distance: 1.0
+rotate_recovery_1:
+  sim_granularity: 0.017
+rotate_recovery_2:
+  sim_granularity: 0.017
+rotate_recovery_3:
+  sim_granularity: 0.017
+
+controller_frequency: 10.0       # ( default:20.0 ) The rate in Hz at which to run the control loop and send velocity commands to the base. 
+planner_patience: 3.0            # ( default:5.0 ) How long the planner will wait in seconds in an attempt to find a valid plan before space-clearing operations are performed. 
+controller_patience: 5.0         # ( default:15.0 ) How long the controller will wait in seconds without receiving a valid control before space-clearing operations are performed. 
+recovery_behavior_enabled: true  # Whether or not to enable the move_base recovery behaviors to attempt to clear out space. 
+clearing_rotation_allowed: true  # Determines whether or not the robot will attempt an in-place rotation when attempting to clear out space. Note This parameter is only used when the default recovery behaviors are in use, meaning the user has not set the recovery_behaviors parameter to anything custom. 
+shutdown_costmaps: false         # Determines whether or not to shutdown the costmaps of the node when move_base is in an inactive state 
+oscillation_timeout: 0.0         # How long in seconds to allow for oscillation before executing recovery behaviors. A value of 0.0 corresponds to an infinite timeout. New in navigation 1.3.1 
+oscillation_distance: 0.5        # How far in meters the robot must move to be considered not to be oscillating. Moving this far resets the timer counting up to the ~oscillation_timeout New in navigation 1.3.1 
+planner_frequency: 0.0           # The rate in Hz at which to run the global planning loop. If the frequency is set to 0.0, the global planner will only run when a new goal is received or the local planner reports that its path is blocked. New in navigation 1.6.0 
+max_planning_retries: -1         # How many times to allow for planning retries before executing recovery behaviors. A value of -1.0 corresponds to an infinite retries. 
+reset_distance: 3.0              # The length of the side of a square centered on the robot pose, outside which obstacles will be removed from the costmaps when they are reverted to the static map. 

@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name" default="pioneer1"/>
+  <arg name="pose"/>
+  <arg name="use_kinect" default="false"/>
+  <arg name="sim" default="true"/>
+  <arg name="real_kinect" default="false"/>
+
+  <group ns="$(arg robot_name)">
+    <param name="tf_prefix" value="$(arg robot_name)" />
+
+    <group if="$(arg sim)">
+      <include file="$(find pioneer_description)/launch/includes/spawn_pioneer_gazebo.launch" >
+        <arg name="robot_name"  value="$(arg robot_name)" />
+        <arg name="init_pose" value="$(arg pose)"/>
+      </include>
+    </group>
+    
+    <group unless="$(arg sim)">
+      <include file="$(find pioneer_description)/launch/includes/connect_real_pioneer.launch" >
+        <arg name="robot_name" value="$(arg robot_name)" />
+      </include>
+    </group>
+
+    <group if="$(arg real_kinect)">
+      <!-- start real kinect-->
+      <include file="$(find freenect_launch)/launch/freenect_tf_prefix.launch">
+        <arg name="tf_prefix" value="$(arg robot_name)"/>
+        <arg name="camera" default="camera"/>
+      </include>  
+    </group>
+
+    <group if="$(arg use_kinect)">
+      <!-- LASERSCAN LAUNCH-->
+      <node name="laserscan_kinect" pkg="laserscan_kinect" type="laserscan_kinect" > 
+        <rosparam file="$(find laserscan_kinect)/config/laserscan.yaml" command="load" />
+        <remap from="image" to="camera/depth/image_raw"/>
+        <remap from="camera_info" to="camera/depth/camera_info"/>
+        <param name="output_frame_id" value="$(arg robot_name)/camera_depth_frame"/>
+	      <remap from="scan" to="scan"/>
+      </node>
+      <node pkg="tf2_ros" type="static_transform_publisher" name="scan_tf" args="0.14 0 0.27 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/camera_rgb_frame" />
+    </group>
+  </group>
+
+</launch>

@@ -8,5 +8,5 @@
   <xacro:include filename="$(find pioneer_description)/urdf/sensors/kinect.urdf.xacro"/>
   
   <pioneer3dx/>
-  <sensor_kinect parent="base_link"/>
+  <sensor_kinect parent="top"/>
 </robot>

@@ -1,46 +1,63 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="robot_name" default="pioneer1"/>
-  <arg name="pose"/>
-  <arg name="use_kinect" default="false"/>
-  <arg name="sim" default="true"/>
-  <arg name="real_kinect" default="false"/>
+  <arg name="robot_name" default="pioneer1" />
+  <arg name="robot_pose" />
+  <arg name="environment" default="real_world" doc="opt: real_world, gazebo" />
+  <arg name="use_real_kinect" default="false" />
+  <arg name="kinect_to_laserscan" default="false" />
 
   <group ns="$(arg robot_name)">
     <param name="tf_prefix" value="$(arg robot_name)" />
-
-    <group if="$(arg sim)">
-      <include file="$(find pioneer_description)/launch/includes/spawn_pioneer_gazebo.launch" >
-        <arg name="robot_name"  value="$(arg robot_name)" />
-        <arg name="init_pose" value="$(arg pose)"/>
-      </include>
+		
+		<group if="$(eval environment == 'gazebo')">
+			<!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+  		<node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"	args="$(arg robot_pose) -urdf -model $(arg robot_name) -param /robot_description" />
     </group>
     
-    <group unless="$(arg sim)">
-      <include file="$(find pioneer_description)/launch/includes/connect_real_pioneer.launch" >
-        <arg name="robot_name" value="$(arg robot_name)" />
-      </include>
+    <group if="$(eval environment == 'real_world')">
+			<!-- Run RosAria controller -->
+ 			<node name="rosaria" pkg="rosaria" type="RosAria">
+  			<param name="port" type="string" value="/dev/ttyS0" />
+    		<param name="odom_frame" type="string" value="$(arg robot_name)/odom" />    
+    		<param name="base_link_frame" type="string" value="$(arg robot_name)/base_link" />
+    		<param name="sonar_frame" type="string" value="$(arg robot_name)/sonar" />
+				<remap from="rosaria/pose" to="odom"/>
+    		<remap from="rosaria/cmd_vel" to="cmd_vel"/>
+			</node>
+			<!-- Tf transform between base_link and real sonar-->
+  		<node pkg="tf2_ros" type="static_transform_publisher" name="sonar_scan" args="0 0 0 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/sonar" />
     </group>
 
-    <group if="$(arg real_kinect)">
+  		<!-- send fake joint values -->
+  		<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+    		<param name="use_gui" value="False" />
+    		<remap from="robot_description" to="/robot_description" />
+  		</node>
+		  <!-- Combine joint values -->
+		  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+    		<param name="tf_prefix" type="string" value="$(arg robot_name)" />
+  		</node>
+
+    <group if="$(arg use_real_kinect)">
       <!-- start real kinect-->
       <include file="$(find freenect_launch)/launch/freenect_tf_prefix.launch">
-        <arg name="tf_prefix" value="$(arg robot_name)"/>
-        <arg name="camera" default="camera"/>
+        <arg name="tf_prefix" value="$(arg robot_name)" />
+        <arg name="camera" default="camera" />
       </include>  
     </group>
 
-    <group if="$(arg use_kinect)">
+    <group if="$(arg kinect_to_laserscan)">
       <!-- LASERSCAN LAUNCH-->
       <node name="laserscan_kinect" pkg="laserscan_kinect" type="laserscan_kinect" > 
         <rosparam file="$(find laserscan_kinect)/config/laserscan.yaml" command="load" />
-        <remap from="image" to="camera/depth/image_raw"/>
-        <remap from="camera_info" to="camera/depth/camera_info"/>
-        <param name="output_frame_id" value="$(arg robot_name)/camera_depth_frame"/>
+        <remap from="image" to="camera/depth/image_raw" />
+        <remap from="camera_info" to="camera/depth/camera_info" />
+        <param name="output_frame_id" value="$(arg robot_name)/scan" />
 	      <remap from="scan" to="scan"/>
       </node>
-      <node pkg="tf2_ros" type="static_transform_publisher" name="scan_tf" args="0.14 0 0.27 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/camera_rgb_frame" />
+      <node pkg="tf2_ros" type="static_transform_publisher" name="scan_tf" args="0.10 0 0.285 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/scan" />
     </group>
+
   </group>
 
 </launch>

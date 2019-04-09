@@ -10,7 +10,7 @@
   <group ns="$(arg robot_name)">
     <!-- Launch the node that allows to control the gamepad -->
     <!-- % rosrun joy joy_node _dev:=/dev/input/js0 _deadzone:=0.12 --> 
-    <node respawn="true" pkg="joy" type="joy_node" name="gamepad" >
+    <node name="gamepad" pkg="joy" type="joy_node" respawn="true" >
       <param name="dev" type="string" value="/dev/input/js0" />
       <param name="deadzone" value="0.12" />
     </node>
@@ -18,7 +18,6 @@
     <!-- Joystick to pioneer robot -->
     <!-- % rosrun demo_pioneer demo_pioneer_joy2twist_pioneer_node -->
     <node name="demo_pioneer_joy2twist_pioneer_node" pkg="pioneer_control" type="demo_pioneer_joy2twist_pioneer_node">
-      <remap from="/RosAria/cmd_vel" to="/$(arg robot_name)/cmd_vel" />
     </node>
   </group>
 

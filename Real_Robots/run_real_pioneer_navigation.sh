@@ -6,7 +6,7 @@ echo "My process ID is $my_pid"
 echo "Launching Pioneers in Gazebo stack..."
 for i in `seq 1 1`;
 do
-  roslaunch pioneer_description pioneer_description.launch robot_name:=pioneer$i pose:="-x $(rosparam get /pioneer$i/x) -y $(rosparam get /pioneer$i/y) -Y $(rosparam get /pioneer$i/a)" use_kinect:=true sim:=false real_kinect:=true &
+  roslaunch pioneer_description pioneer_description.launch robot_name:="pioneer$i" robot_pose:="-x $(rosparam get /pioneer$i/x) -y $(rosparam get /pioneer$i/y) -Y $(rosparam get /pioneer$i/a)" environment:="real_life" use_real_kinect:=true kinect_to_laserscan:=true &
   pid="$pid $!"
   sleep 5s
 done
@@ -24,7 +24,7 @@ echo "Launching move_base stack..."
 sleep 5s
 for i in `seq 1 1`;
 do
-  roslaunch pioneer_nav2d single_navigation.launch robot_name:=pioneer$i x:="$(rosparam get /pioneer$i/x)" y:="$(rosparam get /pioneer$i/y)" yaw:="$(rosparam get /pioneer$i/a)" movement_type:=fast controller:=dwa move_base_type:=move_base_pioneer &
+  roslaunch pioneer_nav2d move_base.launch robot_name:="pioneer$i" move_base_type:="move_base" base_global_planner:="NavfnROS" base_local_planner:="TebLocalPlannerROS" mcp_use:=false &
   pid="$pid $!"
   sleep 10s
 done
