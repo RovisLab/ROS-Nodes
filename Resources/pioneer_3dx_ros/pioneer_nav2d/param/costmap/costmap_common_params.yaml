@@ -5,8 +5,8 @@ global_frame: "/map"             # The global frame for the costmap to operate i
 robot_base_frame: "base_link"    # The name of the frame for the base link of the robot.
 
 # These parameters are used by the ObstacleCostmapPlugin.
-robot_radius: 0.60               # distance a circular robot should be clear of the obstacle
-#footprint: [[-0.23,-0.23],[-0.23,0.23], [0.23, 0.23], [0.23,-0.23]]
+#robot_radius: 0.60               # distance a circular robot should be clear of the obstacle
+footprint: [[-0.23,-0.23],[-0.23,0.23], [0.23, 0.23], [0.23,-0.23]]
 track_unknown_space: false       # If false, each pixel has one of 2 states lethal obstacle or free. If true, each pixel has one of 3 states lethal obstacle, free, or unknown.
 footprint_clearing_enabled: true # If true, the robot footprint will clear (mark as free) the space in which it travels.
 combination_method: 1            # Changes the behaviour how the obstacle_layer handles incoming data from layers beyond it. Possible values are "Overwrite" (0), "Maximum" (1) and "Nothing" (99). "Overwrite" simply overwrites the data below, i.e. they are not used. "Maximum" is what you want most of the times. It takes the maximum of what is supplied in the obstacle_layer or the incoming data. "Nothing" doesn't change the incoming data at all. Note that this highly influences how the costmap behaves, depending on your setting of track_unkown_space. 
@@ -18,8 +18,8 @@ z_voxels: 2                      # ( default 10) The number of voxels to in each
 unknown_threshold: 2             # (int, default ~<name>/z_voxels) The number of unknown cells allowed in a column considered to be "known"
 mark_threshold: 0                # The maximum number of marked cells allowed in a column considered to be "free".
 publish_voxel_map: false         # Whether or not to publish the underlying voxel grid for visualization purposes.
-inflation_radius: 1.8            # (double, default 0.55) The radius in meters to which the map inflates obstacle cost values.
-cost_scaling_factor: 1.2         # (double, default 10.0) A scaling factor to apply to cost values during inflation. The cost function is computed as follows for all cells in the costmap further than the inscribed radius distance and closer than the inflation radius distance away from an actual obstacle exp(-1.0 * cost_scaling_factor * (distance_from_obstacle - inscribed_radius)) * (costmap_2d::INSCRIBED_INFLATED_OBSTACLE - 1), where costmap_2d::INSCRIBED_INFLATED_OBSTACLE is currently 254. NOTE since the cost_scaling_factor is multiplied by a negative in the formula, increasing the factor will decrease the resulting cost values.
+inflation_radius: 0.55           # (double, default 0.55) The radius in meters to which the map inflates obstacle cost values.
+cost_scaling_factor: 4         # (double, default 10.0) A scaling factor to apply to cost values during inflation. The cost function is computed as follows for all cells in the costmap further than the inscribed radius distance and closer than the inflation radius distance away from an actual obstacle exp(-1.0 * cost_scaling_factor * (distance_from_obstacle - inscribed_radius)) * (costmap_2d::INSCRIBED_INFLATED_OBSTACLE - 1), where costmap_2d::INSCRIBED_INFLATED_OBSTACLE is currently 254. NOTE since the cost_scaling_factor is multiplied by a negative in the formula, increasing the factor will decrease the resulting cost values.
 
 # Sensor management parameters:
 observation_sources: scan 

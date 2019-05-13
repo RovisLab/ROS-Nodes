@@ -5,12 +5,22 @@
   <arg name="robot_pose_y" default="0"/>
   <arg name="robot_pose_yaw" default="0"/>
 	<arg name="localization_type" default="amcl" doc="opt: amcl, fake_localization" />
+  <arg name="robot_username" default="pioneer1" />
+
+  <!--  Machine type -->
+  <arg name="connect_robot_pc" default="false" />
+  <arg if="$(arg connect_robot_pc)"     name="machine_name" value="$(arg robot_name)" />
+  <arg unless="$(arg connect_robot_pc)" name="machine_name" value="local_host" />
+
+
+  <machine name="local_host" address="localhost" default="true" />
+  <machine name="$(arg robot_name)" user="$(arg robot_username)" address="$(arg robot_name)" env-loader="~/catkin_ws/devel/remote_env_loader.sh" />
 
   <!-- Run AMCL (noisy localisation)-->
   <group ns="$(arg robot_name)">
 
 		<group if="$(eval localization_type == 'amcl')">
-      <node pkg="amcl" type="amcl" name="amcl" output="screen">
+      <node machine="$(arg machine_name)" pkg="amcl" type="amcl" name="amcl" output="screen">
     		<rosparam file="$(find pioneer_nav2d)/param/amcl.yaml" command="load"/>
 				<param name="initial_pose_x" value="$(arg robot_pose_x)" />
    		  <param name="initial_pose_y" value="$(arg robot_pose_y)" />
@@ -22,7 +32,7 @@
     </group>
 
     <group if="$(eval localization_type == 'fake_localization')">
-   		<node pkg="fake_localization" type="fake_localization" name="fake_localization" output="screen">
+   		<node machine="$(arg machine_name)" pkg="fake_localization" type="fake_localization" name="fake_localization" output="screen">
 				<param name="base_frame_id" value="$(arg robot_name)/base_link"/>
 				<param name="odom_frame_id" value="$(arg robot_name)/odom"/>
 				<remap from="base_pose_ground_truth" to="odom"/> <!-- results robot_name/odom!! / -->

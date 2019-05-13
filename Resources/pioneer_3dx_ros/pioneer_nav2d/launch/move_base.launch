@@ -5,12 +5,21 @@
 	<arg name="base_global_planner" default="NavfnROS" doc="GlobalPlanner, NavfnROS, CarrotPlanner" />
 	<arg name="base_local_planner" default="DWALocalPlanner" doc="TrajectoryPlannerROS, DWALocalPlanner, EBandLocalPlanner, TebLocalPlannerROS" />
   <arg name="mcp_use" default="false" />
+  <arg name="robot_username" default="pioneer1" />
 
+  <!--  Machine type -->
+  <arg name="connect_robot_pc" default="false" />
+  <arg if="$(arg connect_robot_pc)"     name="machine_name" value="$(arg robot_name)" />
+  <arg unless="$(arg connect_robot_pc)" name="machine_name" value="local_host" />
+
+
+  <machine name="local_host" address="localhost" default="true" />
+  <machine name="$(arg robot_name)" user="$(arg robot_username)" address="$(arg robot_name)" env-loader="~/catkin_ws/devel/remote_env_loader.sh" />
 
   
   <!-- Make sure initial pose matches $(find pioneer_description)/launch/pioneers.launch arg init_pose -->
   <group ns="$(arg robot_name)">
-		<node name="$(arg move_base_type)" pkg="$(arg move_base_type)" type="$(arg move_base_type)" respawn="true" output="screen">
+		<node machine="$(arg machine_name)" name="$(arg move_base_type)" pkg="$(arg move_base_type)" type="$(arg move_base_type)" respawn="true" output="screen">
 			
 			<!-- move_base params -->
     	<rosparam file="$(find pioneer_nav2d)/param/move_base.yaml" command="load" />

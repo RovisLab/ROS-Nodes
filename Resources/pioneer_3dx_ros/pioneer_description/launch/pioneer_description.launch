@@ -5,6 +5,18 @@
   <arg name="environment" default="real_world" doc="opt: real_world, gazebo" />
   <arg name="use_real_kinect" default="false" />
   <arg name="kinect_to_laserscan" default="false" />
+  <arg name="robot_username" default="pioneer1" />
+
+  <arg name="pi/2" value="1.5707963267948966" />
+  <arg name="optical_rotate" value="0 0 0 -$(arg pi/2) 0 -$(arg pi/2)" />
+
+  <!--  Machine type -->
+  <arg name="connect_robot_pc" default="false" />
+  <arg if="$(arg connect_robot_pc)"     name="machine_name" value="$(arg robot_name)" />
+  <arg unless="$(arg connect_robot_pc)" name="machine_name" value="local_host" />
+
+  <machine name="local_host" address="localhost" default="true" />
+  <machine name="$(arg robot_name)" user="$(arg robot_username)" address="$(arg robot_name)" env-loader="~/catkin_ws/devel/remote_env_loader.sh" />
 
   <group ns="$(arg robot_name)">
     <param name="tf_prefix" value="$(arg robot_name)" />
@@ -16,7 +28,7 @@
     
     <group if="$(eval environment == 'real_world')">
 			<!-- Run RosAria controller -->
- 			<node name="rosaria" pkg="rosaria" type="RosAria">
+ 			<node machine="$(arg machine_name)" name="rosaria" pkg="rosaria" type="RosAria">
   			<param name="port" type="string" value="/dev/ttyS0" />
     		<param name="odom_frame" type="string" value="$(arg robot_name)/odom" />    
     		<param name="base_link_frame" type="string" value="$(arg robot_name)/base_link" />
@@ -25,30 +37,122 @@
     		<remap from="rosaria/cmd_vel" to="cmd_vel"/>
 			</node>
 			<!-- Tf transform between base_link and real sonar-->
-  		<node pkg="tf2_ros" type="static_transform_publisher" name="sonar_scan" args="0 0 0 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/sonar" />
+  		<node machine="$(arg machine_name)" pkg="tf2_ros" type="static_transform_publisher" name="sonar_scan" args="0 0 0 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/sonar" />
     </group>
 
-  		<!-- send fake joint values -->
-  		<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
-    		<param name="use_gui" value="False" />
-    		<remap from="robot_description" to="/robot_description" />
-  		</node>
-		  <!-- Combine joint values -->
-		  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
-    		<param name="tf_prefix" type="string" value="$(arg robot_name)" />
-  		</node>
+    <!-- send fake joint values -->
+  	<node machine="$(arg machine_name)" name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+    	<param name="use_gui" value="False" />
+    	<remap from="robot_description" to="/robot_description" />
+  	</node>
+		 <!-- Combine joint values -->
+		 <node machine="$(arg machine_name)" name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+    	<param name="tf_prefix" type="string" value="$(arg robot_name)" />
+  	</node>
 
     <group if="$(arg use_real_kinect)">
-      <!-- start real kinect-->
-      <include file="$(find freenect_launch)/launch/freenect_tf_prefix.launch">
-        <arg name="tf_prefix" value="$(arg robot_name)" />
-        <arg name="camera" default="camera" />
-      </include>  
+      
+      <!-- Push down all topics/nodelets into "camera" namespace -->
+      <group ns="camera">
+
+        <!-- Start nodelet manager in provided namespace -->
+  	    <!-- Nodelet manager -->
+  	    <node machine="$(arg machine_name)" pkg="nodelet" type="nodelet" name="camera_nodelet_manager" args="manager" output="screen" launch-prefix="">
+          <param name="num_worker_threads" value="4" />
+  	    </node>
+
+        <!-- Load driver -->
+  	    <!-- Driver nodelet -->
+  	    <node machine="$(arg machine_name)" pkg="nodelet" type="nodelet" name="driver" args="load freenect_camera/driver camera_nodelet_manager --no-bond" respawn="false">
+    	    <param name="device_id" value="#1" />
+    	    <param name="rgb_camera_info_url"   value="" />
+    	    <param name="depth_camera_info_url" value="" />
+    	    <param name="rgb_frame_id"   value="$(arg robot_name)/camera_rgb_optical_frame" />
+    	    <param name="depth_frame_id" value="$(arg robot_name)/camera_depth_optical_frame" />
+    	    <param name="depth_registration" value="false" />
+    	    <param name="data_skip" value="0" />
+
+    	    <param name="debug"                     value="false" />
+    	    <param name="enable_rgb_diagnostics"    value="false" />
+    	    <param name="enable_ir_diagnostics"     value="false" />
+    	    <param name="enable_depth_diagnostics"  value="false" />
+    	    <param name="diagnostics_max_frequency" value="30.0" />
+    	    <param name="diagnostics_min_frequency" value="30.0" />
+    	    <param name="diagnostics_tolerance"     value="0.05" />
+    	    <param name="diagnostics_window_time"   value="5.0" />
+
+    	    <remap from="ir" to="ir" />
+   	      <remap from="rgb" to="rgb" />
+    	    <remap from="depth" to="depth" />
+    	    <remap from="depth_registered" to="depth_registered" />
+    	    <remap from="projector" to="projector" />
+  	    </node>
+
+        <!-- Load standard constellation of processing nodelets -->
+		    <!-- RGB processing -->
+		    <!-- Debayered images -->
+  	    <node machine="$(arg machine_name)" pkg="nodelet" type="nodelet" name="rgb_debayer" args="load image_proc/debayer camera_nodelet_manager --no-bond" respawn="false">
+    	    <remap from="image_raw"   to="rgb/image_raw" />
+    	    <remap from="image_mono"  to="rgb/image_mono" />
+    	    <remap from="image_color" to="rgb/image_color" />
+  	    </node>
+
+  	    <!-- Monochrome rectified image -->
+  	    <node machine="$(arg machine_name)" pkg="nodelet" type="nodelet" name="rgb_rectify_mono" args="load image_proc/rectify camera_nodelet_manager --no-bond" respawn="false">
+    	    <remap from="image_mono" to="rgb/image_mono" />
+    	    <remap from="image_rect" to="rgb/image_rect_mono" />
+  	    </node>
+
+  	    <!-- Color rectified image -->
+  	    <node machine="$(arg machine_name)" pkg="nodelet" type="nodelet" name="rgb_rectify_color" args="load image_proc/rectify camera_nodelet_manager --no-bond" respawn="false">
+    	    <remap from="image_mono" to="rgb/image_color" />
+    	    <remap from="image_rect" to="rgb/image_rect_color" />
+  	    </node>
+
+  	    <!-- Unregistered depth processing -->
+		    <!-- Rectified raw image (internal use) -->
+  	    <node machine="$(arg machine_name)" pkg="nodelet" type="nodelet" name="depth_rectify_depth" args="load image_proc/rectify camera_nodelet_manager --no-bond" respawn="false">
+    	    <remap from="image_mono"  to="depth/image_raw" />
+    	    <remap from="image_rect"  to="depth/image_rect_raw" />
+    	    <!-- Use nearest neighbor (0) interpolation so we don't streak across depth boundaries -->
+    	    <param name="interpolation" value="0" />
+  	    </node>
+
+  	    <!-- Rectified depth image -->
+  	    <node machine="$(arg machine_name)" pkg="nodelet" type="nodelet" name="depth_metric_rect" args="load depth_image_proc/convert_metric camera_nodelet_manager --no-bond" respawn="false">
+    	    <remap from="image_raw" to="depth/image_rect_raw" />
+    	    <remap from="image"     to="depth/image_rect" />
+  	    </node>
+
+  	    <!-- Unrectified depth image -->
+  	    <node machine="$(arg robot_name)" pkg="nodelet" type="nodelet" name="depth_metric" args="load depth_image_proc/convert_metric camera_nodelet_manager --no-bond" respawn="false">
+    	    <remap from="image_raw" to="depth/image_raw" />
+    	    <remap from="image"     to="depth/image" />
+  	    </node>
+
+  	    <!-- XYZ point cloud (optional, disable if publishing XYZRGB instead) -->
+  	    <node machine="$(arg machine_name)" pkg="nodelet" type="nodelet" name="depth_points" args="load depth_image_proc/point_cloud_xyz camera_nodelet_manager --no-bond" respawn="false">
+    	    <remap from="image_rect" to="depth/image_rect_raw"/>  <!-- Use raw image for efficiency -->
+    	    <remap from="points"     to="depth/points" />
+  	    </node>
+  
+      </group> <!-- camera -->
+
+      <!-- Load reasonable defaults for the relative pose between cameras -->
+      <node machine="$(arg machine_name)" pkg="tf2_ros" type="static_transform_publisher" name="camera_base_link"
+        args="0 -0.02  0 0 0 0 $(arg robot_name)/camera_link $(arg robot_name)/camera_depth_frame" />  
+      <node machine="$(arg machine_name)" pkg="tf2_ros" type="static_transform_publisher" name="camera_base_link1"
+        args="0 -0.045 0 0 0 0 $(arg robot_name)/camera_link $(arg robot_name)/camera_rgb_frame" />  
+      <node machine="$(arg machine_name)" pkg="tf2_ros" type="static_transform_publisher" name="camera_base_link2"
+        args="$(arg optical_rotate) $(arg robot_name)/camera_depth_frame $(arg robot_name)/camera_depth_optical_frame" />  
+      <node machine="$(arg machine_name)" pkg="tf2_ros" type="static_transform_publisher" name="camera_base_link3"
+        args="$(arg optical_rotate) $(arg robot_name)/camera_rgb_frame $(arg robot_name)/camera_rgb_optical_frame" /> 
+      <node machine="$(arg machine_name)" pkg="tf2_ros" type="static_transform_publisher" name="camera_real_tf" args="0.10 0 0.285 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/camera_link" />
     </group>
 
     <group if="$(arg kinect_to_laserscan)">
       <!-- LASERSCAN LAUNCH-->
-      <node name="laserscan_kinect" pkg="laserscan_kinect" type="laserscan_kinect" > 
+      <node machine="$(arg machine_name)" name="laserscan_kinect" pkg="laserscan_kinect" type="laserscan_kinect" > 
         <rosparam file="$(find laserscan_kinect)/config/laserscan.yaml" command="load" />
         <remap from="image" to="camera/depth/image_raw" />
         <remap from="camera_info" to="camera/depth/camera_info" />
