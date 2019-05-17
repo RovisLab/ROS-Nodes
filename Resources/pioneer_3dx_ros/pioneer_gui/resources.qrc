@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/res">
+        <file>resources/maps_images/maze_three.jpg</file>
+        <file>resources/maps_images/maze_two.jpg</file>
+        <file>resources/maps_images/maze_one.jpg</file>
+        <file>resources/shell_scripts/simulated_navigation.sh</file>
+        <file>resources/shell_scripts/simulated_mapping.sh</file>
+        <file>resources/shell_scripts/map_saver.sh</file>
+        <file>resources/shell_scripts/rqt_graph.sh</file>
+    </qresource>
+</RCC>

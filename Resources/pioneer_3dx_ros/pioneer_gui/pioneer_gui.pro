@@ -8,12 +8,10 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = baga-i-un-nume
+CONFIG   += c++11
+
+TARGET = pioneer_gui
 TEMPLATE = app
-
-DISTFILES += \
-    5.jpg
-
 
 SOURCES += main.cpp\
         mainwindow.cpp
@@ -21,3 +19,8 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += \
+    resources.qrc
+
+LIBS += -lyaml-cpp
