@@ -140,7 +140,7 @@ public:
         combo_box_mapping->setGeometry(QRect(30, 90, 101, 27));
         img_mapping = new QLabel(groupBox);
         img_mapping->setObjectName(QStringLiteral("img_mapping"));
-        img_mapping->setGeometry(QRect(280, 30, 311, 151));
+        img_mapping->setGeometry(QRect(280, 30, 221, 151));
         groupBox_2 = new QGroupBox(tab);
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
         groupBox_2->setGeometry(QRect(9, 222, 854, 71));
@@ -179,14 +179,14 @@ public:
         tab_2->setObjectName(QStringLiteral("tab_2"));
         groupBox_4 = new QGroupBox(tab_2);
         groupBox_4->setObjectName(QStringLiteral("groupBox_4"));
-        groupBox_4->setGeometry(QRect(9, 9, 771, 141));
+        groupBox_4->setGeometry(QRect(9, 9, 771, 161));
         groupBox_4->setFlat(false);
         combo_box_nav = new QComboBox(groupBox_4);
         combo_box_nav->setObjectName(QStringLiteral("combo_box_nav"));
         combo_box_nav->setGeometry(QRect(10, 50, 221, 25));
         img_nav = new QLabel(groupBox_4);
         img_nav->setObjectName(QStringLiteral("img_nav"));
-        img_nav->setGeometry(QRect(290, 30, 181, 101));
+        img_nav->setGeometry(QRect(260, 30, 211, 121));
         groupBox_5 = new QGroupBox(tab_2);
         groupBox_5->setObjectName(QStringLiteral("groupBox_5"));
         groupBox_5->setGeometry(QRect(10, 170, 491, 71));
@@ -417,6 +417,18 @@ public:
          << QApplication::translate("MainWindow", "maze_one", 0)
          << QApplication::translate("MainWindow", "maze_two", 0)
          << QApplication::translate("MainWindow", "maze_three", 0)
+         << QApplication::translate("MainWindow", "posts", 0)
+         << QApplication::translate("MainWindow", "posts_grouped", 0)
+         << QApplication::translate("MainWindow", "rags_traffic", 0)
+         << QApplication::translate("MainWindow", "simple_world_static", 0)
+         << QApplication::translate("MainWindow", "simple_world_dynamic", 0)
+         << QApplication::translate("MainWindow", "test_one", 0)
+         << QApplication::translate("MainWindow", "test_two", 0)
+         << QApplication::translate("MainWindow", "test_three", 0)
+         << QApplication::translate("MainWindow", "test_four", 0)
+         << QApplication::translate("MainWindow", "utm_auro", 0)
+         << QApplication::translate("MainWindow", "utm_demo", 0)
+         << QApplication::translate("MainWindow", "utm_big", 0)
         );
         img_mapping->setText(QApplication::translate("MainWindow", "IMG_M", 0));
         groupBox_2->setTitle(QApplication::translate("MainWindow", "Select the type of laser aquisition device:", 0));
@@ -437,6 +449,18 @@ public:
          << QApplication::translate("MainWindow", "maze_one", 0)
          << QApplication::translate("MainWindow", "maze_two", 0)
          << QApplication::translate("MainWindow", "maze_three", 0)
+         << QApplication::translate("MainWindow", "posts", 0)
+         << QApplication::translate("MainWindow", "posts_grouped", 0)
+         << QApplication::translate("MainWindow", "rags_traffic", 0)
+         << QApplication::translate("MainWindow", "simple_world_static", 0)
+         << QApplication::translate("MainWindow", "simple_world_dynamic", 0)
+         << QApplication::translate("MainWindow", "test_one", 0)
+         << QApplication::translate("MainWindow", "test_two", 0)
+         << QApplication::translate("MainWindow", "test_three", 0)
+         << QApplication::translate("MainWindow", "test_four", 0)
+         << QApplication::translate("MainWindow", "utm_auro", 0)
+         << QApplication::translate("MainWindow", "utm_demo", 0)
+         << QApplication::translate("MainWindow", "utm_big", 0)
         );
         img_nav->setText(QApplication::translate("MainWindow", "IMG_N", 0));
         groupBox_5->setTitle(QApplication::translate("MainWindow", "Select the type of laser aquisition device:", 0));

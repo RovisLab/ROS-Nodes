@@ -35,6 +35,8 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_start_teleop_clicked();
+
 private:
     Ui::MainWindow *ui;
 

@@ -407,9 +407,40 @@ compiler_rcc_make_all: qrc_resources.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_resources.cpp
 qrc_resources.cpp: ../../resources.qrc \
-		../../resources/maps_images/maze_three.jpg \
-		../../resources/maps_images/maze_two.jpg \
-		../../resources/maps_images/maze_one.jpg \
+		../../resources/worlds_jpg/test_four_1.jpg \
+		../../resources/worlds_jpg/simple_world_static.jpg \
+		../../resources/worlds_jpg/utm_auro_1.jpg \
+		../../resources/worlds_jpg/utm_big.jpg \
+		../../resources/worlds_jpg/posts_1.jpg \
+		../../resources/worlds_jpg/test_four.jpg \
+		../../resources/worlds_jpg/test_one.jpg \
+		../../resources/worlds_jpg/rags_traffic_1.jpg \
+		../../resources/worlds_jpg/maze_three_1.jpg \
+		../../resources/worlds_jpg/utm_demo.jpg \
+		../../resources/worlds_jpg/posts_grouped.jpg \
+		../../resources/worlds_jpg/simple_world_dynamic.jpg \
+		../../resources/worlds_jpg/maze_one.jpg \
+		../../resources/worlds_jpg/simple_world_dynamic_1_a.jpg \
+		../../resources/worlds_jpg/test_three_1.jpg \
+		../../resources/worlds_jpg/utm_demo_1.jpg \
+		../../resources/worlds_jpg/simple_world_dynamic_1_b.jpg \
+		../../resources/worlds_jpg/simple_world_dynamic_1.jpg \
+		../../resources/worlds_jpg/posts.jpg \
+		../../resources/worlds_jpg/maze_one_1.jpg \
+		../../resources/worlds_jpg/test_one_1.jpg \
+		../../resources/worlds_jpg/utm_auro.jpg \
+		../../resources/worlds_jpg/test_two.jpg \
+		../../resources/worlds_jpg/test_two_1.jpg \
+		../../resources/worlds_jpg/utm_big_1.jpg \
+		../../resources/worlds_jpg/simple_world_dynamic_a.jpg \
+		../../resources/worlds_jpg/maze_three.jpg \
+		../../resources/worlds_jpg/test_three.jpg \
+		../../resources/worlds_jpg/simple_world_dynamic_b.jpg \
+		../../resources/worlds_jpg/simple_world_static_1.jpg \
+		../../resources/worlds_jpg/rags_traffic.jpg \
+		../../resources/worlds_jpg/posts_grouped_1.jpg \
+		../../resources/worlds_jpg/maze_two_1.jpg \
+		../../resources/worlds_jpg/maze_two.jpg \
 		../../resources/shell_scripts/simulated_navigation.sh \
 		../../resources/shell_scripts/rqt_graph.sh \
 		../../resources/shell_scripts/map_saver.sh \

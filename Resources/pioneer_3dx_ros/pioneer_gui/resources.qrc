@@ -1,11 +1,42 @@
 <RCC>
     <qresource prefix="/res">
-        <file>resources/maps_images/maze_three.jpg</file>
-        <file>resources/maps_images/maze_two.jpg</file>
-        <file>resources/maps_images/maze_one.jpg</file>
         <file>resources/shell_scripts/simulated_navigation.sh</file>
         <file>resources/shell_scripts/simulated_mapping.sh</file>
         <file>resources/shell_scripts/map_saver.sh</file>
         <file>resources/shell_scripts/rqt_graph.sh</file>
+        <file>resources/worlds_jpg/utm_big.jpg</file>
+        <file>resources/worlds_jpg/utm_big_1.jpg</file>
+        <file>resources/worlds_jpg/utm_demo.jpg</file>
+        <file>resources/worlds_jpg/utm_demo_1.jpg</file>
+        <file>resources/worlds_jpg/utm_auro.jpg</file>
+        <file>resources/worlds_jpg/utm_auro_1.jpg</file>
+        <file>resources/worlds_jpg/test_four_1.jpg</file>
+        <file>resources/worlds_jpg/test_four.jpg</file>
+        <file>resources/worlds_jpg/test_three_1.jpg</file>
+        <file>resources/worlds_jpg/test_three.jpg</file>
+        <file>resources/worlds_jpg/test_two_1.jpg</file>
+        <file>resources/worlds_jpg/test_two.jpg</file>
+        <file>resources/worlds_jpg/test_one_1.jpg</file>
+        <file>resources/worlds_jpg/test_one.jpg</file>
+        <file>resources/worlds_jpg/simple_world_dynamic_1_b.jpg</file>
+        <file>resources/worlds_jpg/simple_world_dynamic_1_a.jpg</file>
+        <file>resources/worlds_jpg/simple_world_dynamic_1.jpg</file>
+        <file>resources/worlds_jpg/simple_world_dynamic_b.jpg</file>
+        <file>resources/worlds_jpg/simple_world_dynamic_a.jpg</file>
+        <file>resources/worlds_jpg/simple_world_dynamic.jpg</file>
+        <file>resources/worlds_jpg/simple_world_static_1.jpg</file>
+        <file>resources/worlds_jpg/simple_world_static.jpg</file>
+        <file>resources/worlds_jpg/rags_traffic.jpg</file>
+        <file>resources/worlds_jpg/rags_traffic_1.jpg</file>
+        <file>resources/worlds_jpg/posts_grouped.jpg</file>
+        <file>resources/worlds_jpg/posts_grouped_1.jpg</file>
+        <file>resources/worlds_jpg/posts.jpg</file>
+        <file>resources/worlds_jpg/posts_1.jpg</file>
+        <file>resources/worlds_jpg/maze_one_1.jpg</file>
+        <file>resources/worlds_jpg/maze_two_1.jpg</file>
+        <file>resources/worlds_jpg/maze_three_1.jpg</file>
+        <file>resources/worlds_jpg/maze_three.jpg</file>
+        <file>resources/worlds_jpg/maze_two.jpg</file>
+        <file>resources/worlds_jpg/maze_one.jpg</file>
     </qresource>
 </RCC>

@@ -63,13 +63,73 @@
            <string>maze_three</string>
           </property>
          </item>
+         <item>
+          <property name="text">
+           <string>posts</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>posts_grouped</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>rags_traffic</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>simple_world_static</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>simple_world_dynamic</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>test_one</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>test_two</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>test_three</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>test_four</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>utm_auro</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>utm_demo</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>utm_big</string>
+          </property>
+         </item>
         </widget>
         <widget class="QLabel" name="img_mapping">
          <property name="geometry">
           <rect>
            <x>280</x>
            <y>30</y>
-           <width>311</width>
+           <width>221</width>
            <height>151</height>
           </rect>
          </property>
@@ -232,7 +292,7 @@
           <x>9</x>
           <y>9</y>
           <width>771</width>
-          <height>141</height>
+          <height>161</height>
          </rect>
         </property>
         <property name="title">
@@ -265,14 +325,74 @@
            <string>maze_three</string>
           </property>
          </item>
+         <item>
+          <property name="text">
+           <string>posts</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>posts_grouped</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>rags_traffic</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>simple_world_static</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>simple_world_dynamic</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>test_one</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>test_two</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>test_three</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>test_four</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>utm_auro</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>utm_demo</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>utm_big</string>
+          </property>
+         </item>
         </widget>
         <widget class="QLabel" name="img_nav">
          <property name="geometry">
           <rect>
-           <x>290</x>
+           <x>260</x>
            <y>30</y>
-           <width>181</width>
-           <height>101</height>
+           <width>211</width>
+           <height>121</height>
           </rect>
          </property>
          <property name="text">

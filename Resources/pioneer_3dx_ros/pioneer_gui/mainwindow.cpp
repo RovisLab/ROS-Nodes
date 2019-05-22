@@ -19,10 +19,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     qDebug() << ui->combo_box_mapping->itemText(0);
 
-    mapSource = ":/res/resources/maps_images/" + ui->combo_box_mapping->itemText(ui->combo_box_mapping->currentIndex()) +".jpg";
+    mapSource = ":/res/resources/worlds_jpg/" + ui->combo_box_mapping->itemText(ui->combo_box_mapping->currentIndex()) +".jpg";
     mapImage = new QPixmap();
     mapImage->load(mapSource);
 
+    ui->img_mapping->setScaledContents(true);
+    ui->img_nav->setScaledContents(true);
     ui->img_mapping->setPixmap(*mapImage);
     ui->img_nav->setPixmap(*mapImage);
 
@@ -209,21 +211,23 @@ void MainWindow::on_start_nav_clicked()
 }
 void MainWindow::on_combo_box_mapping_currentIndexChanged()
 {
-    mapSource = ":/res/resources/maps_images/" + ui->combo_box_mapping->itemText(ui->combo_box_mapping->currentIndex()) +".jpg";
+    mapSource = ":/res/resources/worlds_jpg/" + ui->combo_box_mapping->itemText(ui->combo_box_mapping->currentIndex()) +".jpg";
     delete mapImage;
     mapImage = new QPixmap();
     mapImage->load(mapSource);
+    ui->img_mapping->setScaledContents(true);
     ui->img_mapping->setPixmap(*mapImage);
 
     qDebug() << ui->combo_box_mapping->itemText(ui->combo_box_mapping->currentIndex());
 }
 void MainWindow::on_combo_box_nav_currentIndexChanged()
 {
-    mapSource = ":/res/resources/maps_images/" + ui->combo_box_nav->itemText(ui->combo_box_mapping->currentIndex()) +".jpg";
+    mapSource = ":/res/resources/worlds_jpg/" + ui->combo_box_nav->itemText(ui->combo_box_nav->currentIndex()) +".jpg";
 
     delete mapImage;
     mapImage = new QPixmap();
     mapImage->load(mapSource);
+    ui->img_nav->setScaledContents(true);
     ui->img_nav->setPixmap(*mapImage);
 
     qDebug() << ui->combo_box_nav->itemText(ui->combo_box_nav->currentIndex());
@@ -418,4 +422,9 @@ void MainWindow::on_pushButton_clicked()
         ui->y5->setValue(0);
         ui->a5->setValue(0);
     }
+}
+
+void MainWindow::on_start_teleop_clicked()
+{
+
 }
