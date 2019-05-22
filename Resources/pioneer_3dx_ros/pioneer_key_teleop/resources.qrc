@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/new">
+        <file>res/icons/upLeft.png</file>
+        <file>res/icons/upRight.png</file>
+        <file>res/icons/down.png</file>
+        <file>res/icons/left.png</file>
+        <file>res/icons/right.png</file>
+        <file>res/icons/downRight.png</file>
+        <file>res/icons/downLeft.png</file>
+        <file>res/icons/up.png</file>
+    </qresource>
+</RCC>
