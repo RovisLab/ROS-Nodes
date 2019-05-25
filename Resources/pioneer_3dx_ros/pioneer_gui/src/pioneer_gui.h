@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QProcess>
+#include <ros/ros.h>
 
 namespace Ui {
 class Pioneer_Gui;
@@ -13,7 +14,7 @@ class Pioneer_Gui : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit Pioneer_Gui(QWidget *parent = 0);
+    explicit Pioneer_Gui(QWidget *parent = nullptr);
     ~Pioneer_Gui();
 
 private slots:
@@ -37,12 +38,17 @@ private slots:
 
     void on_start_teleop_clicked();
 
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_open_pose_map_clicked();
+
 private:
     Ui::Pioneer_Gui *ui;
 
     QProcess *myStartProcess;
     QProcess *myStopProcess;
     QProcess *rqtGraphProcess;
+    QProcess *pioneerKeyTeleopProcess;
     // Map image
     QString mapSource;
     QPixmap *mapImage;
@@ -53,11 +59,13 @@ private:
     QString shellScriptsPath;
     QString defaultPoseFileFolder;
     QString outputPoseYamlPath;
+    QString outputPoseMapYamlPath;
     // shell script args
     QString simulatedMappingScriptPath;
     QString simulatedNavigationScriptPath;
     QString rqtGraphScriptPath;
     QString mapSaverScriptPath;
+    QString pioneerKeyTeleopPath;
     QString worldGazebo;
     QString robot_URDF_model;
     QString gmappingConfigType;

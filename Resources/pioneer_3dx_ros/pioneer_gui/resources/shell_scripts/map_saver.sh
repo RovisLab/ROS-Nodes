@@ -1,5 +1,4 @@
 #!/bin/bash
-source ~/my_local_repo/devel/setup.bash
 my_pid=$$
  
 echo "My process ID is $my_pid"

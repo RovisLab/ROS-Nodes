@@ -1,5 +1,4 @@
 #!/bin/bash
-source /home/gatu270124/dev/projects/gabriel_ws/devel/setup.bash
 my_pid=$$
  
 echo "My process ID is $my_pid"

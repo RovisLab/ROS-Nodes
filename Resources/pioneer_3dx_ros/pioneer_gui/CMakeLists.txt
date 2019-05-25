@@ -4,6 +4,8 @@ project(pioneer_gui)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
+  roslib
+  geometry_msgs
 )
 
 set (CMAKE_CXX_STANDARD 11)
@@ -26,7 +28,7 @@ qt5_wrap_ui(UIC src/pioneer_gui.ui)
 
 catkin_package(
 #  LIBRARIES client_plugin
-   CATKIN_DEPENDS roscpp std_msgs geometry_msgs
+   CATKIN_DEPENDS roscpp roslib std_msgs geometry_msgs
 #  DEPENDS system_lib
 )
 

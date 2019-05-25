@@ -17,8 +17,11 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="1">
      <widget class="QTabWidget" name="tabWidget">
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -39,103 +42,103 @@
         <property name="flat">
          <bool>false</bool>
         </property>
-        <widget class="QComboBox" name="combo_box_mapping">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
-           <x>30</x>
-           <y>90</y>
-           <width>101</width>
-           <height>27</height>
+           <x>120</x>
+           <y>31</y>
+           <width>481</width>
+           <height>161</height>
           </rect>
          </property>
-         <item>
-          <property name="text">
-           <string>maze_one</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>maze_two</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>maze_three</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>posts</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>posts_grouped</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>rags_traffic</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>simple_world_static</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>simple_world_dynamic</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>test_one</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>test_two</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>test_three</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>test_four</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>utm_auro</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>utm_demo</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>utm_big</string>
-          </property>
-         </item>
-        </widget>
-        <widget class="QLabel" name="img_mapping">
-         <property name="geometry">
-          <rect>
-           <x>280</x>
-           <y>30</y>
-           <width>221</width>
-           <height>151</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>IMG_M</string>
-         </property>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
+           <widget class="QComboBox" name="combo_box_mapping">
+            <item>
+             <property name="text">
+              <string>maze_one</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>maze_two</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>maze_three</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>posts</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>posts_grouped</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>rags_traffic</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>simple_world_static</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>simple_world_dynamic</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>test_one</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>test_two</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>test_three</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>test_four</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>utm_auro</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>utm_demo</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>utm_big</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="img_mapping">
+            <property name="text">
+             <string>IMG_M</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </widget>
        <widget class="QGroupBox" name="groupBox_2">
@@ -150,38 +153,41 @@
         <property name="title">
          <string>Select the type of laser aquisition device:</string>
         </property>
-        <widget class="QRadioButton" name="hokuyo_gmapping">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
-           <x>10</x>
+           <x>20</x>
            <y>30</y>
-           <width>117</width>
-           <height>22</height>
+           <width>431</width>
+           <height>25</height>
           </rect>
          </property>
-         <property name="text">
-          <string>Hokuyo laser</string>
-         </property>
-        </widget>
-        <widget class="QRadioButton" name="kinect_gmapping">
-         <property name="geometry">
-          <rect>
-           <x>150</x>
-           <y>30</y>
-           <width>141</width>
-           <height>22</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Kinect camera</string>
-         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QRadioButton" name="hokuyo_gmapping">
+            <property name="text">
+             <string>Hokuyo laser</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="kinect_gmapping">
+            <property name="text">
+             <string>Kinect camera</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </widget>
        <widget class="QGroupBox" name="groupBox_3">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>350</y>
+          <y>540</y>
           <width>854</width>
           <height>101</height>
          </rect>
@@ -189,97 +195,195 @@
         <property name="title">
          <string>Save map:</string>
         </property>
-        <widget class="QLabel" name="label_26">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
            <x>20</x>
-           <y>40</y>
-           <width>231</width>
-           <height>17</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Set the name of the created map:</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="lineEditCreatedMapName">
-         <property name="geometry">
-          <rect>
-           <x>250</x>
            <y>30</y>
-           <width>113</width>
-           <height>27</height>
+           <width>381</width>
+           <height>60</height>
           </rect>
          </property>
-         <property name="text">
-          <string/>
-         </property>
+         <layout class="QFormLayout" name="formLayout_3">
+          <item row="0" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QLabel" name="label_26">
+              <property name="text">
+               <string>Set the name of the created map:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEditCreatedMapName">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0">
+           <widget class="QPushButton" name="save_map">
+            <property name="text">
+             <string>Save created map</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
-        <widget class="QPushButton" name="save_map">
+       </widget>
+       <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>650</x>
+          <y>450</y>
+          <width>182</width>
+          <height>81</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QPushButton" name="pushButtonRqtGraph">
+           <property name="text">
+            <string>Open rqt_graph</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="start_teleop">
+           <property name="text">
+            <string>Start teleoperation Node</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_8">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>310</y>
+          <width>841</width>
+          <height>131</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Choose the initial position of the robot onto the chosen world:</string>
+        </property>
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
-           <x>20</x>
-           <y>60</y>
-           <width>141</width>
-           <height>27</height>
+           <x>10</x>
+           <y>30</y>
+           <width>321</width>
+           <height>96</height>
           </rect>
          </property>
-         <property name="text">
-          <string>Save created map</string>
-         </property>
+         <layout class="QFormLayout" name="formLayout_2">
+          <item row="0" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_11">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_13">
+              <item>
+               <widget class="QLabel" name="label_3">
+                <property name="text">
+                 <string>x:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_4">
+                <property name="text">
+                 <string>y:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_5">
+                <property name="text">
+                 <string>a:</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_14">
+              <item>
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_x_map">
+                <property name="minimum">
+                 <double>-50.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_y_map">
+                <property name="minimum">
+                 <double>-50.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_a_map">
+                <property name="minimum">
+                 <double>-50.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="1">
+           <layout class="QFormLayout" name="formLayout">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_6">
+              <property name="text">
+               <string>Or select predefined pose file:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QPushButton" name="pushButton_open_pose_map">
+              <property name="text">
+               <string>Open pose file..</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLineEdit" name="lineEditPoseFile_map"/>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </widget>
        </widget>
-       <widget class="QPushButton" name="stopButon">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
-          <x>220</x>
-          <y>600</y>
-          <width>99</width>
+          <x>20</x>
+          <y>470</y>
+          <width>461</width>
           <height>27</height>
          </rect>
         </property>
-        <property name="text">
-         <string>Stop map</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="start_mapping">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>600</y>
-          <width>181</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Start Mappinig</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButtonRqtGraph">
-        <property name="geometry">
-         <rect>
-          <x>730</x>
-          <y>600</y>
-          <width>141</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Open rqt_graph</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="start_teleop">
-        <property name="geometry">
-         <rect>
-          <x>680</x>
-          <y>560</y>
-          <width>191</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Start teleoperation Node</string>
-        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QPushButton" name="start_mapping">
+           <property name="text">
+            <string>Start Mappinig</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="stopButon">
+           <property name="text">
+            <string>Stop map</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_2">
@@ -301,103 +405,103 @@
         <property name="flat">
          <bool>false</bool>
         </property>
-        <widget class="QComboBox" name="combo_box_nav">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>50</y>
-           <width>221</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <item>
-          <property name="text">
-           <string>maze_one</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>maze_two</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>maze_three</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>posts</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>posts_grouped</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>rags_traffic</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>simple_world_static</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>simple_world_dynamic</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>test_one</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>test_two</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>test_three</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>test_four</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>utm_auro</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>utm_demo</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>utm_big</string>
-          </property>
-         </item>
-        </widget>
-        <widget class="QLabel" name="img_nav">
-         <property name="geometry">
-          <rect>
-           <x>260</x>
            <y>30</y>
-           <width>211</width>
-           <height>121</height>
+           <width>521</width>
+           <height>131</height>
           </rect>
          </property>
-         <property name="text">
-          <string>IMG_N</string>
-         </property>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="0" column="0">
+           <widget class="QComboBox" name="combo_box_nav">
+            <item>
+             <property name="text">
+              <string>maze_one</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>maze_two</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>maze_three</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>posts</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>posts_grouped</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>rags_traffic</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>simple_world_static</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>simple_world_dynamic</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>test_one</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>test_two</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>test_three</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>test_four</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>utm_auro</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>utm_demo</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>utm_big</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="img_nav">
+            <property name="text">
+             <string>IMG_N</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </widget>
        <widget class="QGroupBox" name="groupBox_5">
@@ -425,6 +529,9 @@
            <property name="text">
             <string>Kinect camera</string>
            </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
         </layout>
@@ -441,313 +548,6 @@
         <property name="title">
          <string>Set the number of robots to be spawned and their initial position:</string>
         </property>
-        <widget class="QWidget" name="layoutWidget">
-         <property name="geometry">
-          <rect>
-           <x>30</x>
-           <y>30</y>
-           <width>491</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QRadioButton" name="pioneer1">
-            <property name="text">
-             <string>1</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="pioneer2">
-            <property name="text">
-             <string>2</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="pioneer3">
-            <property name="text">
-             <string>3</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="pioneer4">
-            <property name="text">
-             <string>4</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="pioneer5">
-            <property name="text">
-             <string>5</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QLabel" name="label_17">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>70</y>
-           <width>16</width>
-           <height>17</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>x:</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_18">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>100</y>
-           <width>16</width>
-           <height>17</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>y:</string>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="x1">
-         <property name="geometry">
-          <rect>
-           <x>40</x>
-           <y>60</y>
-           <width>69</width>
-           <height>27</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <double>-50.000000000000000</double>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="y1">
-         <property name="geometry">
-          <rect>
-           <x>40</x>
-           <y>90</y>
-           <width>69</width>
-           <height>27</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <double>-50.000000000000000</double>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_19">
-         <property name="geometry">
-          <rect>
-           <x>120</x>
-           <y>70</y>
-           <width>16</width>
-           <height>17</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>x:</string>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="x2">
-         <property name="geometry">
-          <rect>
-           <x>140</x>
-           <y>60</y>
-           <width>69</width>
-           <height>27</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <double>-50.000000000000000</double>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="y2">
-         <property name="geometry">
-          <rect>
-           <x>140</x>
-           <y>90</y>
-           <width>69</width>
-           <height>27</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <double>-50.000000000000000</double>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_20">
-         <property name="geometry">
-          <rect>
-           <x>120</x>
-           <y>100</y>
-           <width>16</width>
-           <height>17</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>y:</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_21">
-         <property name="geometry">
-          <rect>
-           <x>220</x>
-           <y>70</y>
-           <width>16</width>
-           <height>17</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>x:</string>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="x3">
-         <property name="geometry">
-          <rect>
-           <x>240</x>
-           <y>60</y>
-           <width>69</width>
-           <height>27</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <double>-50.000000000000000</double>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="y3">
-         <property name="geometry">
-          <rect>
-           <x>240</x>
-           <y>90</y>
-           <width>69</width>
-           <height>27</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <double>-50.000000000000000</double>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_22">
-         <property name="geometry">
-          <rect>
-           <x>220</x>
-           <y>100</y>
-           <width>16</width>
-           <height>17</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>y:</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_23">
-         <property name="geometry">
-          <rect>
-           <x>330</x>
-           <y>70</y>
-           <width>16</width>
-           <height>17</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>x:</string>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="x4">
-         <property name="geometry">
-          <rect>
-           <x>350</x>
-           <y>60</y>
-           <width>69</width>
-           <height>27</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <double>-50.000000000000000</double>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="y4">
-         <property name="geometry">
-          <rect>
-           <x>350</x>
-           <y>90</y>
-           <width>69</width>
-           <height>27</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <double>-50.000000000000000</double>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_37">
-         <property name="geometry">
-          <rect>
-           <x>330</x>
-           <y>100</y>
-           <width>16</width>
-           <height>17</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>y:</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_38">
-         <property name="geometry">
-          <rect>
-           <x>430</x>
-           <y>70</y>
-           <width>16</width>
-           <height>17</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>x:</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_39">
-         <property name="geometry">
-          <rect>
-           <x>430</x>
-           <y>100</y>
-           <width>16</width>
-           <height>17</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>y:</string>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="y5">
-         <property name="geometry">
-          <rect>
-           <x>450</x>
-           <y>90</y>
-           <width>69</width>
-           <height>27</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <double>-50.000000000000000</double>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="x5">
-         <property name="geometry">
-          <rect>
-           <x>450</x>
-           <y>60</y>
-           <width>69</width>
-           <height>27</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <double>-50.000000000000000</double>
-         </property>
-        </widget>
         <widget class="QPushButton" name="pushButton">
          <property name="geometry">
           <rect>
@@ -784,174 +584,404 @@
           </rect>
          </property>
         </widget>
-        <widget class="QDoubleSpinBox" name="a1">
+        <widget class="QPushButton" name="pushButton_2">
          <property name="geometry">
           <rect>
-           <x>40</x>
+           <x>570</x>
            <y>120</y>
-           <width>69</width>
-           <height>27</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <double>-50.000000000000000</double>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_24">
-         <property name="geometry">
-          <rect>
-           <x>120</x>
-           <y>130</y>
-           <width>16</width>
-           <height>17</height>
+           <width>141</width>
+           <height>25</height>
           </rect>
          </property>
          <property name="text">
-          <string>a:</string>
+          <string>yaml_creator</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_40">
-         <property name="geometry">
-          <rect>
-           <x>430</x>
-           <y>130</y>
-           <width>16</width>
-           <height>17</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>a:</string>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="a5">
-         <property name="geometry">
-          <rect>
-           <x>450</x>
-           <y>120</y>
-           <width>69</width>
-           <height>27</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <double>-50.000000000000000</double>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="a3">
-         <property name="geometry">
-          <rect>
-           <x>240</x>
-           <y>120</y>
-           <width>69</width>
-           <height>27</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <double>-50.000000000000000</double>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="a4">
-         <property name="geometry">
-          <rect>
-           <x>350</x>
-           <y>120</y>
-           <width>69</width>
-           <height>27</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <double>-50.000000000000000</double>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_25">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
            <x>20</x>
-           <y>130</y>
-           <width>16</width>
-           <height>17</height>
+           <y>30</y>
+           <width>513</width>
+           <height>129</height>
           </rect>
          </property>
-         <property name="text">
-          <string>a:</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_41">
-         <property name="geometry">
-          <rect>
-           <x>330</x>
-           <y>130</y>
-           <width>16</width>
-           <height>17</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>a:</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_27">
-         <property name="geometry">
-          <rect>
-           <x>220</x>
-           <y>130</y>
-           <width>16</width>
-           <height>17</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>a:</string>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="a2">
-         <property name="geometry">
-          <rect>
-           <x>140</x>
-           <y>120</y>
-           <width>69</width>
-           <height>27</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <double>-50.000000000000000</double>
-         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_12">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QRadioButton" name="pioneer1">
+              <property name="text">
+               <string>1</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="pioneer2">
+              <property name="text">
+               <string>2</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="pioneer3">
+              <property name="text">
+               <string>3</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="pioneer4">
+              <property name="text">
+               <string>4</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="pioneer5">
+              <property name="text">
+               <string>5</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_11">
+                <item>
+                 <widget class="QLabel" name="label_17">
+                  <property name="text">
+                   <string>x:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_18">
+                  <property name="text">
+                   <string>y:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_25">
+                  <property name="text">
+                   <string>a:</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_2">
+                <item>
+                 <widget class="QDoubleSpinBox" name="x1">
+                  <property name="minimum">
+                   <double>-50.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="y1">
+                  <property name="minimum">
+                   <double>-50.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="a1">
+                  <property name="minimum">
+                   <double>-50.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_10">
+                <item>
+                 <widget class="QLabel" name="label_19">
+                  <property name="text">
+                   <string>x:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_20">
+                  <property name="text">
+                   <string>y:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_24">
+                  <property name="text">
+                   <string>a:</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_3">
+                <item>
+                 <widget class="QDoubleSpinBox" name="x2">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="minimum">
+                   <double>-50.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="y2">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="minimum">
+                   <double>-50.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="a2">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="minimum">
+                   <double>-50.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_9">
+                <item>
+                 <widget class="QLabel" name="label_21">
+                  <property name="text">
+                   <string>x:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_22">
+                  <property name="text">
+                   <string>y:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_27">
+                  <property name="text">
+                   <string>a:</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_4">
+                <item>
+                 <widget class="QDoubleSpinBox" name="x3">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="minimum">
+                   <double>-50.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="y3">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="minimum">
+                   <double>-50.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="a3">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <strikeout>false</strikeout>
+                    <kerning>true</kerning>
+                   </font>
+                  </property>
+                  <property name="buttonSymbols">
+                   <enum>QAbstractSpinBox::UpDownArrows</enum>
+                  </property>
+                  <property name="minimum">
+                   <double>-50.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_8">
+                <item>
+                 <widget class="QLabel" name="label_23">
+                  <property name="text">
+                   <string>x:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_37">
+                  <property name="text">
+                   <string>y:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_41">
+                  <property name="text">
+                   <string>a:</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_5">
+                <item>
+                 <widget class="QDoubleSpinBox" name="x4">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="minimum">
+                   <double>-50.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="y4">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="minimum">
+                   <double>-50.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="a4">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="minimum">
+                   <double>-50.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_7">
+                <item>
+                 <widget class="QLabel" name="label_38">
+                  <property name="text">
+                   <string>x:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_39">
+                  <property name="text">
+                   <string>y:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_40">
+                  <property name="text">
+                   <string>a:</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_6">
+                <item>
+                 <widget class="QDoubleSpinBox" name="x5">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="minimum">
+                   <double>-50.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="y5">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="minimum">
+                   <double>-50.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="a5">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="minimum">
+                   <double>-50.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </widget>
        </widget>
        <widget class="QPushButton" name="pushButtonRqtGraphNav">
         <property name="geometry">
          <rect>
           <x>740</x>
-          <y>610</y>
+          <y>600</y>
           <width>121</width>
           <height>25</height>
          </rect>
         </property>
         <property name="text">
          <string>Open rqt_graph</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="start_nav">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>600</y>
-          <width>151</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Start Navigation</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="stop_nav_buton">
-        <property name="geometry">
-         <rect>
-          <x>180</x>
-          <y>600</y>
-          <width>141</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Stop Navigation</string>
         </property>
        </widget>
        <widget class="QGroupBox" name="groupBox_7">
@@ -1071,15 +1101,41 @@
          </property>
          <item>
           <property name="text">
-           <string>AMCL</string>
+           <string>amcl</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Fake_localization</string>
+           <string>fake_localization</string>
           </property>
          </item>
         </widget>
+       </widget>
+       <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>600</y>
+          <width>401</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_12">
+         <item>
+          <widget class="QPushButton" name="start_nav">
+           <property name="text">
+            <string>Start Navigation</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="stop_nav_buton">
+           <property name="text">
+            <string>Stop Navigation</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </widget>
      </widget>
@@ -1096,15 +1152,17 @@
     </rect>
    </property>
   </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionReal_Robots">
+   <property name="text">
+    <string>Real Robots</string>
+   </property>
+  </action>
+  <action name="actionNavigation">
+   <property name="text">
+    <string>Navigation</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

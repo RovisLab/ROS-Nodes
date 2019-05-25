@@ -4,10 +4,8 @@
 
 # Option strings
 ARGUMENT_LIST=(
-    world
-    robot_URDF_model
     pose_file
-    kinect_to_laserscan
+    robot_names_file
     gmapping_config_type
 )
 

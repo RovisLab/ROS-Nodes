@@ -4,7 +4,7 @@ my_pid=$$
 echo "My process ID is $my_pid"
 
 echo "Launching Gazebo..."
-roslaunch pioneer_gazebo gazebo_world.launch world:="test_3" &
+roslaunch pioneer_gazebo gazebo_world.launch world:="maze_one" &
 pid="$pid $!"
 sleep 5s
 
