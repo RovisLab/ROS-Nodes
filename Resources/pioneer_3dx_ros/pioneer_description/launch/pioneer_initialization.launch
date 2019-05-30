@@ -2,7 +2,7 @@
 <launch>
   <arg name="robot_URDF_model" default="pioneer_hokuyo" />
   <arg name="pose_file" default="pioneer_poses" />
-  <arg name="robot_names_file" default="robot_names" />
+  <arg name="robot_names_file" default="robots_names" />
 
   <!-- Load the URDF into the ROS Parameter Server -->
   <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find pioneer_description)/urdf/$(arg robot_URDF_model).urdf.xacro'" />

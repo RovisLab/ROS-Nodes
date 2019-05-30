@@ -28,10 +28,8 @@ helpFunction()
 {
    echo ""
    echo "$0 [Options]:"
-   echo -e "\t--world Name of the world used"
-   echo -e "\t--robot_URDF_model Name of the URDF model of the robot"
    echo -e "\t--pose_file Pose file name"
-   echo -e "\t--kinect_to_laserscan Option to use kinect"
+   echo -e "\t--robot_names_file Option to use kinect"
    echo -e "\t--gmapping_config_type Gmapping configuration for the laser device"
    exit 1 # Exit script after printing help
 }
@@ -39,20 +37,12 @@ helpFunction()
 # extract options and their arguments into variables.
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --world )
-      world="$2"
-      shift 2
-      ;;
-    --robot_URDF_model )
-      robot_model="$2"
-      shift 2
-      ;;
     --pose_file )
       pose_file="$2"
       shift 2
       ;;
-    --kinect_to_laserscan )
-      kinect_to_laserscan="$2"
+    --robot_names_file )
+      robot_names_file="$2"
       shift 2
       ;;
     --gmapping_config_type )
@@ -71,44 +61,38 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Print helpFunction in case parameters are empty
-if [ -z "$world" ] || [ -z "$robot_model" ] || [ -z "$pose_file" ] || [ -z "$kinect_to_laserscan" ] || [ -z "$gmapping_config_type" ]
+if [ -z "$pose_file" ] || [ -z "$robot_names_file" ] || [ -z "$gmapping_config_type" ]
 then
   echo "";
   echo "Some or all of the parameters are empty";
   helpFunction
 fi
 
-echo "world = $world"
-echo "robot_URDF_model = $robot_model"
 echo "pose_file = $pose_file"
-echo "kinect_to_laserscan = $kinect_to_laserscan"
+echo "robot_names_file = $robot_names_file"
 echo "gmapping_config_type = $gmapping_config_type"
 
-echo "Launching Gazebo..."
-roslaunch pioneer_gazebo gazebo_world.launch world:="$world" &
+echo "Launching pioneer_description..."
+roslaunch pioneer_description pioneer_initialization.launch robot_URDF_model:="pioneer_kinect_real" pose_file:="$pose_file" robot_names_file:="$robot_names_file" &
 pid="$pid $!"
 sleep 5s
 
-echo "Loading initialisation parameters..."
-roslaunch pioneer_description pioneer_initialization.launch robot_URDF_model:="$robot_model" pose_file:="$pose_file" &
+echo "Launching RosAria stack..."
+roslaunch pioneer_description pioneer_description.launch robot_name:="pioneer1" robot_pose:="-x $(rosparam get /pioneer1/x) -y $(rosparam get /pioneer1/y) -Y $(rosparam get /pioneer1/a)" environment:="real_world" use_real_kinect:=true kinect_to_laserscan:=true robot_username:="$(rosparam get /pioneer1-username)" connect_robot_pc:=true  &
 pid="$pid $!"
-sleep 2s
-
-echo "Launching Pioneers in Gazebo environment..."
-roslaunch pioneer_description pioneer_description.launch robot_name:="pioneer1" robot_pose:="-x $(rosparam get /pioneer1/x) -y $(rosparam get /pioneer1/y) -Y $(rosparam get /pioneer1/a)" environment:="gazebo" use_real_kinect:=false kinect_to_laserscan:=$kinect_to_laserscan &
-pid="$pid $!"
-sleep 2s
+sleep 5s
 
 echo "Launching SLAM Gmapping stack..."
-roslaunch pioneer_nav2d gmapping_launcher.launch robot_name:="pioneer1" gmapping_config_type:="$gmapping_config_type" &
+roslaunch pioneer_nav2d gmapping_launcher.launch robot_name:="pioneer1" robot_username:="$(rosparam get /pioneer1-username)" connect_robot_pc:=true gmapping_config_type:="$gmapping_config_type" &
 pid="$pid $!"
-sleep 2s
+sleep 10s
 
 echo "Launching rviz..."
 roslaunch pioneer_description pioneer_visualization.launch rviz_config:="one_pioneer_mapping" &
 pid="$pid $!"
+sleep 5s
 
-echo "$pid" > /home/$(whoami)/script_pid.txt
+echo "$pid" > /home/$(whoami)/script_pid.
 
 trap "echo Killing all processes.; kill -2 TERM $pid; exit" SIGINT SIGTERM
 
