@@ -26,6 +26,10 @@ private slots:
 
     void on_lineEdit_poseFileMapping_returnPressed();
 
+    void on_pushButton_openUsernameFileMapping_clicked();
+
+    void on_lineEdit_usernameFileMapping_returnPressed();
+
     void on_pushButton_startMappingTool_clicked();
 
     void on_pushButton_openTeleopMapping_clicked();
@@ -62,6 +66,10 @@ private slots:
 
     void on_lineEdit_poseFileNavigation_returnPressed();
 
+    void on_pushButton_openUsernameFileNavigation_clicked();
+
+    void on_lineEdit_usernameFileNavigation_returnPressed();
+
     void on_pushButton_startNavigationTool_clicked();
 
     void on_pushButton_openRqtGraphNav_clicked();
@@ -74,20 +82,13 @@ private slots:
 
     void complete_coordinates_from_yaml(const QString& filePath, const QString& module);
 
-    void create_yaml_from_usernames(const QString& filePath, const QString& module, const int& nrOfUsedRobots=1);
+    int create_yaml_from_usernames(const QString& filePath, const QString& module);
 
-    void create_yaml_from_coordinates(const QString& filePath, const QString& module, const int& nrOfUsedRobots=1);
+    void create_yaml_from_coordinates(const QString& filePath, const QString& module);
 
-    void findAndDestroy(QProcess *startedProcess,const QString& createdYamlFilePath);
+    void findAndDestroy(QProcess *startedProcess, const QString& createdYamlFilePath1, const QString& createdYamlFilePath2);
 
     void oneShotProcess(const QString& package, const QString& node, const QString& optionalArgument1="", const QString& optionalArgument2="");
-
-
-    void on_pushButton_openUsernameFileMapping_clicked();
-
-    void on_lineEdit_usernameFileMapping_returnPressed();
-
-    void on_pushButton_openUsernameFileNavigation_clicked();
 
 private:
     Ui::Real *ui;
@@ -95,16 +96,12 @@ private:
     QString packagePath;
     QString realMappingScriptPath;
     QString realNavigationScriptPath;
-
     QString worldImagePath;
-
     QString poseFileDefaultPath;
-    QString poseFilePathFromMapping;
-    QString poseFilePathFromNavigation;
     QString usedPoseFilePathForMappig;
     QString usedPoseFilePathForNavigation;
-    QString usedUsernameFilePathForMapping;
-    QString usedUsernameFilePathForNavigation;
+    QString usedRealRobotsFilePathForMapping;
+    QString usedRealRobotsFilePathForNavigation;
     QString pidTxtFilePath;
 
     //images
@@ -112,28 +109,25 @@ private:
 
     // QProcess
     QProcess *moduleStartProcess;
-    QProcess *saveMapProcess;
-    QProcess *pioneerTeleopKeyProcess;
-    QProcess *rqtGraphProcess;
     QProcess *godKillerProcess;
 
     //launchfiles arguments
-    QString worldArgument;
-    QString robot_URDF_modelArgument;
-    QString kinect_to_laserscanArgument;
+    QString map_nameArgument;
     QString gmapping_config_typeArgument;
     QString pose_fileArgument;
+    int participantsArgument;
     QString localization_typeArgument;
     QString base_global_plannerArgument;
     QString base_local_plannerArgument;
     QString rviz_configArgument;
-    QString robot_names_fileArgument;
+    QString real_robots_fileArgument;
 
     //script commands
     QString realMappingScriptCommand;
     QString realNavigationScriptCommand;
 
-    int numberOfUsedRobots;
+
+    QList<QString> yamlToStringList;
 };
 
 #endif // REAL_H

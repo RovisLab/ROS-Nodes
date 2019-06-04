@@ -1,0 +1,15 @@
+pioneer1:
+  username: robot4
+  address: 192.168.43.152
+pioneer2:
+  username: rovis
+  address: 192.168.43.132
+pioneer3:
+  username: robotik
+  address: 192.168.43.133
+pioneer4:
+  username: rovisoi
+  address: 192.168.43.144
+pioneer5:
+  username: bibiloi
+  address: 192.168.43.155

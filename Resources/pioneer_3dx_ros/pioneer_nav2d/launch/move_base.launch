@@ -5,7 +5,8 @@
 	<arg name="base_global_planner" default="NavfnROS" doc="GlobalPlanner, NavfnROS, CarrotPlanner" />
 	<arg name="base_local_planner" default="DWALocalPlanner" doc="TrajectoryPlannerROS, DWALocalPlanner, EBandLocalPlanner, TebLocalPlannerROS" />
   <arg name="mcp_use" default="false" />
-  <arg name="robot_username" default="pioneer1" />
+  <arg name="real_robot_username" default="robot4" />
+  <arg name="real_robot_address" default="192.168.43.152" />
 
   <!--  Machine type -->
   <arg name="connect_robot_pc" default="false" />
@@ -14,7 +15,7 @@
 
 
   <machine name="local_host" address="localhost" default="true" />
-  <machine name="$(arg robot_name)" user="$(arg robot_username)" address="$(arg robot_name)" env-loader="~/catkin_ws/devel/remote_env_loader.sh" />
+  <machine name="$(arg robot_name)" user="$(arg real_robot_username)" address="$(arg real_robot_address)" env-loader="~/catkin_ws/devel/remote_env_loader.sh" />
 
   
   <!-- Make sure initial pose matches $(find pioneer_description)/launch/pioneers.launch arg init_pose -->

@@ -34,14 +34,12 @@ Real::Real(QWidget *parent) :
 
     // Pose source file Paths
     poseFileDefaultPath = packagePath.left(packagePath.indexOf("pioneer_gui")) + "pioneer_description/params";
-    poseFilePathFromMapping = poseFileDefaultPath + "/pioneer_pose_from_mapping.yaml";
-    poseFilePathFromNavigation = poseFileDefaultPath + "/pioneer_poses_from_navigation.yaml";
 
     pidTxtFilePath = (packagePath.left(packagePath.indexOf("/",6) + 1)) + "script_pid.txt";
     usedPoseFilePathForMappig = poseFileDefaultPath + "/created_yaml_pose_for_mapping.yaml";
     usedPoseFilePathForNavigation = poseFileDefaultPath + "/created_yaml_poses_for_navigation.yaml";
-    usedUsernameFilePathForMapping = poseFileDefaultPath + "/created_yaml_username_for_mapping.yaml";
-    usedUsernameFilePathForNavigation = poseFileDefaultPath + "/created_yaml_username_for_navigation.yaml";
+    usedRealRobotsFilePathForMapping = poseFileDefaultPath + "/created_yaml_real_robots_for_mapping.yaml";
+    usedRealRobotsFilePathForNavigation = poseFileDefaultPath + "/created_yaml_real_robots_for_navigation.yaml";
 }
 
 Real::~Real()
@@ -62,7 +60,7 @@ void Real::complete_usernames_from_yaml(const QString& filePath, const QString& 
        }
        inputFile.close();
     }
-    if(line.indexOf(QRegExp( "(pioneer[0-9]-username:)" ))) {
+    if(line.indexOf(QRegExp( "(pioneer[0-9]:)" ))) {
         QMessageBox msgBox;
         msgBox.setWindowTitle("ERROR");
         msgBox.setText("The username YAML file you chose is not well formated.");
@@ -75,88 +73,94 @@ void Real::complete_usernames_from_yaml(const QString& filePath, const QString& 
         return;
     }
 
-    line.remove( QRegExp( "(pioneer[0-9]-username:)" ) );
-//    qDebug() << line;
+    line.remove( QRegExp( "(pioneer[0-9]:)" ) );
+    line.remove( QRegExp( "(username:)" ) );
+    line.remove( QRegExp( "(address:)" ) );
+    qDebug() << line;
     QRegExp rx("(pioneer[0-9]-username: )");
-    line.remove(0,1);
-    QList<QString> list;
-    list = line.split(" ");
-    qDebug() << list;
+    line.remove(0,3);
+    yamlToStringList = line.split("   ");
+    qDebug() << yamlToStringList;
 
 
     if( module == "mapping" ) {
         ui->comboBox_usernamesMapping->clear();
-        for (int i = 0; i < list.length(); ++i) {
-            ui->comboBox_usernamesMapping->addItem(list[i]);
+        for (int i = 0; i < yamlToStringList.length(); i = i+2) {
+            ui->comboBox_usernamesMapping->addItem(yamlToStringList[i]);
         }
         ui->lineEdit_usernameFileMapping->setText(filePath);
     }
 
     else if (module == "navigation") {
-        switch (list.length()) {
-            case 1: {
-                ui->radioButton_pioneer1->setChecked(true);
-                ui->radioButton_pioneer1->setText(list[0]);
-                ui->radioButton_pioneer2->setEnabled(false);
-                ui->radioButton_pioneer3->setEnabled(false);
-                ui->radioButton_pioneer4->setEnabled(false);
-                ui->radioButton_pioneer5->setEnabled(false);
-                ui->radioButton_pioneer2->setText("2");
-                ui->radioButton_pioneer3->setText("3");
-                ui->radioButton_pioneer4->setText("4");
-                ui->radioButton_pioneer5->setText("5");
-                break;
-            }
-            case 2 : {
-                ui->radioButton_pioneer2->setEnabled(true);
-                ui->radioButton_pioneer2->setChecked(true);
-                ui->radioButton_pioneer1->setText(list[0]);
-                ui->radioButton_pioneer2->setText(list[1]);
-                ui->radioButton_pioneer3->setEnabled(false);
-                ui->radioButton_pioneer4->setEnabled(false);
-                ui->radioButton_pioneer5->setEnabled(false);
-                ui->radioButton_pioneer3->setText("3");
-                ui->radioButton_pioneer4->setText("4");
-                ui->radioButton_pioneer5->setText("5");
-                break;
-            }
-            case 3 : {
-                ui->radioButton_pioneer2->setEnabled(true);
-                ui->radioButton_pioneer3->setEnabled(true);
-                ui->radioButton_pioneer3->setChecked(true);
-                ui->radioButton_pioneer1->setText(list[0]);
-                ui->radioButton_pioneer2->setText(list[1]);
-                ui->radioButton_pioneer3->setText(list[2]);
-                ui->radioButton_pioneer4->setEnabled(false);
-                ui->radioButton_pioneer5->setEnabled(false);
-                ui->radioButton_pioneer4->setText("4");
-                ui->radioButton_pioneer5->setText("5");
+        ui->checkBox_robot1->setChecked(false);
+        ui->checkBox_robot2->setChecked(false);
+        ui->checkBox_robot3->setChecked(false);
+        ui->checkBox_robot4->setChecked(false);
+        ui->checkBox_robot5->setChecked(false);
+        switch (yamlToStringList.length()) {
+            case 2: {
+                ui->checkBox_robot1->setText(yamlToStringList[0]);
+                ui->checkBox_robot1->setEnabled(true);
+                ui->checkBox_robot2->setText("2");
+                ui->checkBox_robot3->setText("3");
+                ui->checkBox_robot4->setText("4");
+                ui->checkBox_robot5->setText("5");
+                ui->checkBox_robot2->setEnabled(false);
+                ui->checkBox_robot3->setEnabled(false);
+                ui->checkBox_robot4->setEnabled(false);
+                ui->checkBox_robot5->setEnabled(false);
                 break;
             }
             case 4 : {
-                ui->radioButton_pioneer2->setEnabled(true);
-                ui->radioButton_pioneer3->setEnabled(true);
-                ui->radioButton_pioneer4->setEnabled(true);
-                ui->radioButton_pioneer4->setChecked(true);
-                ui->radioButton_pioneer1->setText(list[0]);
-                ui->radioButton_pioneer2->setText(list[1]);
-                ui->radioButton_pioneer3->setText(list[2]);
-                ui->radioButton_pioneer4->setText(list[3]);
-                ui->radioButton_pioneer5->setEnabled(false);
-                ui->radioButton_pioneer5->setText("5");
+                ui->checkBox_robot1->setText(yamlToStringList[0]);
+                ui->checkBox_robot2->setText(yamlToStringList[2]);
+                ui->checkBox_robot1->setEnabled(true);
+                ui->checkBox_robot2->setEnabled(true);
+                ui->checkBox_robot3->setText("3");
+                ui->checkBox_robot4->setText("4");
+                ui->checkBox_robot5->setText("5");
+                ui->checkBox_robot3->setEnabled(false);
+                ui->checkBox_robot4->setEnabled(false);
+                ui->checkBox_robot5->setEnabled(false);
                 break;
             }
-            case 5 : {
-                ui->radioButton_pioneer2->setEnabled(true);
-                ui->radioButton_pioneer3->setEnabled(true);
-                ui->radioButton_pioneer4->setEnabled(true);
-                ui->radioButton_pioneer5->setEnabled(true);
-                ui->radioButton_pioneer5->setChecked(true);
-                ui->radioButton_pioneer1->setText(list[0]);
-                ui->radioButton_pioneer2->setText(list[1]);
-                ui->radioButton_pioneer3->setText(list[2]);
-                ui->radioButton_pioneer4->setText(list[3]);
-                ui->radioButton_pioneer5->setText(list[4]);
+            case 6 : {
+                ui->checkBox_robot1->setText(yamlToStringList[0]);
+                ui->checkBox_robot2->setText(yamlToStringList[2]);
+                ui->checkBox_robot3->setText(yamlToStringList[4]);
+                ui->checkBox_robot1->setEnabled(true);
+                ui->checkBox_robot2->setEnabled(true);
+                ui->checkBox_robot3->setEnabled(true);
+                ui->checkBox_robot4->setText("4");
+                ui->checkBox_robot5->setText("5");
+                ui->checkBox_robot4->setEnabled(false);
+                ui->checkBox_robot5->setEnabled(false);
+                break;
+            }
+            case 8 : {
+                ui->checkBox_robot1->setText(yamlToStringList[0]);
+                ui->checkBox_robot2->setText(yamlToStringList[2]);
+                ui->checkBox_robot3->setText(yamlToStringList[4]);
+                ui->checkBox_robot4->setText(yamlToStringList[6]);
+                ui->checkBox_robot1->setEnabled(true);
+                ui->checkBox_robot2->setEnabled(true);
+                ui->checkBox_robot3->setEnabled(true);
+                ui->checkBox_robot4->setEnabled(true);
+                ui->checkBox_robot5->setText("5");
+                ui->checkBox_robot5->setEnabled(false);
+                break;
+            }
+            case 10 : {
+                ui->checkBox_robot1->setText(yamlToStringList[0]);
+                ui->checkBox_robot2->setText(yamlToStringList[2]);
+                ui->checkBox_robot3->setText(yamlToStringList[4]);
+                ui->checkBox_robot4->setText(yamlToStringList[6]);
+                ui->checkBox_robot5->setText(yamlToStringList[8]);
+                ui->checkBox_robot1->setEnabled(true);
+                ui->checkBox_robot2->setEnabled(true);
+                ui->checkBox_robot3->setEnabled(true);
+                ui->checkBox_robot4->setEnabled(true);
+                ui->checkBox_robot5->setEnabled(true);
                 break;
             }
         }
@@ -236,55 +240,78 @@ void Real::complete_coordinates_from_yaml(const QString& filePath, const QString
     ui->lineEdit_poseFileNavigation->setText(filePath);
     }
 }
-
-void Real::create_yaml_from_usernames(const QString& filePath, const QString& module, const int& nrOfUsedRobots)
+int Real::create_yaml_from_usernames(const QString& filePath, const QString& module)
 {
     QFile outputPoseYamlFile(filePath);
 
     YAML::Emitter out;
 
-    QString pioneer_key;
+    QString pioneer_name;
     QString pioneer_username;
+    QString pioneer_address;
+
+    int counter = 0;
 
     out << YAML::BeginMap;
 
     if( module == "mapping" ) {
-        pioneer_key = "pioneer1-username";
+        pioneer_name = "pioneer1";
         pioneer_username = ui->comboBox_usernamesMapping->currentText();
-        out << YAML::Key << pioneer_key.toStdString();
-        out << YAML::Value << pioneer_username.toStdString();
+        pioneer_address = yamlToStringList[1];
+
+        out << YAML::Key << pioneer_name.toStdString();
+        out << YAML::Value << YAML::BeginMap << YAML::Key << "username" <<YAML::Value << pioneer_username.toStdString() <<
+               YAML::Key << "address" <<YAML::Value << pioneer_address.toStdString() << YAML::EndMap;
     }
     else if( module == "navigation" ) {
-        for (int i = 1; i <= nrOfUsedRobots; ++i) {
-            switch (i) {
-                case 1: {
-                    pioneer_key = "pioneer1-username";
-                    pioneer_username = ui->radioButton_pioneer1->text();
-                    break;
-                }
-                case 2: {
-                    pioneer_key = "pioneer2-username";
-                    pioneer_username = ui->radioButton_pioneer2->text();
-                    break;
-                }
-                case 3: {
-                    pioneer_key = "pioneer3-username";
-                    pioneer_username = ui->radioButton_pioneer3->text();
-                    break;
-                }
-                case 4: {
-                    pioneer_key = "pioneer4-username";
-                pioneer_username = ui->radioButton_pioneer4->text();
-                    break;
-                }
-                case 5: {
-                    pioneer_key = "pioneer5-username";
-                    pioneer_username = ui->radioButton_pioneer4->text();
-                    break;
-                }
-            }
-            out << YAML::Key << pioneer_key.toStdString();
-            out << YAML::Value << pioneer_username.toStdString();
+        if(ui->checkBox_robot1->isChecked()) {
+            counter++;
+            pioneer_name = "pioneer" + QString::number(counter);
+            pioneer_username = ui->checkBox_robot1->text();
+            pioneer_address = yamlToStringList[1];
+
+            out << YAML::Key << pioneer_name.toStdString();
+            out << YAML::Value << YAML::BeginMap << YAML::Key << "username" <<YAML::Value << pioneer_username.toStdString() <<
+                   YAML::Key << "address" <<YAML::Value << pioneer_address.toStdString() << YAML::EndMap;
+        }
+        if(ui->checkBox_robot2->isChecked()) {
+            counter++;
+            pioneer_name = "pioneer" + QString::number(counter);
+            pioneer_username = ui->checkBox_robot2->text();
+            pioneer_address = yamlToStringList[3];
+
+            out << YAML::Key << pioneer_name.toStdString();
+            out << YAML::Value << YAML::BeginMap << YAML::Key << "username" <<YAML::Value << pioneer_username.toStdString() <<
+                   YAML::Key << "address" <<YAML::Value << pioneer_address.toStdString() << YAML::EndMap;
+        }
+        if(ui->checkBox_robot3->isChecked()) {
+            counter++;
+            pioneer_name = "pioneer" + QString::number(counter);
+            pioneer_username = ui->checkBox_robot3->text();
+            pioneer_address = yamlToStringList[5];
+
+            out << YAML::Key << pioneer_name.toStdString();
+            out << YAML::Value << YAML::BeginMap << YAML::Key << "username" <<YAML::Value << pioneer_username.toStdString() <<
+                   YAML::Key << "address" <<YAML::Value << pioneer_address.toStdString() << YAML::EndMap;
+        }
+        if(ui->checkBox_robot4->isChecked()) {
+            counter++;
+            pioneer_name = "pioneer" + QString::number(counter);
+            pioneer_username = ui->checkBox_robot4->text();
+            pioneer_address = yamlToStringList[7];
+
+            out << YAML::Key << pioneer_name.toStdString();
+            out << YAML::Value << YAML::BeginMap << YAML::Key << "username" <<YAML::Value << pioneer_username.toStdString() <<
+                   YAML::Key << "address" <<YAML::Value << pioneer_address.toStdString() << YAML::EndMap;
+        }
+        if(ui->checkBox_robot5->isChecked()) {
+            counter++;
+            pioneer_name = "pioneer" + QString::number(counter);
+            pioneer_username = ui->checkBox_robot5->text();
+            pioneer_address = yamlToStringList[9];
+            out << YAML::Key << pioneer_name.toStdString();
+            out << YAML::Value << YAML::BeginMap << YAML::Key << "username" <<YAML::Value << pioneer_username.toStdString() <<
+                   YAML::Key << "address" <<YAML::Value << pioneer_address.toStdString() << YAML::EndMap;
         }
     }
     out << YAML::EndMap;
@@ -294,9 +321,9 @@ void Real::create_yaml_from_usernames(const QString& filePath, const QString& mo
             QTextStream outputStream( &outputPoseYamlFile );
             outputStream << out.c_str();
     }
+    return counter;
 }
-
-void Real::create_yaml_from_coordinates(const QString& filePath, const QString& module, const int& nrOfUsedRobots)
+void Real::create_yaml_from_coordinates(const QString& filePath, const QString& module)
 {
     QFile outputPoseYamlFile(filePath);
 
@@ -307,6 +334,7 @@ void Real::create_yaml_from_coordinates(const QString& filePath, const QString& 
     QString yString;
     QString aString;
 
+    int counter = 1;
     out << YAML::BeginMap;
 
     if( module == "mapping" ) {
@@ -320,44 +348,56 @@ void Real::create_yaml_from_coordinates(const QString& filePath, const QString& 
                aString.toStdString() << YAML::EndMap;
     }
     else if( module == "navigation" ) {
-        for (int i = 1; i <= nrOfUsedRobots; ++i) {
-            switch (i) {
-                case 1: {
-                    pioneer_name = "pioneer" + QString::number(i);
-                    xString = QString::number(ui->doubleSpinBox_x1PoseNavigation->value());
-                    yString = QString::number(ui->doubleSpinBox_y1PoseNavigation->value());
-                    aString = QString::number(ui->doubleSpinBox_yaw1PoseNavigation->value());
-                    break;
-                }
-                case 2: {
-                    pioneer_name = "pioneer" + QString::number(i);
-                    xString = QString::number(ui->doubleSpinBox_x2PoseNavigation->value());
-                    yString = QString::number(ui->doubleSpinBox_y2PoseNavigation->value());
-                    aString = QString::number(ui->doubleSpinBox_yaw2PoseNavigation->value());
-                    break;
-                }
-                case 3: {
-                    pioneer_name = "pioneer" + QString::number(i);
-                    xString = QString::number(ui->doubleSpinBox_x3PoseNavigation->value());
-                    yString = QString::number(ui->doubleSpinBox_y3PoseNavigation->value());
-                    aString = QString::number(ui->doubleSpinBox_yaw3PoseNavigation->value());
-                    break;
-                }
-                case 4: {
-                    pioneer_name = "pioneer" + QString::number(i);
-                    xString = QString::number(ui->doubleSpinBox_x4PoseNavigation->value());
-                    yString = QString::number(ui->doubleSpinBox_y4PoseNavigation->value());
-                    aString = QString::number(ui->doubleSpinBox_yaw4PoseNavigation->value());
-                    break;
-                }
-                case 5: {
-                    pioneer_name = "pioneer" + QString::number(i);
-                    xString = QString::number(ui->doubleSpinBox_x5PoseNavigation->value());
-                    yString = QString::number(ui->doubleSpinBox_y5PoseNavigation->value());
-                    aString = QString::number(ui->doubleSpinBox_yaw5PoseNavigation->value());
-                    break;
-                }
-            }
+        pioneer_name = "pioneer1";
+        if(ui->checkBox_robot1->isChecked()) {
+            pioneer_name = "pioneer" + QString::number(counter);
+            xString = QString::number(ui->doubleSpinBox_x1PoseNavigation->value());
+            yString = QString::number(ui->doubleSpinBox_y1PoseNavigation->value());
+            aString = QString::number(ui->doubleSpinBox_yaw1PoseNavigation->value());
+            counter++;
+            out << YAML::Key << pioneer_name.toStdString();
+            out << YAML::Value << YAML::BeginMap << YAML::Key << "x" <<YAML::Value << xString.toStdString() <<
+                   YAML::Key << "y" <<YAML::Value << yString.toStdString() << YAML::Key << "a" <<YAML::Value <<
+                   aString.toStdString() << YAML::EndMap;
+        }
+        if(ui->checkBox_robot2->isChecked()) {
+            pioneer_name = "pioneer" + QString::number(counter);
+            xString = QString::number(ui->doubleSpinBox_x2PoseNavigation->value());
+            yString = QString::number(ui->doubleSpinBox_y2PoseNavigation->value());
+            aString = QString::number(ui->doubleSpinBox_yaw2PoseNavigation->value());
+            counter++;
+            out << YAML::Key << pioneer_name.toStdString();
+            out << YAML::Value << YAML::BeginMap << YAML::Key << "x" <<YAML::Value << xString.toStdString() <<
+                   YAML::Key << "y" <<YAML::Value << yString.toStdString() << YAML::Key << "a" <<YAML::Value <<
+                   aString.toStdString() << YAML::EndMap;
+        }
+        if(ui->checkBox_robot3->isChecked()) {
+            pioneer_name = "pioneer" + QString::number(counter);
+            xString = QString::number(ui->doubleSpinBox_x3PoseNavigation->value());
+            yString = QString::number(ui->doubleSpinBox_y3PoseNavigation->value());
+            aString = QString::number(ui->doubleSpinBox_yaw3PoseNavigation->value());
+            counter++;
+            out << YAML::Key << pioneer_name.toStdString();
+            out << YAML::Value << YAML::BeginMap << YAML::Key << "x" <<YAML::Value << xString.toStdString() <<
+                   YAML::Key << "y" <<YAML::Value << yString.toStdString() << YAML::Key << "a" <<YAML::Value <<
+                   aString.toStdString() << YAML::EndMap;
+        }
+        if(ui->checkBox_robot4->isChecked()) {
+            pioneer_name = "pioneer" + QString::number(counter);
+            xString = QString::number(ui->doubleSpinBox_x4PoseNavigation->value());
+            yString = QString::number(ui->doubleSpinBox_y4PoseNavigation->value());
+            aString = QString::number(ui->doubleSpinBox_yaw4PoseNavigation->value());
+            counter++;
+            out << YAML::Key << pioneer_name.toStdString();
+            out << YAML::Value << YAML::BeginMap << YAML::Key << "x" <<YAML::Value << xString.toStdString() <<
+                   YAML::Key << "y" <<YAML::Value << yString.toStdString() << YAML::Key << "a" <<YAML::Value <<
+                   aString.toStdString() << YAML::EndMap;
+        }
+        if(ui->checkBox_robot5->isChecked()) {
+            pioneer_name = "pioneer" + QString::number(counter);
+            xString = QString::number(ui->doubleSpinBox_x5PoseNavigation->value());
+            yString = QString::number(ui->doubleSpinBox_y5PoseNavigation->value());
+            aString = QString::number(ui->doubleSpinBox_yaw5PoseNavigation->value());
             out << YAML::Key << pioneer_name.toStdString();
             out << YAML::Value << YAML::BeginMap << YAML::Key << "x" <<YAML::Value << xString.toStdString() <<
                    YAML::Key << "y" <<YAML::Value << yString.toStdString() << YAML::Key << "a" <<YAML::Value <<
@@ -372,11 +412,12 @@ void Real::create_yaml_from_coordinates(const QString& filePath, const QString& 
             outputStream << out.c_str();
     }
 }
-void Real::findAndDestroy(QProcess *startedProcess, const QString& createdYamlFilePath)
+void Real::findAndDestroy(QProcess *startedProcess, const QString& createdYamlFilePath1, const QString& createdYamlFilePath2)
 {
     QFile pidTxtFile(pidTxtFilePath);
-    QFile createdYamlFile(createdYamlFilePath);
-    qDebug() << createdYamlFilePath;
+    QFile createdYamlFile1(createdYamlFilePath1);
+    QFile createdYamlFile2(createdYamlFilePath2);
+    qDebug() << createdYamlFilePath1;
     QString line;
     if(!pidTxtFile.open(QIODevice::ReadOnly))
     {
@@ -403,9 +444,9 @@ void Real::findAndDestroy(QProcess *startedProcess, const QString& createdYamlFi
     startedProcess->kill();
     pidTxtFile.close();
     pidTxtFile.remove();
-    createdYamlFile.remove();
+    createdYamlFile1.remove();
+    createdYamlFile2.remove();
 }
-
 void Real::oneShotProcess(const QString& package, const QString& node, const QString& optionalArgument1, const QString& optionalArgument2)
 {
     if( optionalArgument1 != "" ) {
@@ -427,6 +468,7 @@ void Real::oneShotProcess(const QString& package, const QString& node, const QSt
         godKillerProcess->kill();
     }
 }
+
 /*  Mapping Functions   */
 void Real::on_doubleSpinBox_yawPoseMapping_valueChanged(double arg1)
 {
@@ -454,23 +496,40 @@ void Real::on_lineEdit_poseFileMapping_returnPressed()
     complete_coordinates_from_yaml(ui->lineEdit_poseFileMapping->text(), "mapping");
 }
 
+void Real::on_pushButton_openUsernameFileMapping_clicked()
+{
+    QString usernameFileSourcePath = QFileDialog::getOpenFileName(this,
+        tr("Open YAML file"), poseFileDefaultPath, tr("YAML Files (*.yaml)"));
+//    qDebug() << poseFileSourcePath;
+
+    complete_usernames_from_yaml(usernameFileSourcePath, "mapping");
+}
+
+void Real::on_lineEdit_usernameFileMapping_returnPressed()
+{
+    QString usernameFileSourcePathFromLine = ui->lineEdit_usernameFileMapping->text();
+    complete_usernames_from_yaml(usernameFileSourcePathFromLine, "mapping");
+}
+
 void Real::on_pushButton_startMappingTool_clicked()
 {
+    create_yaml_from_usernames(usedRealRobotsFilePathForMapping, "mapping");
     create_yaml_from_coordinates(usedPoseFilePathForMappig, "mapping");
-    create_yaml_from_usernames(usedUsernameFilePathForMapping, "mapping");
-    robot_names_fileArgument = "created_yaml_username_for_mapping";
+
     pose_fileArgument = "created_yaml_pose_for_mapping";
+    real_robots_fileArgument = "created_yaml_real_robots_for_mapping";
+
     gmapping_config_typeArgument = "gmapping_kinect";
 
     realMappingScriptCommand = realMappingScriptPath + " --pose_file " + pose_fileArgument;
-    realMappingScriptCommand += " --robot_names_file " + robot_names_fileArgument;
+    realMappingScriptCommand += " --real_robots_file " + real_robots_fileArgument;
     realMappingScriptCommand += " --gmapping_config_type " + gmapping_config_typeArgument;
     qDebug() << realMappingScriptCommand;
 
-//    moduleStartProcess = new QProcess(this);
-//    moduleStartProcess->startDetached("/bin/bash", QStringList() << realMappingScriptPath << "--pose_file" << pose_fileArgument <<
-//                                      "--robot_names_file" << robot_names_fileArgument <<
-//                                      "--gmapping_config_type" << gmapping_config_typeArgument);
+    moduleStartProcess = new QProcess(this);
+    moduleStartProcess->startDetached("/bin/bash", QStringList() << realMappingScriptPath << "--pose_file" << pose_fileArgument <<
+                                      "--real_robots_file" << real_robots_fileArgument <<
+                                      "--gmapping_config_type" << gmapping_config_typeArgument);
 }
 
 void Real::on_pushButton_openTeleopMapping_clicked()
@@ -500,9 +559,8 @@ void Real::on_pushButton_saveMap_clicked()
 
 void Real::on_pushButton_stopMappingTool_clicked()
 {
-    findAndDestroy(moduleStartProcess, usedPoseFilePathForMappig + "");
+    findAndDestroy(moduleStartProcess, usedPoseFilePathForMappig, usedRealRobotsFilePathForMapping);
 }
-
 
 /*  Navigation Fuctions*/
 void Real::on_comboBox_worldsNavigation_currentIndexChanged(const QString &arg1)
@@ -589,97 +647,6 @@ void Real::on_lineEdit_poseFileNavigation_returnPressed()
     complete_coordinates_from_yaml(ui->lineEdit_poseFileNavigation->text(),"navigation");
 }
 
-void Real::on_pushButton_startNavigationTool_clicked()
-{
-    worldArgument = ui->comboBox_worldsNavigation->currentText();
-
-    robot_URDF_modelArgument = "pioneer_kinect";
-    kinect_to_laserscanArgument = "true";
-
-    // How many robots are used
-        if(ui->radioButton_pioneer1->isChecked())
-        {
-            numberOfUsedRobots = 1;
-        }
-        else if (ui->radioButton_pioneer2->isChecked())
-        {
-            numberOfUsedRobots = 2;
-        }
-        else if (ui->radioButton_pioneer3->isChecked())
-        {
-            numberOfUsedRobots = 3;
-        }
-        else if (ui->radioButton_pioneer4->isChecked())
-        {
-            numberOfUsedRobots = 4;
-        }
-        else if (ui->radioButton_pioneer5->isChecked())
-        {
-            numberOfUsedRobots = 5;
-    }
-
-    create_yaml_from_coordinates(usedPoseFilePathForNavigation, "navigation", numberOfUsedRobots);
-    create_yaml_from_usernames(usedUsernameFilePathForNavigation, "navigation", numberOfUsedRobots);
-    robot_names_fileArgument = "created_yaml_username_for_navigation";
-    pose_fileArgument = "created_yaml_poses_for_navigation";
-
-    localization_typeArgument = ui->comboBox_localizationMethod->currentText();
-    base_global_plannerArgument = ui->comboBox_baseGlobalPlanner->currentText();
-    base_local_plannerArgument = ui->comboBox_baseLocalPlanner->currentText();
-    rviz_configArgument = QString::number(numberOfUsedRobots) + "_robots_navigation_" + base_global_plannerArgument + "_" + base_local_plannerArgument;
-
-    realNavigationScriptCommand = realNavigationScriptPath + " --pose_file " + pose_fileArgument;
-    realNavigationScriptCommand += " --map_name " + ui->comboBox_worldsNavigation->currentText();
-    realNavigationScriptCommand += " --robot_names_file " + robot_names_fileArgument;    // check radiobutton and create yaml.
-    realNavigationScriptCommand += " --participants " + QString::number(numberOfUsedRobots);
-    realNavigationScriptCommand += " --localization_type " + localization_typeArgument;
-    realNavigationScriptCommand += " --base_global_planner " + base_global_plannerArgument;
-    realNavigationScriptCommand += " --base_local_planner " + base_local_plannerArgument;
-    realNavigationScriptCommand += "--rviz_config " + rviz_configArgument;
-    qDebug() << realNavigationScriptCommand;
-
-//    moduleStartProcess = new QProcess(this);
-//    moduleStartProcess->startDetached("/bin/bash", QStringList() << realNavigationScriptPath <<
-//                                      "--pose_file" << pose_fileArgument <<
-//                                      "--map_name" << ui->comboBox_worldsNavigation->currentText() <<
-//                                      "--robot_names_file" << robot_names_fileArgument <<
-//                                      "--participants" << QString::number(numberOfUsedRobots) <<
-//                                      "--localization_type" << localization_typeArgument <<
-//                                      "--base_global_planner" <<base_global_plannerArgument <<
-//                                      "--base_local_planner" << base_local_plannerArgument <<
-//                                      "--rviz_config" << rviz_configArgument);
-}
-
-void Real::on_pushButton_openRqtGraphNav_clicked()
-{
-    oneShotProcess("rqt_graph","rqt_graph");
-}
-void Real::on_pushButton_openRqtReconfigureNav_clicked()
-{
-    oneShotProcess("rqt_reconfigure", "rqt_reconfigure");
-}
-
-void Real::on_pushButton_stopNavigationTool_clicked()
-{
-    findAndDestroy(moduleStartProcess, usedPoseFilePathForNavigation);
-}
-
-
-void Real::on_pushButton_openUsernameFileMapping_clicked()
-{
-    QString usernameFileSourcePath = QFileDialog::getOpenFileName(this,
-        tr("Open YAML file"), poseFileDefaultPath, tr("YAML Files (*.yaml)"));
-//    qDebug() << poseFileSourcePath;
-
-    complete_usernames_from_yaml(usernameFileSourcePath, "mapping");
-}
-
-void Real::on_lineEdit_usernameFileMapping_returnPressed()
-{
-    QString usernameFileSourcePathFromLine = ui->lineEdit_usernameFileMapping->text();
-    complete_usernames_from_yaml(usernameFileSourcePathFromLine, "mapping");
-}
-
 void Real::on_pushButton_openUsernameFileNavigation_clicked()
 {
     QString usernameFileSourcePath = QFileDialog::getOpenFileName(this,
@@ -687,5 +654,61 @@ void Real::on_pushButton_openUsernameFileNavigation_clicked()
 //    qDebug() << poseFileSourcePath;
 
     complete_usernames_from_yaml(usernameFileSourcePath, "navigation");
+}
 
+void Real::on_lineEdit_usernameFileNavigation_returnPressed()
+{
+    QString usernameFileSourcePathFromLine = ui->lineEdit_usernameFileNavigation->text();
+    complete_usernames_from_yaml(usernameFileSourcePathFromLine, "navigation");
+}
+
+void Real::on_pushButton_startNavigationTool_clicked()
+{
+    participantsArgument = create_yaml_from_usernames(usedRealRobotsFilePathForNavigation, "navigation");
+    create_yaml_from_coordinates(usedPoseFilePathForNavigation, "navigation");
+    pose_fileArgument = "created_yaml_poses_for_navigation";
+    real_robots_fileArgument = "created_yaml_real_robots_for_navigation";
+
+    map_nameArgument = ui->comboBox_worldsNavigation->currentText();
+
+    localization_typeArgument = ui->comboBox_localizationMethod->currentText();
+    base_global_plannerArgument = ui->comboBox_baseGlobalPlanner->currentText();
+    base_local_plannerArgument = ui->comboBox_baseLocalPlanner->currentText();
+    rviz_configArgument = QString::number(participantsArgument) + "_robots_navigation_" + base_global_plannerArgument + "_" + base_local_plannerArgument;
+
+    realNavigationScriptCommand = realNavigationScriptPath + " --pose_file " + pose_fileArgument;
+    realNavigationScriptCommand += " --real_robots_file " + real_robots_fileArgument;
+    realNavigationScriptCommand += " --map_name " + map_nameArgument;
+    realNavigationScriptCommand += " --participants " + QString::number(participantsArgument);
+    realNavigationScriptCommand += " --localization_type " + localization_typeArgument;
+    realNavigationScriptCommand += " --base_global_planner " + base_global_plannerArgument;
+    realNavigationScriptCommand += " --base_local_planner " + base_local_plannerArgument;
+    realNavigationScriptCommand += "--rviz_config " + rviz_configArgument;
+    qDebug() << realNavigationScriptCommand;
+
+    moduleStartProcess = new QProcess(this);
+    moduleStartProcess->startDetached("/bin/bash", QStringList() << realNavigationScriptPath <<
+                                      "--pose_file" << pose_fileArgument <<
+                                      "--real_robots_file" << real_robots_fileArgument <<
+                                      "--map_name" << map_nameArgument <<
+                                      "--participants" << QString::number(participantsArgument) <<
+                                      "--localization_type" << localization_typeArgument <<
+                                      "--base_global_planner" <<base_global_plannerArgument <<
+                                      "--base_local_planner" << base_local_plannerArgument <<
+                                      "--rviz_config" << rviz_configArgument);
+}
+
+void Real::on_pushButton_openRqtGraphNav_clicked()
+{
+    oneShotProcess("rqt_graph","rqt_graph");
+}
+
+void Real::on_pushButton_openRqtReconfigureNav_clicked()
+{
+    oneShotProcess("rqt_reconfigure", "rqt_reconfigure");
+}
+
+void Real::on_pushButton_stopNavigationTool_clicked()
+{
+    findAndDestroy(moduleStartProcess, usedPoseFilePathForNavigation, usedRealRobotsFilePathForNavigation);
 }
