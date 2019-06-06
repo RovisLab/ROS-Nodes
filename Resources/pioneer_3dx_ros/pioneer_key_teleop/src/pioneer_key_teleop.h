@@ -40,10 +40,12 @@ private slots:
 
     void on_doubleSpinBox_2_valueChanged(double arg1);
 
+    void on_lineEdit_textEdited(const QString &arg1);
+
 private:
     Ui::Pioneer_Key_Teleop *ui;
-    ros::Publisher chatter_publisher;
     ros::Publisher cmd_vel_publisher;
+    QString topicName;
     geometry_msgs::Twist cmdVelMsg;
     double speed, turn;
     double x, th;

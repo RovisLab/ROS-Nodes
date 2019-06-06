@@ -18,6 +18,7 @@ Real::Real(QWidget *parent) :
     ui(new Ui::Real)
 {
     ui->setupUi(this);
+
     connect(ui->pushButton_home, SIGNAL(clicked()), this->parent(), SLOT(back_to_main_menu()));
 
     //  source path
@@ -257,7 +258,10 @@ int Real::create_yaml_from_usernames(const QString& filePath, const QString& mod
     if( module == "mapping" ) {
         pioneer_name = "pioneer1";
         pioneer_username = ui->comboBox_usernamesMapping->currentText();
-        pioneer_address = yamlToStringList[1];
+        for (int i = 0; i < yamlToStringList.length(); i++) {
+            if(pioneer_username == yamlToStringList[i])
+                pioneer_address = yamlToStringList[i+1];
+        }
 
         out << YAML::Key << pioneer_name.toStdString();
         out << YAML::Value << YAML::BeginMap << YAML::Key << "username" <<YAML::Value << pioneer_username.toStdString() <<

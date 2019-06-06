@@ -17,7 +17,7 @@
   <arg unless="$(arg connect_robot_pc)" name="machine_name" value="local_host" />
 
   <machine name="local_host" address="localhost" default="true" />
-  <machine name="$(arg machine_name)" user="$(arg real_robot_username)" address="$(arg real_robot_address)" env-loader="~/catkin_ws/devel/remote_env_loader.sh" />
+  <machine name="$(arg robot_name)" user="$(arg real_robot_username)" address="$(arg real_robot_address)" env-loader="~/catkin_ws/devel/remote_env_loader.sh" />
 
   <group ns="$(arg robot_name)">
     <param name="tf_prefix" value="$(arg robot_name)" />
@@ -160,7 +160,7 @@
         <param name="output_frame_id" value="$(arg robot_name)/scan" />
 	      <remap from="scan" to="scan"/>
       </node>
-      <node pkg="tf2_ros" type="static_transform_publisher" name="scan_tf" args="0.10 0 0.285 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/scan" />
+      <node machine="$(arg machine_name)" pkg="tf2_ros" type="static_transform_publisher" name="scan_tf" args="0.10 0 0.285 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/scan" />
     </group>
 
   </group>

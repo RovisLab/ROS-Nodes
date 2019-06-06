@@ -148,7 +148,7 @@ void Sim::create_yaml_from_coordinates(const QString& filePath, const QString& m
                aString.toStdString() << YAML::EndMap;
     }
     else if( module == "navigation" ) {
-        for (unsigned int i; i < nrOfUsedRobots; ++i) {
+        for (unsigned int i = 1; i <= nrOfUsedRobots; ++i) {
             switch (i) {
                 case 1: {
                     pioneer_name = "pioneer" + QString::number(i);

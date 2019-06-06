@@ -37,18 +37,17 @@ Pioneer_Key_Teleop::Pioneer_Key_Teleop(QWidget *parent) :
     ui->pushButton_down->setIcon(iconDown);
     ui->pushButton_donwRight->setIcon(iconDownRight);
 
-
     int argc = 0; char **argv = NULL;
-    ros::init(argc, argv, "client_plug");
+    ros::init(argc, argv, "pioneer_key_teleop");
     if (!ros::master::check())
     {
         ROS_INFO("No master started!");
         this->close();
     }
     ros::start(); // explicitly needed since our nodehandle is going out of scope.
-    ros::NodeHandle n;
-    chatter_publisher = n.advertise<std_msgs::String>("qtrostest_chat", 1000);
-    cmd_vel_publisher = n.advertise<geometry_msgs::Twist>("pioneer1/cmd_vel", 1000);
+    ros::NodeHandle nodeHandle_;
+    topicName = "pioneer1/cmd_vel";
+    cmd_vel_publisher = nodeHandle_.advertise<geometry_msgs::Twist>(topicName.toStdString(), 10);
     //ros::spin();
 }
 
@@ -146,4 +145,11 @@ void Pioneer_Key_Teleop::on_doubleSpinBox_valueChanged(double arg1)
 void Pioneer_Key_Teleop::on_doubleSpinBox_2_valueChanged(double arg1)
 {
     turn = arg1;
+}
+
+void Pioneer_Key_Teleop::on_lineEdit_textEdited(const QString &arg1)
+{
+    ros::NodeHandle nodeHandle_;
+    topicName = arg1;
+    cmd_vel_publisher = nodeHandle_.advertise<geometry_msgs::Twist>(topicName.toStdString(), 10);
 }

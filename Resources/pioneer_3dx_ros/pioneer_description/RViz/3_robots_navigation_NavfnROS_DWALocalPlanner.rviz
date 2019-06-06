@@ -584,7 +584,7 @@ Visualization Manager:
     - Class: rviz::MultiGoalTool
       Topic1: pioneer1/move_base_simple/goal
       Topic2: pioneer2/move_base_simple/goal
-      Topic3: goal
+      Topic3: pioneer3/move_base_simple/goal
   Value: true
   Views:
     Current:

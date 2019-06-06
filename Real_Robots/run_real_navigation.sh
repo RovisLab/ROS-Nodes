@@ -14,7 +14,7 @@ pid="$pid $!"
 sleep 5s
 
 echo "Launching RosAria stack..."
-for i in `seq 1 1`;
+for i in `seq 1 2`;
 do
   roslaunch pioneer_description pioneer_description.launch robot_name:="pioneer$i" robot_pose:="-x $(rosparam get /pioneer$i/x) -y $(rosparam get /pioneer$i/y) -Y $(rosparam get /pioneer$i/a)" environment:="real_world" use_real_kinect:=true kinect_to_laserscan:=true real_robot_username:="$(rosparam get /pioneer$i/username)" real_robot_address:="$(rosparam get /pioneer$i/address)" connect_robot_pc:=true &
   pid="$pid $!"
@@ -22,7 +22,7 @@ do
 done
 
 echo "Launching AMCL localisation stack..."
-for i in `seq 1 1`;
+for i in `seq 1 2`;
 do
   roslaunch pioneer_nav2d localisation_launcher.launch robot_name:="pioneer$i" x:="$(rosparam get /pioneer$i/x)" y:="$(rosparam get /pioneer$i/y)" yaw:="$(rosparam get /pioneer$i/a)" connect_robot_pc:=true real_robot_username:="$(rosparam get /pioneer$i/username)" real_robot_address:="$(rosparam get /pioneer$i/address)" &
   pid="$pid $!"
@@ -30,7 +30,7 @@ do
 done
 
 echo "Launching move_base stack..."
-for i in `seq 1 1`;
+for i in `seq 1 2`;
 do
   roslaunch pioneer_nav2d move_base.launch robot_name:="pioneer$i" move_base_type:="move_base" base_global_planner:="NavfnROS" base_local_planner:="TebLocalPlannerROS" mcp_use:=false connect_robot_pc:=true real_robot_username:="$(rosparam get /pioneer$i/username)" real_robot_address:="$(rosparam get /pioneer$i/address)" &
   pid="$pid $!"

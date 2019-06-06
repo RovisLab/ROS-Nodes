@@ -27,7 +27,7 @@ done
 echo "Launching move_base stack..."
 for i in `seq 1 1`;
 do
-  roslaunch pioneer_nav2d move_base.launch robot_name:="pioneer$i" move_base_type:="move_base" base_global_planner:="NavfnROS" base_local_planner:="TebLocalPlannerROS" mcp_use:=false robot_username:="$(rosparam get /pioneer$i-username)" connect_robot_pc:=true real_robot_username:="$(rosparam get /pioneer$i/username)" real_robot_address:="$(rosparam get /pioneer$i/address)" &
+  roslaunch pioneer_nav2d move_base.launch robot_name:="pioneer$i" move_base_type:="move_base" base_global_planner:="NavfnROS" base_local_planner:="TebLocalPlannerROS" mcp_use:=false robot_username:="$(rosparam get /pioneer$i/username)" connect_robot_pc:=true real_robot_username:="$(rosparam get /pioneer$i/username)" real_robot_address:="$(rosparam get /pioneer$i/address)" &
   pid="$pid $!"
   sleep 5s
 done
