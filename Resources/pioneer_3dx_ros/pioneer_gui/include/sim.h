@@ -31,6 +31,8 @@ private slots:
 
     void on_pushButton_openTeleopMapping_clicked();
 
+    void on_pushButton_openJoyTeleop_clicked();
+
     void on_pushButton_openRqtGraphMapping_clicked();
 
     void on_pushButton_saveMap_clicked();

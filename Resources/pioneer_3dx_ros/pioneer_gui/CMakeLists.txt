@@ -49,7 +49,7 @@ include_directories(
   ${YAML_CPP_INCLUDE_DIR}
 )
 
-add_library (PioneerGUILib SHARED
+add_library (PioneerGUILib STATIC
     ${PioneerGUILib_src}
     ${PioneerGUILib_hdr_moc}
     ${PioneerGUILib_ui_moc}

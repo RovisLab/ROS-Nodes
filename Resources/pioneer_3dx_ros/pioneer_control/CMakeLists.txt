@@ -3,7 +3,6 @@ project(pioneer_control)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-  rosconsole
   sensor_msgs
   geometry_msgs
 )
@@ -11,7 +10,6 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   CATKIN_DEPENDS
   roscpp
-  rosconsole
   sensor_msgs
   geometry_msgs
 )

@@ -35,7 +35,7 @@
     </sizepolicy>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab_mapping">
     <attribute name="title">
@@ -358,7 +358,14 @@
           <item>
            <widget class="QPushButton" name="pushButton_openTeleopMapping">
             <property name="text">
-             <string>Start teleoperation Node</string>
+             <string>Start Keyboard Teleop</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_openJoyTeleop">
+            <property name="text">
+             <string>Start Joystick Teleop</string>
             </property>
            </widget>
           </item>

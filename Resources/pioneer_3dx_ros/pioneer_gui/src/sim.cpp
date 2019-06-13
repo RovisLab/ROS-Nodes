@@ -330,6 +330,11 @@ void Sim::on_pushButton_openTeleopMapping_clicked()
     oneShotProcess("pioneer_key_teleop", "pioneer_key_teleop_node");
 }
 
+void Sim::on_pushButton_openJoyTeleop_clicked()
+{
+    oneShotProcess("pioneer_joy_teleop", "pioneer_joy_teleop_node");
+}
+
 void Sim::on_pushButton_openRqtGraphMapping_clicked()
 {
     oneShotProcess("rqt_graph","rqt_graph");
@@ -518,10 +523,3 @@ void Sim::on_pushButton_stopNavigationTool_clicked()
 {
     findAndDestroy(moduleStartProcess, usedPoseFilePathForNavigation);
 }
-
-
-
-
-
-
-

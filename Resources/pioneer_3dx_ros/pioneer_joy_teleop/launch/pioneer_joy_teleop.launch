@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+	<arg name="topic" default="/pioneer1/cmd_vel"/>
+			
+  <!--     Allows to teleoperate a real Pioneer mobile robot using a Logitech wireless F710 gamepad. -->
+
+  <!-- Launch the node that allows to control the gamepad -->
+	<node name="gamepad" pkg="joy" type="joy_node" respawn="true" >
+   	<param name="dev" type="string" value="/dev/input/js0" />
+   	<param name="deadzone" value="0.12" />
+  </node>
+
+  <!-- pioneer_joy_teleop -->
+  <node pkg="pioneer_joy_teleop" type="joy2twist_node" name="joy2twist_node"  output="screen">
+    <remap from="cmd_vel" to="$(arg topic)" />
+  </node>
+
+</launch>

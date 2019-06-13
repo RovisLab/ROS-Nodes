@@ -14,14 +14,7 @@
     	</node>
 	
  			<!-- turtlebot_teleop_joy -->
-    	<node pkg="turtlebot_teleop" type="turtlebot_teleop_joy" name="teleop_joystick"  output="screen">
-    		<param name="scale_linear" value="0.5" type="double"/>
-    		<param name="scale_angular" value="1.5" type="double"/>
-    		<param name="axis_deadman" value="10" type="double"/>
-    		<param name="axis_linear" value="1" type="double"/>   
-    		<param name="axis_angular" value="0" type="double"/>
-    		<remap from="teleop_joystick/cmd_vel" to="cmd_vel"/>
-  		</node>
+        <node pkg="pioneer_joy_teleop" type="joy2twist_node" name="joy2twist_node"  output="screen"/>
     </group>
 
     <group if="$(eval controller_input == 'keyboard')">

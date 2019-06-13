@@ -25,7 +25,7 @@
      <x>10</x>
      <y>20</y>
      <width>869</width>
-     <height>801</height>
+     <height>840</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -410,13 +410,17 @@
        <layout class="QHBoxLayout" name="horizontalLayout_22">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_2">
-          <property name="sizeConstraint">
-           <enum>QLayout::SetNoConstraint</enum>
-          </property>
           <item>
            <widget class="QPushButton" name="pushButton_openTeleopMapping">
             <property name="text">
-             <string>Start teleoperation Node</string>
+             <string>Start Keyboard Teleop</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_openJoyTeleop">
+            <property name="text">
+             <string>Start Joystick Teleop</string>
             </property>
            </widget>
           </item>
@@ -436,8 +440,8 @@
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>40</width>
-            <height>20</height>
+            <width>652</width>
+            <height>17</height>
            </size>
           </property>
          </spacer>

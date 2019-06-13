@@ -75,7 +75,7 @@ echo "gmapping_config_type = $gmapping_config_type"
 echo "Launching pioneer_description..."
 roslaunch pioneer_description pioneer_initialization.launch robot_URDF_model:="pioneer_kinect_real" pose_file:="$pose_file" real_robots_file:="$real_robots_file" &
 pid="$pid $!"
-sleep 5s
+sleep 10s
 
 echo "Launching RosAria stack..."
 roslaunch pioneer_description pioneer_description.launch robot_name:="pioneer1" robot_pose:="-x $(rosparam get /pioneer1/x) -y $(rosparam get /pioneer1/y) -Y $(rosparam get /pioneer1/a)" environment:="real_world" use_real_kinect:=true kinect_to_laserscan:=true real_robot_username:="$(rosparam get /pioneer1/username)" real_robot_address:="$(rosparam get /pioneer1/address)" connect_robot_pc:=true  &
