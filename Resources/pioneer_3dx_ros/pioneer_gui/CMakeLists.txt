@@ -22,16 +22,13 @@ catkin_package(
 
 set (RESOURCES resources.qrc)
 set (PioneerGUILib_src ${PROJECT_SOURCE_DIR}/src/pioneer_gui.cpp
-    ${PROJECT_SOURCE_DIR}/src/start.cpp
     ${PROJECT_SOURCE_DIR}/src/real.cpp
     ${PROJECT_SOURCE_DIR}/src/sim.cpp
     )
 set (PioneerGUILib_hdr ${PROJECT_SOURCE_DIR}/include/pioneer_gui.h
-    ${PROJECT_SOURCE_DIR}/include/start.h
     ${PROJECT_SOURCE_DIR}/include/real.h
     ${PROJECT_SOURCE_DIR}/include/sim.h)
 set (PioneerGUILib_ui  ${PROJECT_SOURCE_DIR}/ui/pioneer_gui.ui
-    ${PROJECT_SOURCE_DIR}/ui/start.ui
     ${PROJECT_SOURCE_DIR}/ui/real.ui
     ${PROJECT_SOURCE_DIR}/ui/sim.ui)
 set (PioneerGUIBin_src ${PROJECT_SOURCE_DIR}/src/main.cpp)

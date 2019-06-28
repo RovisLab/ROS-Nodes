@@ -7,8 +7,8 @@
   <group ns="pioneer$(arg pioneer_number)">
 
     <node pkg="pioneer_to_goal" type="map_navigation" respawn="false" name="map_navigation" output="screen">
-      <param name="poz_x" value="$(eval arg('x'))"/>
-      <param name="poz_y" value="$(eval arg('y') - arg('pioneer_number'))"/>
+      <param name="poz_x"     value="$(eval arg('x'))"/>
+      <param name="poz_y"     value="$(eval arg('y') - arg('pioneer_number'))"/>
       <param name="poz_theta" value="0.0"/>
     </node>
   </group>

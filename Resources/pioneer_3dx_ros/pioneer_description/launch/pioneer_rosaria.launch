@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name"          default="pioneer1" />
+  <arg name="real_robot_username" default="robot4" />
+  <arg name="real_robot_address"  default="192.168.43.152" />
+
+  <arg name="pi/2"                value="1.5707963267948966" />
+  <arg name="optical_rotate"      value="0 0 0 -$(arg pi/2) 0 -$(arg pi/2)" />
+
+  <!--  Machine type -->
+  <arg name="machine_name"        value="$(arg robot_name)" />
+
+  <machine name="local_host" address="localhost" default="true" />
+  <machine name="$(arg robot_name)" user="$(arg real_robot_username)" address="$(arg real_robot_address)" env-loader="~/catkin_ws/devel/remote_env_loader.sh" />
+
+  <group ns="$(arg robot_name)">
+    <param name="tf_prefix"       value="$(arg robot_name)" />
+    
+	  <!-- Run RosAria controller -->
+ 		<node machine="$(arg machine_name)" name="rosaria" pkg="rosaria" type="RosAria">
+  		<param name="port"            type="string" value="/dev/ttyS0" />
+    	<param name="odom_frame"      type="string" value="$(arg robot_name)/odom" />    
+    	<param name="base_link_frame" type="string" value="$(arg robot_name)/base_link" />
+    	<param name="sonar_frame"     type="string" value="$(arg robot_name)/sonar" />
+			<remap from="rosaria/pose"    to="odom"/>
+    	<remap from="rosaria/cmd_vel" to="cmd_vel"/>
+		</node>
+		
+    <!-- Tf transform between base_link and real sonar-->
+ 		<node machine="$(arg machine_name)" pkg="tf2_ros" type="static_transform_publisher" name="sonar_scan" args="0 0 0.2 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/sonar" />
+
+    <!-- send fake joint values -->
+  	<node machine="$(arg machine_name)" name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+    	<param name="use_gui"           value="False" />
+    	<remap from="robot_description" to="/robot_description" />
+  	</node>
+		 <!-- Combine joint values -->
+		 <node machine="$(arg machine_name)" name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+    	<param name="tf_prefix"         type="string" value="$(arg robot_name)" />
+  	</node>
+
+  </group>
+
+</launch>

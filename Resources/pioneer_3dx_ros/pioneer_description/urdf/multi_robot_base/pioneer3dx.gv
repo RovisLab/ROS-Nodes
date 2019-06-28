@@ -1,0 +1,38 @@
+digraph G {
+node [shape=box];
+"base_link" [label="base_link"];
+"battery" [label="battery"];
+"chassis" [label="chassis"];
+"top" [label="top"];
+"sonar" [label="sonar"];
+"swivel" [label="swivel"];
+"center_wheel" [label="center_wheel"];
+"center_hubcap" [label="center_hubcap"];
+"left_hub" [label="left_hub"];
+"left_wheel" [label="left_wheel"];
+"right_hub" [label="right_hub"];
+"right_wheel" [label="right_wheel"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"base_link" -> "base_link_battery_joint" [label="xyz: -0.14 0 0.13 \nrpy: 0 -0 0"]
+"base_link_battery_joint" -> "battery"
+"base_link" -> "base_link_chassis_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"base_link_chassis_joint" -> "chassis"
+"chassis" -> "chassis_top_joint" [label="xyz: -0.045 0 0.234 \nrpy: 0 -0 0"]
+"chassis_top_joint" -> "top"
+"base_link" -> "base_link_sonar_joint" [label="xyz: 0.109 0 0.209 \nrpy: 0 -0 0"]
+"base_link_sonar_joint" -> "sonar"
+"base_link" -> "chassis_swivel_joint" [label="xyz: -0.185 0 0.055 \nrpy: 0 -0 0"]
+"chassis_swivel_joint" -> "swivel"
+"swivel" -> "swivel_wheel_joint" [label="xyz: -0.017 0 -0.016 \nrpy: 0 -0 0"]
+"swivel_wheel_joint" -> "center_wheel"
+"center_wheel" -> "wheel_hubcap_joint" [label="xyz: -0.0035 0 -0.001 \nrpy: 0 -0 0"]
+"wheel_hubcap_joint" -> "center_hubcap"
+"base_link" -> "left_hub_joint" [label="xyz: 0 -0.15 0.09 \nrpy: 0 -0 0"]
+"left_hub_joint" -> "left_hub"
+"left_hub" -> "left_wheel_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"left_wheel_joint" -> "left_wheel"
+"base_link" -> "right_hub_joint" [label="xyz: 0 0.15 0.09 \nrpy: 0 -0 0"]
+"right_hub_joint" -> "right_hub"
+"right_hub" -> "right_wheel_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"right_wheel_joint" -> "right_wheel"
+}

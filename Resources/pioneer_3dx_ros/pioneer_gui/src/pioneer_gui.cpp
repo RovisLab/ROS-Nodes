@@ -10,6 +10,8 @@
 #include <QMessageBox>
 #include <QDir>
 #include <QFileDialog>
+#include <QIcon>
+#include <QStyle>
 #include <iostream>
 #include <fstream>
 #include <yaml-cpp/yaml.h>
@@ -20,15 +22,18 @@ Pioneer_Gui::Pioneer_Gui(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    connect(ui->real, SIGNAL(clicked()), this, SLOT(show_real_tool()));
+    connect(ui->sim, SIGNAL(clicked()), this, SLOT(show_simulation_tool()));
+
     real = new Real(this);
     sim = new Sim(this);
-    start = new Start(this);
 
-    ui->stackedWidget->addWidget(start);
     ui->stackedWidget->addWidget(sim);
     ui->stackedWidget->addWidget(real);
 
-    ui->stackedWidget->setCurrentWidget(start);
+    ui->stackedWidget->setCurrentWidget(sim);
+
+    ui->sim->setIcon(this->style()->standardIcon(QStyle::SP_DialogApplyButton));
 }
 
 Pioneer_Gui::~Pioneer_Gui()
@@ -38,6 +43,8 @@ Pioneer_Gui::~Pioneer_Gui()
 
 void Pioneer_Gui::show_simulation_tool()
 {
+    ui->real->setIcon(QIcon());
+    ui->sim->setIcon(this->style()->standardIcon(QStyle::SP_DialogApplyButton));
     ui->stackedWidget->removeWidget(sim);
 
     delete sim;
@@ -50,6 +57,8 @@ void Pioneer_Gui::show_simulation_tool()
 
 void Pioneer_Gui::show_real_tool()
 {
+    ui->sim->setIcon(QIcon());
+    ui->real->setIcon(this->style()->standardIcon(QStyle::SP_DialogApplyButton));
     ui->stackedWidget->removeWidget(real);
 
     delete real;
@@ -59,9 +68,3 @@ void Pioneer_Gui::show_real_tool()
     ui->stackedWidget->addWidget(real);
     ui->stackedWidget->setCurrentWidget(real);
 }
-
-void Pioneer_Gui::back_to_main_menu()
-{
-    ui->stackedWidget->setCurrentWidget(start);
-}
-

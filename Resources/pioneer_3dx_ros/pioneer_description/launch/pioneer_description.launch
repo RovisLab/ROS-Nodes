@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="robot_name" default="pioneer1" />
+  <arg name="robot_name"          default="pioneer1" />
   <arg name="robot_pose" />
-  <arg name="environment" default="real_world" doc="opt: real_world, gazebo" />
-  <arg name="use_real_kinect" default="false" />
+  <arg name="environment"         default="real_world" doc="opt: real_world, gazebo" />
+  <arg name="use_real_kinect"     default="false" />
   <arg name="kinect_to_laserscan" default="false" />
   <arg name="real_robot_username" default="robot4" />
-  <arg name="real_robot_address" default="192.168.43.152" />
+  <arg name="real_robot_address"  default="192.168.43.152" />
 
-  <arg name="pi/2" value="1.5707963267948966" />
-  <arg name="optical_rotate" value="0 0 0 -$(arg pi/2) 0 -$(arg pi/2)" />
+  <arg name="pi/2"                value="1.5707963267948966" />
+  <arg name="optical_rotate"      value="0 0 0 -$(arg pi/2) 0 -$(arg pi/2)" />
 
   <!--  Machine type -->
-  <arg name="connect_robot_pc" default="false" />
+  <arg name="connect_robot_pc"    default="false" />
   <arg if="$(arg connect_robot_pc)"     name="machine_name" value="$(arg robot_name)" />
   <arg unless="$(arg connect_robot_pc)" name="machine_name" value="local_host" />
 
@@ -20,7 +20,7 @@
   <machine name="$(arg robot_name)" user="$(arg real_robot_username)" address="$(arg real_robot_address)" env-loader="~/catkin_ws/devel/remote_env_loader.sh" />
 
   <group ns="$(arg robot_name)">
-    <param name="tf_prefix" value="$(arg robot_name)" />
+    <param name="tf_prefix"       value="$(arg robot_name)" />
 		
 		<group if="$(eval environment == 'gazebo')">
 			<!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
@@ -30,25 +30,25 @@
     <group if="$(eval environment == 'real_world')">
 			<!-- Run RosAria controller -->
  			<node machine="$(arg machine_name)" name="rosaria" pkg="rosaria" type="RosAria">
-  			<param name="port" type="string" value="/dev/ttyS0" />
-    		<param name="odom_frame" type="string" value="$(arg robot_name)/odom" />    
+  			<param name="port"            type="string" value="/dev/ttyS0" />
+    		<param name="odom_frame"      type="string" value="$(arg robot_name)/odom" />    
     		<param name="base_link_frame" type="string" value="$(arg robot_name)/base_link" />
-    		<param name="sonar_frame" type="string" value="$(arg robot_name)/sonar" />
-				<remap from="rosaria/pose" to="odom"/>
+    		<param name="sonar_frame"     type="string" value="$(arg robot_name)/sonar" />
+				<remap from="rosaria/pose"    to="odom"/>
     		<remap from="rosaria/cmd_vel" to="cmd_vel"/>
 			</node>
 			<!-- Tf transform between base_link and real sonar-->
-  		<node machine="$(arg machine_name)" pkg="tf2_ros" type="static_transform_publisher" name="sonar_scan" args="0 0 0 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/sonar" />
+  		<node machine="$(arg machine_name)" pkg="tf2_ros" type="static_transform_publisher" name="sonar_scan" args="0 0.2 0 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/sonar" />
     </group>
 
     <!-- send fake joint values -->
   	<node machine="$(arg machine_name)" name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
-    	<param name="use_gui" value="False" />
+    	<param name="use_gui"           value="False" />
     	<remap from="robot_description" to="/robot_description" />
   	</node>
 		 <!-- Combine joint values -->
 		 <node machine="$(arg machine_name)" name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
-    	<param name="tf_prefix" type="string" value="$(arg robot_name)" />
+    	<param name="tf_prefix"         type="string" value="$(arg robot_name)" />
   	</node>
 
     <group if="$(arg use_real_kinect)">
@@ -65,13 +65,13 @@
         <!-- Load driver -->
   	    <!-- Driver nodelet -->
   	    <node machine="$(arg machine_name)" pkg="nodelet" type="nodelet" name="driver" args="load freenect_camera/driver camera_nodelet_manager --no-bond" respawn="false">
-    	    <param name="device_id" value="#1" />
+    	    <param name="device_id"             value="#1" />
     	    <param name="rgb_camera_info_url"   value="" />
     	    <param name="depth_camera_info_url" value="" />
-    	    <param name="rgb_frame_id"   value="$(arg robot_name)/camera_rgb_optical_frame" />
-    	    <param name="depth_frame_id" value="$(arg robot_name)/camera_depth_optical_frame" />
-    	    <param name="depth_registration" value="false" />
-    	    <param name="data_skip" value="0" />
+    	    <param name="rgb_frame_id"          value="$(arg robot_name)/camera_rgb_optical_frame" />
+    	    <param name="depth_frame_id"        value="$(arg robot_name)/camera_depth_optical_frame" />
+    	    <param name="depth_registration"    value="false" />
+    	    <param name="data_skip"             value="0" />
 
     	    <param name="debug"                     value="false" />
     	    <param name="enable_rgb_diagnostics"    value="false" />
@@ -82,11 +82,11 @@
     	    <param name="diagnostics_tolerance"     value="0.05" />
     	    <param name="diagnostics_window_time"   value="5.0" />
 
-    	    <remap from="ir" to="ir" />
-   	      <remap from="rgb" to="rgb" />
-    	    <remap from="depth" to="depth" />
-    	    <remap from="depth_registered" to="depth_registered" />
-    	    <remap from="projector" to="projector" />
+    	    <remap from="ir"                    to="ir" />
+   	      <remap from="rgb"                   to="rgb" />
+    	    <remap from="depth"                 to="depth" />
+    	    <remap from="depth_registered"      to="depth_registered" />
+    	    <remap from="projector"             to="projector" />
   	    </node>
 
         <!-- Load standard constellation of processing nodelets -->
@@ -138,27 +138,16 @@
   	    </node>
   
       </group> <!-- camera -->
-
-      <!-- Load reasonable defaults for the relative pose between cameras -->
-      <node machine="$(arg machine_name)" pkg="tf2_ros" type="static_transform_publisher" name="camera_base_link"
-        args="0 -0.02  0 0 0 0 $(arg robot_name)/camera_link $(arg robot_name)/camera_depth_frame" />  
-      <node machine="$(arg machine_name)" pkg="tf2_ros" type="static_transform_publisher" name="camera_base_link1"
-        args="0 -0.045 0 0 0 0 $(arg robot_name)/camera_link $(arg robot_name)/camera_rgb_frame" />  
-      <node machine="$(arg machine_name)" pkg="tf2_ros" type="static_transform_publisher" name="camera_base_link2"
-        args="$(arg optical_rotate) $(arg robot_name)/camera_depth_frame $(arg robot_name)/camera_depth_optical_frame" />  
-      <node machine="$(arg machine_name)" pkg="tf2_ros" type="static_transform_publisher" name="camera_base_link3"
-        args="$(arg optical_rotate) $(arg robot_name)/camera_rgb_frame $(arg robot_name)/camera_rgb_optical_frame" /> 
-      <node machine="$(arg machine_name)" pkg="tf2_ros" type="static_transform_publisher" name="camera_real_tf" args="0.10 0 0.285 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/camera_link" />
     </group>
 
     <group if="$(arg kinect_to_laserscan)">
       <!-- LASERSCAN LAUNCH-->
       <node machine="$(arg machine_name)" name="laserscan_kinect" pkg="laserscan_kinect" type="laserscan_kinect" > 
-        <rosparam file="$(find laserscan_kinect)/config/laserscan.yaml" command="load" />
-        <remap from="image" to="camera/depth/image_raw" />
-        <remap from="camera_info" to="camera/depth/camera_info" />
+        <rosparam file="$(find laserscan_kinect)/cfg/laserscan.yaml" command="load" />
+        <remap from="image"           to="camera/depth/image_raw" />
+        <remap from="camera_info"     to="camera/depth/camera_info" />
         <param name="output_frame_id" value="$(arg robot_name)/scan" />
-	      <remap from="scan" to="scan"/>
+	      <remap from="scan"            to="scan"/>
       </node>
       <node machine="$(arg machine_name)" pkg="tf2_ros" type="static_transform_publisher" name="scan_tf" args="0.10 0 0.285 0 0 0 $(arg robot_name)/base_link $(arg robot_name)/scan" />
     </group>

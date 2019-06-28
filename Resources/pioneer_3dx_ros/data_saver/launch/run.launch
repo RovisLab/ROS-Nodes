@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="robot_name" default="pioneer1" />
+  <arg name="use_bag" default="true" />
+  <arg name="bag_path" default="2019-06-20-10-08-08.bag" />
+
+  <group if="$(arg use_bag)">
+    <node pkg="rosbag" type="play" name="rosbag" required="true" args="$(find data_saver)/bags/$(arg bag_path)"/>
+  </group>
+    
+  <node name="odom_listener" pkg="data_saver" type="odom_listener" output="screen" />
+
+</launch>
+

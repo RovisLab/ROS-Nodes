@@ -3,11 +3,11 @@ project(data_saver)
 find_package(OpenCV REQUIRED)
 
 ## Find catkin and any catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp cv_bridge image_transport message_filters std_msgs  nav_msgs sensor_msgs genmsg)
+find_package(catkin REQUIRED COMPONENTS roscpp cv_bridge image_transport message_filters std_msgs nav_msgs sensor_msgs)
 
 ## Declare a catkin package
-catkin_package()
-
+catkin_package(
+    CATKIN_DEPENDS roscpp cv_bridge image_transport message_filters std_msgs nav_msgs sensor_msgs)
 ## Build listener
 include_directories(include ${catkin_INCLUDE_DIRS})
 include_directories(${OpenCV_INCLUDE_DIRS})
@@ -23,3 +23,9 @@ target_link_libraries(one_pioneer_path ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 add_executable(two_pioneers_path src/two_pioneers_path.cpp)
 target_link_libraries(two_pioneers_path ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+
+add_executable(odom_listener src/odom_listener.cpp)
+target_link_libraries(odom_listener ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+
+add_executable(odom_path src/odom_path.cpp)
+target_link_libraries(odom_path ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})

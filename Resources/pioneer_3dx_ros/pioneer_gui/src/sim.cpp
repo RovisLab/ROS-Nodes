@@ -20,17 +20,15 @@ Sim::Sim(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->pushButton_home, SIGNAL(clicked()), this->parent(), SLOT(back_to_main_menu()));
+    //connect(ui->pushButton_home, SIGNAL(clicked()), this->parent(), SLOT(back_to_main_menu()));
 
     //  source path
     packagePath = QString::fromStdString(ros::package::getPath("pioneer_gui"));
     worldImagePath = packagePath + "/resources/worlds_jpg/" + ui->comboBox_worldsMapping->itemText(ui->comboBox_worldsMapping->currentIndex()) + ".jpg";
     worldImage = new QPixmap();
     worldImage->load(worldImagePath);
-    ui->label_imageWorldsMapping->setScaledContents(true);
-    ui->label_imageWorldsNavigation->setScaledContents(true);
-    ui->label_imageWorldsMapping->setPixmap(*worldImage);
-    ui->label_imageWorldsNavigation->setPixmap(*worldImage);
+    ui->label_imageWorldsMapping->setPixmap(worldImage->scaled(250, 250, Qt::KeepAspectRatio));
+    ui->label_imageWorldsNavigation->setPixmap(worldImage->scaled(250, 250, Qt::KeepAspectRatio));
 
     //  Shell scripts paths
     simulatedMappingScriptPath = packagePath + "/resources/shell_scripts/simulated_mapping.sh";
@@ -263,8 +261,8 @@ void Sim::on_comboBox_worldsMapping_currentIndexChanged(const QString &arg1)
     delete worldImage;
     worldImage = new QPixmap();
     worldImage->load(worldImagePath);
-    ui->label_imageWorldsMapping->setScaledContents(true);
-    ui->label_imageWorldsMapping->setPixmap(*worldImage);
+
+    ui->label_imageWorldsMapping->setPixmap(worldImage->scaled(250, 250, Qt::KeepAspectRatio));
 }
 
 void Sim::on_doubleSpinBox_yawPoseMapping_valueChanged(double arg1)
@@ -367,8 +365,8 @@ void Sim::on_comboBox_worldsNavigation_currentIndexChanged(const QString &arg1)
     delete worldImage;
     worldImage = new QPixmap();
     worldImage->load(worldImagePath);
-    ui->label_imageWorldsNavigation->setScaledContents(true);
-    ui->label_imageWorldsNavigation->setPixmap(*worldImage);
+
+    ui->label_imageWorldsNavigation->setPixmap(worldImage->scaled(250, 250, Qt::KeepAspectRatio));
 }
 
 void Sim::on_doubleSpinBox_yaw1PoseNavigation_valueChanged(double arg1)
@@ -445,7 +443,47 @@ void Sim::on_lineEdit_poseFileNavigation_returnPressed()
     complete_coordinates_from_yaml(ui->lineEdit_poseFileNavigation->text(),"navigation");
 }
 
-void Sim::on_pushButton_startNavigationTool_clicked()
+void Sim::on_pushButton_openRqtReconfigureNav_clicked()
+{
+    oneShotProcess("rqt_reconfigure", "rqt_reconfigure");
+}
+
+void Sim::on_pushButton_tfTreeMapping_clicked()
+{
+    oneShotProcess("rqt_tf_tree", "rqt_tf_tree");
+}
+
+void Sim::on_pushButton_processMonitorMapping_clicked()
+{
+    oneShotProcess("rqt_top", "rqt_top");
+}
+
+void Sim::on_pushButton_bagRecorderMapping_clicked()
+{
+    oneShotProcess("rqt_bag", "rqt_bag");
+}
+
+void Sim::on_pushButton_openRqtGraphNavigation_2_clicked()
+{
+    oneShotProcess("rqt_graph", "rqt_graph");
+}
+
+void Sim::on_pushButton_tfTreeNavigation_2_clicked()
+{
+    oneShotProcess("rqt_tf_tree", "rqt_tf_tree");
+}
+
+void Sim::on_pushButton_processMonitorNavigation_2_clicked()
+{
+    oneShotProcess("rqt_top", "rqt_top");
+}
+
+void Sim::on_pushButton_bagRecorderNavigation_2_clicked()
+{
+    oneShotProcess("rqt_bag", "rqt_bag");
+}
+
+void Sim::on_pushButton_startNavigationTool_2_clicked()
 {
     worldArgument = ui->comboBox_worldsNavigation->currentText();
 
@@ -510,16 +548,7 @@ void Sim::on_pushButton_startNavigationTool_clicked()
                                   "--rviz_config" << rviz_configArgument);
 }
 
-void Sim::on_pushButton_openRqtGraphNav_clicked()
-{
-    oneShotProcess("rqt_graph","rqt_graph");
-}
-void Sim::on_pushButton_openRqtReconfigureNav_clicked()
-{
-    oneShotProcess("rqt_reconfigure", "rqt_reconfigure");
-}
-
-void Sim::on_pushButton_stopNavigationTool_clicked()
+void Sim::on_pushButton_stopNavigationTool_2_clicked()
 {
     findAndDestroy(moduleStartProcess, usedPoseFilePathForNavigation);
 }

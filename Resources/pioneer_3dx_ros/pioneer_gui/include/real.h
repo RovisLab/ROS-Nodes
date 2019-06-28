@@ -74,8 +74,6 @@ private slots:
 
     void on_pushButton_startNavigationTool_clicked();
 
-    void on_pushButton_openRqtGraphNav_clicked();
-
     void on_pushButton_openRqtReconfigureNav_clicked();
 
     void on_pushButton_stopNavigationTool_clicked();
@@ -91,6 +89,21 @@ private slots:
     void findAndDestroy(QProcess *startedProcess, const QString& createdYamlFilePath1, const QString& createdYamlFilePath2);
 
     void oneShotProcess(const QString& package, const QString& node, const QString& optionalArgument1="", const QString& optionalArgument2="");
+
+
+    void on_pushButton_processMonitorMapping_clicked();
+
+    void on_pushButton_bagRecorderMapping_clicked();
+
+    void on_pushButton_tfTreeMapping_clicked();
+
+    void on_pushButton_openRqtGraphNavigation_clicked();
+
+    void on_pushButton_tfTreeNavigation_clicked();
+
+    void on_pushButton_processMonitorNavigation_clicked();
+
+    void on_pushButton_bagRecorderNavigation_clicked();
 
 private:
     Ui::Real *ui;

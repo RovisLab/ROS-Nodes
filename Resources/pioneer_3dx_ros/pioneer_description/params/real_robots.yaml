@@ -1,7 +1,10 @@
+pioneer1:
+  username: robot2
+  address: 192.168.43.230
 pioneer2:
   username: robot4
-  address: 192.168.43.152
-pioneer1:
+  address: 10.42.0.98
+pioneer3:
   username: rovis
   address: 192.168.43.132
 

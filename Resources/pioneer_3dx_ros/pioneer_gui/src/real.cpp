@@ -19,15 +19,15 @@ Real::Real(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->pushButton_home, SIGNAL(clicked()), this->parent(), SLOT(back_to_main_menu()));
+    //connect(ui->pushButton_home, SIGNAL(clicked()), this->parent(), SLOT(back_to_main_menu()));
 
     //  source path
     packagePath = QString::fromStdString(ros::package::getPath("pioneer_gui"));
     worldImagePath = packagePath + "/resources/worlds_jpg/" + ui->comboBox_worldsNavigation->itemText(ui->comboBox_worldsNavigation->currentIndex()) + ".jpg";
     worldImage = new QPixmap();
     worldImage->load(worldImagePath);
-    ui->label_imageWorldsNavigation->setScaledContents(true);
-    ui->label_imageWorldsNavigation->setPixmap(*worldImage);
+
+    ui->label_imageWorldsNavigation->setPixmap(worldImage->scaled(250, 250, Qt::KeepAspectRatio));
 
     //  Shell scripts paths
     realMappingScriptPath = packagePath + "/resources/shell_scripts/real_mapping.sh";
@@ -578,8 +578,7 @@ void Real::on_comboBox_worldsNavigation_currentIndexChanged(const QString &arg1)
     delete worldImage;
     worldImage = new QPixmap();
     worldImage->load(worldImagePath);
-    ui->label_imageWorldsNavigation->setScaledContents(true);
-    ui->label_imageWorldsNavigation->setPixmap(*worldImage);
+    ui->label_imageWorldsNavigation->setPixmap(worldImage->scaled(250,250, Qt::KeepAspectRatio));
 }
 
 void Real::on_doubleSpinBox_yaw1PoseNavigation_valueChanged(double arg1)
@@ -707,10 +706,6 @@ void Real::on_pushButton_startNavigationTool_clicked()
                                       "--rviz_config" << rviz_configArgument);
 }
 
-void Real::on_pushButton_openRqtGraphNav_clicked()
-{
-    oneShotProcess("rqt_graph","rqt_graph");
-}
 
 void Real::on_pushButton_openRqtReconfigureNav_clicked()
 {
@@ -720,4 +715,39 @@ void Real::on_pushButton_openRqtReconfigureNav_clicked()
 void Real::on_pushButton_stopNavigationTool_clicked()
 {
     findAndDestroy(moduleStartProcess, usedPoseFilePathForNavigation, usedRealRobotsFilePathForNavigation);
+}
+
+void Real::on_pushButton_processMonitorMapping_clicked()
+{
+    oneShotProcess("rqt_top", "rqt_top");
+}
+
+void Real::on_pushButton_bagRecorderMapping_clicked()
+{
+    oneShotProcess("rqt_bag", "rqt_bag");
+}
+
+void Real::on_pushButton_tfTreeMapping_clicked()
+{
+    oneShotProcess("rqt_tf_tree", "rqt_tf_tree");
+}
+
+void Real::on_pushButton_openRqtGraphNavigation_clicked()
+{
+    oneShotProcess("rqt_graph", "rqt_graph");
+}
+
+void Real::on_pushButton_tfTreeNavigation_clicked()
+{
+    oneShotProcess("rqt_tf_tree", "rqt_tf_tree");
+}
+
+void Real::on_pushButton_processMonitorNavigation_clicked()
+{
+    oneShotProcess("rqt_top", "rqt_top");
+}
+
+void Real::on_pushButton_bagRecorderNavigation_clicked()
+{
+    oneShotProcess("rqt_bag", "rqt_bag");
 }

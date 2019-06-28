@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name"          default="pioneer1" />
+  <arg name="real_robot_username" default="robot4" />
+  <arg name="real_robot_address"  default="192.168.43.152" />
+
+  <!--  Machine type -->
+  <arg name="connect_robot_pc"    default="false" />
+  <arg if="$(arg connect_robot_pc)"     name="machine_name" value="$(arg robot_name)" />
+  <arg unless="$(arg connect_robot_pc)" name="machine_name" value="local_host" />
+
+  <!--  Machine argument -->
+  <machine name="local_host" address="localhost" default="true" />
+  <machine name="$(arg robot_name)" user="$(arg real_robot_username)" 
+    address="$(arg real_robot_address)" env-loader="~/catkin_ws/devel/remote_env_loader.sh" />
+
+  <node machine="$(arg machine_name)" name="robot_state_publisher" 
+        pkg="robot_state_publisher" type="state_publisher">
+    <param name="tf_prefix"         type="string" value="$(arg robot_name)" />
+  </node>
+
+</launch>
